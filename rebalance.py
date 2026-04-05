@@ -232,6 +232,15 @@ def fetch_fundamentals(candidates):
 
                 sector = SECTOR_MAP.get(c["sector_jp"], c["sector_jp"])
                 net_cash_ratio = net_cash / mkt_cap if mkt_cap > 0 else 0
+
+                # Skip anomalous: NC/MC > 100% likely includes financial deposits
+                if net_cash_ratio > 1.0:
+                    return None
+
+                # Skip if any key metric is NaN
+                if any(np.isnan(x) for x in [net_cash_ratio, pbr, op_margin, beta] if isinstance(x, float)):
+                    return None
+
                 score = (
                     net_cash_ratio * 40 +
                     max(0, (2 - pbr)) * 20 +
