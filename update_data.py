@@ -8,11 +8,62 @@ import yfinance as yf
 import numpy as np
 
 STOCKS = {
-    "6383": {"name": "Daifuku", "sector": "Automation", "net_debt": "-193B", "op_margin": "10.2%", "cf_growth": "+18%"},
-    "2127": {"name": "M&A Center", "sector": "Advisory", "net_debt": "-8B", "op_margin": "32.5%", "cf_growth": "+25%"},
-    "3087": {"name": "Doutor Nichires", "sector": "F&B", "net_debt": "-12B", "op_margin": "7.8%", "cf_growth": "+12%"},
-    "6592": {"name": "Mabuchi Motor", "sector": "Motors", "net_debt": "-142B", "op_margin": "14.6%", "cf_growth": "-3%"},
-    "7564": {"name": "Workman", "sector": "Retail", "net_debt": "-93B", "op_margin": "16.1%", "cf_growth": "+8%"},
+    "2168": {
+        "name": "パソナグループ",
+        "sector": "Services",
+        "net_debt": "-92B",
+        "op_margin": "0.5%",
+        "cf_growth": "N/A"
+    },
+    "3668": {
+        "name": "コロプラ",
+        "sector": "IT/Telecom",
+        "net_debt": "-50B",
+        "op_margin": "-1.8%",
+        "cf_growth": "N/A"
+    },
+    "6419": {
+        "name": "マースグループホールディングス",
+        "sector": "Machinery",
+        "net_debt": "-36B",
+        "op_margin": "29.2%",
+        "cf_growth": "N/A"
+    },
+    "2329": {
+        "name": "東北新社",
+        "sector": "IT/Telecom",
+        "net_debt": "-62B",
+        "op_margin": "9.4%",
+        "cf_growth": "N/A"
+    },
+    "2121": {
+        "name": "ＭＩＸＩ",
+        "sector": "IT/Telecom",
+        "net_debt": "-98B",
+        "op_margin": "12.2%",
+        "cf_growth": "N/A"
+    },
+    "6118": {
+        "name": "アイダエンジニアリング",
+        "sector": "Machinery",
+        "net_debt": "-33B",
+        "op_margin": "5.9%",
+        "cf_growth": "N/A"
+    },
+    "3632": {
+        "name": "グリーホールディングス",
+        "sector": "IT/Telecom",
+        "net_debt": "-52B",
+        "op_margin": "6.8%",
+        "cf_growth": "N/A"
+    },
+    "6463": {
+        "name": "ＴＰＲ",
+        "sector": "Machinery",
+        "net_debt": "-45B",
+        "op_margin": "8.5%",
+        "cf_growth": "N/A"
+    }
 }
 
 RSI_LEN = 14
