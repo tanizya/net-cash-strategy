@@ -245,10 +245,12 @@ Return ONLY a JSON array of strings, e.g. ["Global Growth", "Automation"]. No ex
 
 
 def generate_tags(stock_data):
-    """Combine quantitative and qualitative tags."""
+    """Combine sector, quantitative, and qualitative tags (in that order)."""
+    sector = [stock_data.get("sector", "")]
+    sector = [s for s in sector if s]
     quant = generate_quantitative_tags(stock_data)
-    qual = generate_qualitative_tags(stock_data, quant)
-    return quant + qual
+    qual = generate_qualitative_tags(stock_data, sector + quant)
+    return sector + quant + qual
 
 
 def main():
