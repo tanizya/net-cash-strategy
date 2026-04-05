@@ -80,10 +80,33 @@ def fetch_stock(code):
     # Signal status
     signal = "BUY" if rsi_cross_up else "WAIT"
 
-    # Price
+    # Price & Beta & Net Cash
     last_close = float(closes[-1])
     last_open = float(opens[-1])
     unit_cost = int(last_close * 100)
+    try:
+        beta = t.info.get("beta")
+        beta = str(round(beta, 2)) if beta else "—"
+    except Exception:
+        beta = "—"
+    try:
+        bs = t.balance_sheet
+        col = bs.columns[0]
+        debt = float(bs.loc["Total Debt", col]) if "Total Debt" in bs.index else 0
+        cash = float(bs.loc["Cash And Cash Equivalents", col]) if "Cash And Cash Equivalents" in bs.index else 0
+        net_cash_val = cash - debt
+        sign = "+" if net_cash_val >= 0 else "-"
+        abs_val = abs(net_cash_val)
+        if abs_val >= 1e12:
+            net_cash_str = f"{sign}¥{abs_val/1e12:.1f}T"
+        elif abs_val >= 1e9:
+            net_cash_str = f"{sign}¥{abs_val/1e9:.0f}B"
+        else:
+            net_cash_str = f"{sign}¥{abs_val/1e6:.0f}M"
+        net_cash_positive = net_cash_val >= 0
+    except Exception:
+        net_cash_str = "—"
+        net_cash_positive = False
 
     # Chart data (sample every 5 bars for mini chart)
     chart_data = []
@@ -104,9 +127,11 @@ def fetch_stock(code):
         "code": code,
         "name": STOCKS[code]["name"],
         "sector": STOCKS[code]["sector"],
-        "net_debt": STOCKS[code]["net_debt"],
+        "net_debt": net_cash_str,
+        "net_cash_positive": net_cash_positive,
         "op_margin": STOCKS[code]["op_margin"],
         "cf_growth": STOCKS[code]["cf_growth"],
+        "beta": beta,
         "price": round(last_close, 1),
         "unit_cost": unit_cost,
         "rsi": round(current_rsi, 1),
