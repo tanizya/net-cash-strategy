@@ -85,10 +85,19 @@ def fetch_stock(code):
     last_open = float(opens[-1])
     unit_cost = int(last_close * 100)
     try:
-        beta = t.info.get("beta")
+        info = t.info
+        beta = info.get("beta")
         beta = str(round(beta, 2)) if beta else "—"
+        mc = info.get("marketCap", 0)
+        if mc >= 1e12:
+            mkt_cap = f"¥{mc/1e12:.1f}T"
+        elif mc >= 1e9:
+            mkt_cap = f"¥{mc/1e9:.0f}B"
+        else:
+            mkt_cap = f"¥{mc/1e6:.0f}M"
     except Exception:
         beta = "—"
+        mkt_cap = "—"
     try:
         bs = t.balance_sheet
         col = bs.columns[0]
@@ -132,6 +141,7 @@ def fetch_stock(code):
         "op_margin": STOCKS[code]["op_margin"],
         "cf_growth": STOCKS[code]["cf_growth"],
         "beta": beta,
+        "mkt_cap": mkt_cap,
         "price": round(last_close, 1),
         "unit_cost": unit_cost,
         "rsi": round(current_rsi, 1),
