@@ -482,7 +482,7 @@ function applyData(data) {
       <td class="mono">&yen;${s.price.toLocaleString()}</td>
       <td class="mono">&yen;${s.unit_cost.toLocaleString()}</td>
       <td class="${s.net_cash_positive !== false ? 'g' : 'r'} mono">${s.net_debt}</td>
-      <td class="mono">${s.op_margin}</td>
+      <td class="${parseFloat(s.op_margin)>=15?'g':''} mono">${s.op_margin}</td>
       <td class="${cfCls} mono">${s.cf_growth}</td>
       <td class="mono">${beta}</td>
     </tr>`;
@@ -507,7 +507,7 @@ function renderMiniCharts() {
       grid: { vertLines: { visible: false }, horzLines: { color: '#111111' } },
       rightPriceScale: { borderVisible: false, scaleMargins: { top: 0.1, bottom: 0.1 } },
       timeScale: { borderVisible: false, visible: false },
-      crosshair: { mode: 0 },
+      crosshair: { mode: 0, vertLine: { visible: false }, horzLine: { visible: false } },
       handleScroll: false, handleScale: false,
     });
     const last = s.chart[s.chart.length-1].value, first = s.chart[0].value;
@@ -531,7 +531,8 @@ const eqChart = LightweightCharts.createChart(eqContainer, {
   height: 300,
   layout: { backgroundColor: '#000000', textColor: '#b0b0b0', fontFamily: "'JetBrains Mono',monospace", fontSize: 10 },
   grid: { vertLines: { color: '#1a1a1a' }, horzLines: { color: '#1a1a1a' } },
-  crosshair: { mode: 0 },
+  crosshair: { mode: 0, vertLine: { visible: false }, horzLine: { visible: false } },
+  handleScroll: false, handleScale: false,
   rightPriceScale: { borderColor: '#1a1a1a' },
   timeScale: { borderColor: '#1a1a1a', timeVisible: false },
 });
@@ -567,6 +568,8 @@ const retChart = LightweightCharts.createChart(retContainer, {
   height: 300,
   layout: { backgroundColor: '#000000', textColor: '#b0b0b0', fontFamily: "'JetBrains Mono',monospace", fontSize: 10 },
   grid: { vertLines: { color: '#1a1a1a' }, horzLines: { color: '#1a1a1a' } },
+  crosshair: { mode: 0, vertLine: { visible: false }, horzLine: { visible: false } },
+  handleScroll: false, handleScale: false,
   rightPriceScale: { borderColor: '#1a1a1a' },
   timeScale: { borderColor: '#1a1a1a', timeVisible: false, fixLeftEdge: true, fixRightEdge: true },
 });
