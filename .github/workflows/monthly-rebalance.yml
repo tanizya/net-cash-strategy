@@ -18,7 +18,7 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install yfinance numpy anthropic
+        run: pip install yfinance numpy anthropic pandas xlrd openpyxl
 
       - name: Run rebalance screening
         run: python rebalance.py
