@@ -359,9 +359,12 @@ def select_universe(results, force_bs=False):
     # Patch update_data.py
     stocks_dict = {}
     for s in selected:
-        nc = s["net_cash"]
+        nc = s.get("net_cash", 0)
+        if nc is None or (isinstance(nc, float) and np.isnan(nc)):
+            nc = 0
         nc_str = f"-{nc/1e12:.1f}T" if nc >= 1e12 else f"-{nc/1e9:.0f}B" if nc >= 1e9 else f"-{nc/1e6:.0f}M"
-        om = f"{s['op_margin']*100:.1f}%" if s["op_margin"] else "N/A"
+        om_val = s.get("op_margin", 0) or 0
+        om = f"{om_val*100:.1f}%" if om_val and not (isinstance(om_val, float) and np.isnan(om_val)) else "N/A"
         stocks_dict[s["code"]] = {
             "name": s["name"],
             "sector": s["sector"],
@@ -387,13 +390,13 @@ def select_universe(results, force_bs=False):
             "net_cash_positive": len(results),
             "selected": len(selected),
             "universe": [
-                {k: (round(v, 2) if isinstance(v, float) else v)
+                {k: (_safe_round(v, 2) if isinstance(v, float) else v)
                  for k, v in s.items() if k not in ("industry",)}
                 for s in selected
             ],
             "all_passed": [
                 {"code": s["code"], "name": s["name"], "score": round(s["score"], 2),
-                 "rs": s.get("rs"), "net_cash": int(s.get("net_cash", 0))}
+                 "rs": s.get("rs"), "net_cash": _safe_int(s.get("net_cash"))}
                 for s in results
             ],
         }, f, indent=2, ensure_ascii=False)
