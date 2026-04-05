@@ -157,27 +157,43 @@ def filter_by_price(df, prices):
     return passed
 
 
+BS_REFRESH_DAYS = 90  # Force balance sheet refresh every 90 days (quarterly)
+
+
 def load_cache():
     """Load previous screening results for differential scanning."""
     try:
         with open(CACHE_FILE, "r") as f:
             data = json.load(f)
         cached = {s["code"]: s for s in data.get("all_passed", [])}
-        print(f"  Cache loaded: {len(cached)} stocks from {data.get('date', '?')}")
-        return cached
+        cache_date = data.get("date", "2000-01-01")
+        days_old = (datetime.date.today() - datetime.date.fromisoformat(cache_date)).days
+        force_bs = days_old >= BS_REFRESH_DAYS
+        print(f"  Cache loaded: {len(cached)} stocks from {cache_date} ({days_old}d ago)")
+        if force_bs:
+            print(f"  Cache > {BS_REFRESH_DAYS} days old → forcing full BS refresh (quarterly)")
+        return cached, force_bs
     except (FileNotFoundError, json.JSONDecodeError, KeyError):
         print("  No cache found, full scan required")
-        return {}
+        return {}, True
 
 
 def fetch_fundamentals(candidates):
-    """Step 5: Fetch balance sheet and info. Uses cache for known net-cash stocks."""
-    cache = load_cache()
+    """Step 5: Fetch balance sheet and info. Uses cache for known net-cash stocks.
+    Forces full BS refresh every 90 days (quarterly earnings cycle)."""
+    cache, force_bs = load_cache()
     cached_codes = set(cache.keys())
-    # Split: cached (quick price update) vs new (full scan)
-    cached_candidates = [c for c in candidates if c["code"] in cached_codes]
-    new_candidates = [c for c in candidates if c["code"] not in cached_codes]
-    print(f"[5/8] Fetching fundamentals: {len(cached_candidates)} cached + {len(new_candidates)} new")
+
+    if force_bs:
+        # Quarterly: treat all as new (full BS scan)
+        cached_candidates = []
+        new_candidates = candidates
+    else:
+        cached_candidates = [c for c in candidates if c["code"] in cached_codes]
+        new_candidates = [c for c in candidates if c["code"] not in cached_codes]
+
+    mode = "QUARTERLY FULL SCAN" if force_bs else f"{len(cached_candidates)} cached + {len(new_candidates)} new"
+    print(f"[5/8] Fetching fundamentals: {mode}")
     results = []
 
     def fetch_one(code, c, need_bs=True):
@@ -288,7 +304,7 @@ def fetch_fundamentals(candidates):
         time.sleep(RATE_LIMIT_DELAY)
 
     print(f"  Total: {len(results)} net-cash positive stocks")
-    return results
+    return results, force_bs
 
 
 def calc_rs(results):
@@ -305,7 +321,7 @@ def calc_rs(results):
     print(f"  RS range: {min(changes):.1f}% (RS 1) to {max(changes):.1f}% (RS 99)")
 
 
-def select_universe(results):
+def select_universe(results, force_bs=False):
     """Step 7: Score, rank, select top N, mark strategy."""
     print(f"[7/8] Selecting top {MAX_STOCKS} for net_cash_select...")
     results.sort(key=lambda x: x["score"], reverse=True)
@@ -355,6 +371,7 @@ def select_universe(results):
     with open("docs/screening.json", "w") as f:
         json.dump({
             "date": datetime.date.today().isoformat(),
+            "bs_refreshed": force_bs,
             "net_cash_positive": len(results),
             "selected": len(selected),
             "universe": [
@@ -462,13 +479,13 @@ def main():
     candidates = filter_by_price(df, prices)
 
     # Step 5: Fetch fundamentals
-    results = fetch_fundamentals(candidates)
+    results, force_bs = fetch_fundamentals(candidates)
 
     # Step 6: Calculate RS
     calc_rs(results)
 
     # Step 7: Select universe, patch update_data.py
-    results = select_universe(results)
+    results = select_universe(results, force_bs=force_bs)
 
     # Step 8: Upsert to Supabase
     upsert_supabase(results)
