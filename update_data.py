@@ -1,0 +1,148 @@
+#!/usr/bin/env python3
+"""Fetch daily OHLCV via yfinance, calculate RSI signals, update docs/data.json"""
+
+import json
+import datetime
+import yfinance as yf
+import numpy as np
+
+STOCKS = {
+    "6383": {"name": "Daifuku", "sector": "Automation", "net_debt": "-193B", "op_margin": "10.2%", "cf_growth": "+18%"},
+    "2127": {"name": "M&A Center", "sector": "Advisory", "net_debt": "-8B", "op_margin": "32.5%", "cf_growth": "+25%"},
+    "3087": {"name": "Doutor Nichires", "sector": "F&B", "net_debt": "-12B", "op_margin": "7.8%", "cf_growth": "+12%"},
+    "6592": {"name": "Mabuchi Motor", "sector": "Motors", "net_debt": "-142B", "op_margin": "14.6%", "cf_growth": "-3%"},
+    "7564": {"name": "Workman", "sector": "Retail", "net_debt": "-93B", "op_margin": "16.1%", "cf_growth": "+8%"},
+}
+
+RSI_LEN = 14
+RSI_OVERSOLD = 35
+RSI_TAKEPROFIT = 65
+SMA_EXIT_LEN = 20
+NI225_SMA_LEN = 50
+STOP_BASE = 10.0
+STOP_TIGHT = 7.0
+
+
+def calc_rsi(closes, length=14):
+    deltas = np.diff(closes)
+    gains = np.where(deltas > 0, deltas, 0.0)
+    losses = np.where(deltas < 0, -deltas, 0.0)
+    avg_gain = np.mean(gains[:length])
+    avg_loss = np.mean(losses[:length])
+    rsi_values = []
+    for i in range(length, len(deltas)):
+        avg_gain = (avg_gain * (length - 1) + gains[i]) / length
+        avg_loss = (avg_loss * (length - 1) + losses[i]) / length
+        rs = avg_gain / avg_loss if avg_loss != 0 else 100
+        rsi_values.append(100 - 100 / (1 + rs))
+    return rsi_values
+
+
+def fetch_ni225():
+    t = yf.Ticker("^N225")
+    h = t.history(period="1y")
+    closes = h["Close"].values
+    sma50 = np.mean(closes[-NI225_SMA_LEN:]) if len(closes) >= NI225_SMA_LEN else np.mean(closes)
+    return {
+        "close": float(closes[-1]),
+        "sma50": float(sma50),
+        "uptrend": bool(closes[-1] > sma50),
+    }
+
+
+def fetch_stock(code):
+    ticker = f"{code}.T"
+    t = yf.Ticker(ticker)
+    h = t.history(period="1y")
+
+    if h.empty:
+        return None
+
+    closes = h["Close"].values
+    highs = h["High"].values
+    lows = h["Low"].values
+    opens = h["Open"].values
+    volumes = h["Volume"].values
+    dates = h.index
+
+    # RSI
+    rsi_vals = calc_rsi(closes, RSI_LEN)
+    current_rsi = rsi_vals[-1] if rsi_vals else 50
+    prev_rsi = rsi_vals[-2] if len(rsi_vals) > 1 else 50
+
+    # RSI crossover check
+    rsi_cross_up = prev_rsi < RSI_OVERSOLD and current_rsi >= RSI_OVERSOLD
+
+    # SMA for exit
+    sma20 = float(np.mean(closes[-SMA_EXIT_LEN:])) if len(closes) >= SMA_EXIT_LEN else float(np.mean(closes))
+    sma_breakdown = closes[-1] < sma20 and closes[-2] >= sma20 if len(closes) >= 2 else False
+
+    # Signal status
+    signal = "BUY" if rsi_cross_up else "WAIT"
+
+    # Price
+    last_close = float(closes[-1])
+    last_open = float(opens[-1])
+    unit_cost = int(last_close * 100)
+
+    # Chart data (sample every 5 bars for mini chart)
+    chart_data = []
+    for i in range(0, len(closes), 5):
+        d = dates[i]
+        chart_data.append({
+            "time": d.strftime("%Y-%m-%d"),
+            "value": round(float(closes[i]), 1),
+        })
+    # Always include last bar
+    if dates[-1].strftime("%Y-%m-%d") != chart_data[-1]["time"]:
+        chart_data.append({
+            "time": dates[-1].strftime("%Y-%m-%d"),
+            "value": round(float(closes[-1]), 1),
+        })
+
+    return {
+        "code": code,
+        "name": STOCKS[code]["name"],
+        "sector": STOCKS[code]["sector"],
+        "net_debt": STOCKS[code]["net_debt"],
+        "op_margin": STOCKS[code]["op_margin"],
+        "cf_growth": STOCKS[code]["cf_growth"],
+        "price": round(last_close, 1),
+        "unit_cost": unit_cost,
+        "rsi": round(current_rsi, 1),
+        "signal": signal,
+        "sma20": round(sma20, 1),
+        "chart": chart_data,
+    }
+
+
+def main():
+    today = datetime.date.today().isoformat()
+    ni225 = fetch_ni225()
+    dyn_stop = STOP_BASE if ni225["uptrend"] else STOP_TIGHT
+
+    stocks = []
+    for code in STOCKS:
+        print(f"Fetching {code}...")
+        data = fetch_stock(code)
+        if data:
+            stocks.append(data)
+
+    output = {
+        "updated": today,
+        "ni225": ni225,
+        "stop_pct": dyn_stop,
+        "stocks": stocks,
+    }
+
+    with open("docs/data.json", "w") as f:
+        json.dump(output, f, indent=2, ensure_ascii=False)
+
+    print(f"Updated docs/data.json ({today})")
+    print(f"NI225: {ni225['close']:.0f} (SMA50: {ni225['sma50']:.0f}, {'UP' if ni225['uptrend'] else 'DOWN'})")
+    for s in stocks:
+        print(f"  {s['code']} {s['name']}: RSI={s['rsi']:.1f} Signal={s['signal']} Price={s['price']}")
+
+
+if __name__ == "__main__":
+    main()

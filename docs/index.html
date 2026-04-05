@@ -4,15 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Net Cash Select</title>
-<script src="https://unpkg.com/lightweight-charts@4/dist/lightweight-charts.standalone.production.js"></script>
+<script src="https://unpkg.com/lightweight-charts@3.8.0/dist/lightweight-charts.standalone.production.js"></script>
 <style>
 :root {
   --bg: #000000;
   --surface: #0a0a0a;
   --border: #1a1a1a;
   --text: #ffffff;
-  --muted: #666666;
-  --dim: #333333;
+  --muted: #b0b0b0;
+  --dim: #707070;
   --green: #00c853;
   --red: #ff1744;
 }
@@ -42,17 +42,61 @@ td { padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 13px
 tr:hover { background: #0d0d0d; }
 .mono { font-variant-numeric: tabular-nums; }
 
+/* Signal */
+.signal-row { display: flex; gap: 1px; background: var(--border); }
+.signal-item { flex: 1; background: var(--bg); padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.traffic { display: flex; flex-direction: column; gap: 4px; padding: 6px 8px; border: 1px solid #555555; }
+.light { width: 16px; height: 16px; }
+.light.red { background: #442020; }
+.light.red.on { background: var(--red); box-shadow: 0 0 8px var(--red); }
+.light.green { background: #204420; }
+.light.green.on { background: var(--green); box-shadow: 0 0 8px var(--green); }
+.light.off { opacity: 1; }
+.signal-code { font-size: 14px; font-weight: 300; }
+.signal-name { font-size: 9px; color: var(--muted); }
+.signal-status { font-size: 10px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.1em; }
+.signal-status.buy { color: var(--green); }
+.signal-status.exit { color: var(--red); }
+
+/* Portfolio */
+.port-summary { margin-bottom: 16px; }
+.port-bar { display: flex; height: 32px; gap: 1px; overflow: hidden; }
+.port-seg { display: flex; align-items: center; justify-content: center; min-width: 0; transition: flex 0.3s; }
+.port-seg-label { font-size: 10px; color: var(--bg); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; overflow: hidden; }
+.port-seg.cash { background: #555555; }
+.port-seg.cash .port-seg-label { color: var(--text); }
+.port-seg.pos6383 { background: #00c853; }
+.port-seg.pos2127 { background: #00bfa5; }
+.port-seg.pos3087 { background: #2979ff; }
+.port-seg.pos6592 { background: #ff6d00; }
+.port-seg.pos7564 { background: #aa00ff; }
+.port-legend { display: flex; gap: 16px; margin-top: 8px; flex-wrap: wrap; }
+.port-legend-item { display: flex; align-items: center; gap: 6px; font-size: 10px; color: var(--text); }
+.port-dot { width: 8px; height: 8px; }
+.port-dot.cash { background: #555555; }
+.port-dot.pos6383 { background: #00c853; }
+.port-dot.pos2127 { background: #00bfa5; }
+.port-dot.pos3087 { background: #2979ff; }
+.port-dot.pos6592 { background: #ff6d00; }
+.port-dot.pos7564 { background: #aa00ff; }
+.port-metrics { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: var(--border); }
+.port-metric { background: var(--bg); padding: 12px; }
+.port-metric-label { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+.port-metric-val { font-size: 16px; font-weight: 300; margin-top: 2px; }
+
 /* Stock Grid */
 .stock-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--border); }
 .stock-cell { background: var(--bg); padding: 16px; }
+.stock-header { display: flex; align-items: baseline; gap: 8px; }
 .stock-code { font-size: 18px; font-weight: 300; }
+.stock-ret { font-size: 18px; font-weight: 300; }
 .stock-name { font-size: 10px; color: var(--muted); margin-top: 2px; }
-.stock-ret { font-size: 28px; font-weight: 300; margin-top: 12px; }
 .stock-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
 .stock-meta-item {}
 .stock-meta-label { font-size: 9px; color: var(--dim); text-transform: uppercase; }
 .stock-meta-val { font-size: 12px; margin-top: 1px; }
-.stock-tags { margin-top: 12px; display: flex; gap: 6px; flex-wrap: wrap; }
+.stock-chart { width: 100%; height: 120px; margin-top: 8px; }
+.stock-tags { margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
 .tag { font-size: 9px; padding: 2px 6px; border: 1px solid var(--dim); color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
 
 /* Charts */
@@ -67,11 +111,6 @@ tr:hover { background: #0d0d0d; }
 .tab:last-child { border-right: 1px solid var(--border); }
 .tab.active { background: var(--text); color: var(--bg); }
 
-/* Screenshots */
-.ss-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
-.ss-panel { background: var(--bg); padding: 8px; }
-.ss-panel img { width: 100%; display: block; filter: grayscale(20%); }
-.ss-panel .ss-label { font-size: 10px; color: var(--muted); padding: 6px 0 4px; text-transform: uppercase; letter-spacing: 0.1em; }
 
 /* Rules */
 .rules-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); }
@@ -102,6 +141,7 @@ footer { padding: 24px 0; text-align: center; font-size: 10px; color: var(--dim)
 
 <header>
   <h1>Net Cash Select &mdash; Trade Strategy Dashboard</h1>
+  <p style="font-size:11px;color:var(--dim);margin-top:6px;letter-spacing:0.05em;font-style:italic">Cash is King. Wait for the moment.</p>
 </header>
 
 <div class="kpi">
@@ -112,8 +152,8 @@ footer { padding: 24px 0; text-align: center; font-size: 10px; color: var(--dim)
   </div>
   <div class="kpi-item">
     <div class="kpi-label">Profit</div>
-    <div class="kpi-val g">+81.6M</div>
-    <div class="kpi-sub">JPY / 2M start</div>
+    <div class="kpi-val g">+&yen;816K</div>
+    <div class="kpi-sub">&yen;2M start</div>
   </div>
   <div class="kpi-item">
     <div class="kpi-label">Win Rate</div>
@@ -137,20 +177,78 @@ footer { padding: 24px 0; text-align: center; font-size: 10px; color: var(--dim)
   </div>
 </div>
 
+<!-- Signal (dynamic) -->
+<section>
+  <div class="sec-label" id="signalLabel">Signal</div>
+  <div class="signal-row" id="signalRow"></div>
+</section>
+
+<!-- Portfolio -->
+<section>
+  <div class="sec-label">Portfolio &mdash; &yen;2,820,000</div>
+  <div class="port-summary">
+    <div class="port-bar">
+      <div class="port-seg cash" style="flex:2.82" title="Cash &yen;2,820,000">
+        <span class="port-seg-label">Cash</span>
+      </div>
+      <div class="port-seg pos6383" style="flex:0" title="6383 Daifuku"></div>
+      <div class="port-seg pos2127" style="flex:0" title="2127 M&A Center"></div>
+      <div class="port-seg pos3087" style="flex:0" title="3087 Doutor"></div>
+      <div class="port-seg pos6592" style="flex:0" title="6592 Mabuchi"></div>
+      <div class="port-seg pos7564" style="flex:0" title="7564 Workman"></div>
+    </div>
+    <div class="port-legend">
+      <div class="port-legend-item"><div class="port-dot cash"></div>Cash &yen;2,820,000 (100%)</div>
+      <div class="port-legend-item"><div class="port-dot pos6383"></div>6383 &mdash;</div>
+      <div class="port-legend-item"><div class="port-dot pos2127"></div>2127 &mdash;</div>
+      <div class="port-legend-item"><div class="port-dot pos3087"></div>3087 &mdash;</div>
+      <div class="port-legend-item"><div class="port-dot pos6592"></div>6592 &mdash;</div>
+      <div class="port-legend-item"><div class="port-dot pos7564"></div>7564 &mdash;</div>
+      <div class="port-legend-item" style="margin-left:auto;color:var(--muted)">No open positions</div>
+    </div>
+  </div>
+  <div class="port-metrics">
+    <div class="port-metric">
+      <div class="port-metric-label">Equity</div>
+      <div class="port-metric-val">&yen;2,820,000</div>
+    </div>
+    <div class="port-metric">
+      <div class="port-metric-label">Cash</div>
+      <div class="port-metric-val">&yen;2,820,000</div>
+    </div>
+    <div class="port-metric">
+      <div class="port-metric-label">Exposure</div>
+      <div class="port-metric-val">0%</div>
+    </div>
+    <div class="port-metric">
+      <div class="port-metric-label">Open P&L</div>
+      <div class="port-metric-val">&yen;0</div>
+    </div>
+    <div class="port-metric">
+      <div class="port-metric-label">Realized</div>
+      <div class="port-metric-val g">+&yen;816,000</div>
+    </div>
+    <div class="port-metric">
+      <div class="port-metric-label">Positions</div>
+      <div class="port-metric-val">0 / 2</div>
+    </div>
+  </div>
+</section>
+
 <!-- Universe -->
 <section>
-  <div class="sec-label">Universe</div>
+  <div class="sec-label">Universe &mdash; Cumulative Return (2025/01 &ndash; 2026/04)</div>
   <div class="stock-grid">
     <div class="stock-cell">
-      <div class="stock-code">6383</div>
+      <div class="stock-header"><div class="stock-code">6383</div><div class="stock-ret g">+31.8%</div></div>
       <div class="stock-name">Daifuku</div>
-      <div class="stock-ret g">+31.8%</div>
       <div class="stock-meta">
         <div><div class="stock-meta-label">DD</div><div class="stock-meta-val g">5.57%</div></div>
         <div><div class="stock-meta-label">Trades</div><div class="stock-meta-val">3</div></div>
         <div><div class="stock-meta-label">Win</div><div class="stock-meta-val g">100%</div></div>
         <div><div class="stock-meta-label">Unit</div><div class="stock-meta-val">587K</div></div>
       </div>
+      <div class="stock-chart" id="mini-6383"></div>
       <div class="stock-tags">
         <span class="tag">Net Cash -193B</span>
         <span class="tag">Automation</span>
@@ -158,15 +256,15 @@ footer { padding: 24px 0; text-align: center; font-size: 10px; color: var(--dim)
       </div>
     </div>
     <div class="stock-cell">
-      <div class="stock-code">2127</div>
+      <div class="stock-header"><div class="stock-code">2127</div><div class="stock-ret g">+26.1%</div></div>
       <div class="stock-name">M&A Center</div>
-      <div class="stock-ret g">+26.1%</div>
       <div class="stock-meta">
         <div><div class="stock-meta-label">DD</div><div class="stock-meta-val">8.84%</div></div>
         <div><div class="stock-meta-label">Trades</div><div class="stock-meta-val">3</div></div>
         <div><div class="stock-meta-label">Win</div><div class="stock-meta-val g">66%</div></div>
         <div><div class="stock-meta-label">Unit</div><div class="stock-meta-val">55K</div></div>
       </div>
+      <div class="stock-chart" id="mini-2127"></div>
       <div class="stock-tags">
         <span class="tag">Net Cash</span>
         <span class="tag">Advisory</span>
@@ -174,15 +272,15 @@ footer { padding: 24px 0; text-align: center; font-size: 10px; color: var(--dim)
       </div>
     </div>
     <div class="stock-cell">
-      <div class="stock-code">3087</div>
+      <div class="stock-header"><div class="stock-code">3087</div><div class="stock-ret g">+14.7%</div></div>
       <div class="stock-name">Doutor Nichires</div>
-      <div class="stock-ret g">+14.7%</div>
       <div class="stock-meta">
         <div><div class="stock-meta-label">DD</div><div class="stock-meta-val">9.60%</div></div>
         <div><div class="stock-meta-label">Trades</div><div class="stock-meta-val">4</div></div>
         <div><div class="stock-meta-label">Win</div><div class="stock-meta-val">50%</div></div>
         <div><div class="stock-meta-label">Unit</div><div class="stock-meta-val">300K</div></div>
       </div>
+      <div class="stock-chart" id="mini-3087"></div>
       <div class="stock-tags">
         <span class="tag">Net Cash</span>
         <span class="tag">F&B</span>
@@ -190,15 +288,15 @@ footer { padding: 24px 0; text-align: center; font-size: 10px; color: var(--dim)
       </div>
     </div>
     <div class="stock-cell">
-      <div class="stock-code">6592</div>
+      <div class="stock-header"><div class="stock-code">6592</div><div class="stock-ret r">-6.2%</div></div>
       <div class="stock-name">Mabuchi Motor</div>
-      <div class="stock-ret r">-6.2%</div>
       <div class="stock-meta">
         <div><div class="stock-meta-label">DD</div><div class="stock-meta-val">10.25%</div></div>
         <div><div class="stock-meta-label">Trades</div><div class="stock-meta-val">2</div></div>
         <div><div class="stock-meta-label">Win</div><div class="stock-meta-val">50%</div></div>
         <div><div class="stock-meta-label">Unit</div><div class="stock-meta-val">181K</div></div>
       </div>
+      <div class="stock-chart" id="mini-6592"></div>
       <div class="stock-tags">
         <span class="tag">Net Cash -142B</span>
         <span class="tag">Motors</span>
@@ -206,21 +304,34 @@ footer { padding: 24px 0; text-align: center; font-size: 10px; color: var(--dim)
       </div>
     </div>
     <div class="stock-cell">
-      <div class="stock-code">7564</div>
+      <div class="stock-header"><div class="stock-code">7564</div><div class="stock-ret g">+13.9%</div></div>
       <div class="stock-name">Workman</div>
-      <div class="stock-ret g">+13.9%</div>
       <div class="stock-meta">
         <div><div class="stock-meta-label">DD</div><div class="stock-meta-val g">1.72%</div></div>
         <div><div class="stock-meta-label">Trades</div><div class="stock-meta-val">2</div></div>
         <div><div class="stock-meta-label">Win</div><div class="stock-meta-val g">100%</div></div>
         <div><div class="stock-meta-label">Unit</div><div class="stock-meta-val">462K</div></div>
       </div>
+      <div class="stock-chart" id="mini-7564"></div>
       <div class="stock-tags">
         <span class="tag">Net Cash -93B</span>
         <span class="tag">Retail</span>
         <span class="tag">FC Model</span>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- Fundamentals -->
+<section>
+  <div class="sec-label">Screening &mdash; Fundamentals Comparison</div>
+  <div style="overflow-x:auto">
+  <table>
+    <thead>
+      <tr><th>Code</th><th>Name</th><th>Sector</th><th>Price</th><th>Unit Cost</th><th>Net Debt</th><th>Op. Margin</th><th>CF Growth</th></tr>
+    </thead>
+    <tbody id="screenBody"></tbody>
+  </table>
   </div>
 </section>
 
@@ -254,17 +365,6 @@ footer { padding: 24px 0; text-align: center; font-size: 10px; color: var(--dim)
     <tbody id="tbody"></tbody>
     <tfoot id="tfoot"></tfoot>
   </table>
-</section>
-
-<!-- Screenshots -->
-<section>
-  <div class="sec-label">Charts</div>
-  <div class="tabs">
-    <button class="tab active" onclick="showSS('2025',this)">2025</button>
-    <button class="tab" onclick="showSS('2026',this)">2026 YTD</button>
-  </div>
-  <div class="ss-grid" id="ssGrid">
-  </div>
 </section>
 
 <!-- Rules -->
@@ -343,41 +443,82 @@ function showPeriod(p,el){
   }
 }
 
-// Screenshots
-const stocks=[{c:'6383',n:'Daifuku'},{c:'2127',n:'M&A Center'},{c:'3087',n:'Doutor'},{c:'6592',n:'Mabuchi'},{c:'7564',n:'Workman'}];
-let ssYear='2025';
-function renderSS(){
-  const g=document.getElementById('ssGrid');
-  g.innerHTML=stocks.map(s=>{
-    const hasImg = ssYear==='2025' || ['6383','2127'].includes(s.c);
-    return `<div class="ss-panel">
-      <div class="ss-label">${s.c} ${s.n}</div>
-      ${hasImg?`<img src="v7_${ssYear}_${s.c}.png" alt="${s.c}">`:`<div style="height:200px;display:flex;align-items:center;justify-content:center;color:var(--dim)">No trades</div>`}
+// Load data.json and render dynamic sections
+fetch('data.json').then(r=>r.json()).then(data => {
+  // Signal section
+  document.getElementById('signalLabel').textContent = 'Signal \u2014 as of ' + data.updated +
+    ' | NI225 ' + (data.ni225.uptrend ? '\u2191' : '\u2193') + ' Stop ' + data.stop_pct + '%';
+  const sr = document.getElementById('signalRow');
+  sr.innerHTML = data.stocks.map(s => {
+    const isBuy = s.signal === 'BUY';
+    return `<div class="signal-item">
+      <div class="traffic">
+        <div class="light red ${isBuy?'off':'off'}"></div>
+        <div class="light green ${isBuy?'on':'off'}"></div>
+      </div>
+      <div class="signal-code">${s.code}</div>
+      <div class="signal-name">${s.name}</div>
+      <div class="signal-status ${isBuy?'buy':''}">${s.signal}</div>
+      <div style="font-size:9px;color:var(--muted);margin-top:2px">RSI ${s.rsi}</div>
     </div>`;
   }).join('');
-}
-function showSS(y,el){
-  ssYear=y;
-  document.querySelectorAll('section:nth-of-type(4) .tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  renderSS();
-}
 
-// Lightweight Charts — Equity Curve
+  // Screening table
+  const sb = document.getElementById('screenBody');
+  sb.innerHTML = data.stocks.map(s => {
+    const cfCls = s.cf_growth.startsWith('+') ? 'g' : '';
+    return `<tr>
+      <td>${s.code}</td><td>${s.name}</td>
+      <td style="color:var(--muted)">${s.sector}</td>
+      <td class="mono">&yen;${s.price.toLocaleString()}</td>
+      <td class="mono">&yen;${s.unit_cost.toLocaleString()}</td>
+      <td class="g mono">${s.net_debt}</td>
+      <td class="mono">${s.op_margin}</td>
+      <td class="${cfCls} mono">${s.cf_growth}</td>
+    </tr>`;
+  }).join('');
+
+  // Mini charts
+  data.stocks.forEach(s => {
+    const el = document.getElementById('mini-'+s.code);
+    if(!el || !s.chart || !s.chart.length) return;
+    const ch = LightweightCharts.createChart(el, {
+      width: el.clientWidth, height: 120,
+      layout: { backgroundColor: '#000000', textColor: '#444444', fontFamily: "'SF Mono',monospace", fontSize: 9 },
+      grid: { vertLines: { visible: false }, horzLines: { color: '#111111' } },
+      rightPriceScale: { borderVisible: false, scaleMargins: { top: 0.1, bottom: 0.1 } },
+      timeScale: { borderVisible: false, visible: false },
+      crosshair: { mode: 0 },
+      handleScroll: false, handleScale: false,
+    });
+    const last = s.chart[s.chart.length-1].value, first = s.chart[0].value;
+    const color = last > first ? '#00c853' : '#ff1744';
+    const series = ch.addAreaSeries({
+      lineColor: color, lineWidth: 1,
+      topColor: color === '#00c853' ? 'rgba(0,200,83,0.12)' : 'rgba(255,23,68,0.12)',
+      bottomColor: 'transparent',
+      priceLineVisible: false, lastValueVisible: false,
+    });
+    series.setData(s.chart);
+    ch.timeScale().fitContent();
+  });
+}).catch(e => console.error('data.json load failed:', e));
+
+// Lightweight Charts v3 — Equity Curve
 const eqContainer = document.getElementById('equityChart');
 const eqChart = LightweightCharts.createChart(eqContainer, {
   width: eqContainer.clientWidth,
   height: 300,
-  layout: { background: { color: '#000000' }, textColor: '#666666', fontFamily: "'SF Mono','Consolas',monospace", fontSize: 10 },
-  grid: { vertLines: { color: '#111111' }, horzLines: { color: '#111111' } },
+  layout: { backgroundColor: '#000000', textColor: '#b0b0b0', fontFamily: "'SF Mono','Consolas',monospace", fontSize: 10 },
+  grid: { vertLines: { color: '#1a1a1a' }, horzLines: { color: '#1a1a1a' } },
   crosshair: { mode: 0 },
   rightPriceScale: { borderColor: '#1a1a1a' },
   timeScale: { borderColor: '#1a1a1a', timeVisible: false },
 });
-const eqLine = eqChart.addSeries(LightweightCharts.LineSeries, {
+const eqLine = eqChart.addLineSeries({
   color: '#00c853',
   lineWidth: 2,
-  priceFormat: { type: 'custom', formatter: p => p.toFixed(0) + '万' },
+  priceFormat: { type: 'custom', formatter: p => p.toFixed(0) + 'M' },
 });
 eqLine.setData([
   {time:'2025-01-06',value:200},{time:'2025-01-20',value:200},{time:'2025-02-03',value:205},
@@ -392,33 +533,40 @@ eqLine.setData([
   {time:'2026-02-16',value:279},{time:'2026-03-02',value:281},{time:'2026-03-17',value:282},
   {time:'2026-04-01',value:282},
 ]);
-const eqBaseline = eqChart.addSeries(LightweightCharts.LineSeries, {
-  color: '#333333', lineWidth: 1, lineStyle: 2,
-  priceFormat: { type: 'custom', formatter: p => p.toFixed(0) + '万' },
+const eqBaseline = eqChart.addLineSeries({
+  color: '#444444', lineWidth: 1, lineStyle: 2,
+  priceFormat: { type: 'custom', formatter: p => p.toFixed(0) + 'M' },
 });
 eqBaseline.setData([{time:'2025-01-06',value:200},{time:'2026-04-01',value:200}]);
 eqChart.timeScale().fitContent();
 
-// Return Bar Chart (histogram)
+// Return Histogram
 const retContainer = document.getElementById('returnChart');
 const retChart = LightweightCharts.createChart(retContainer, {
   width: retContainer.clientWidth,
   height: 300,
-  layout: { background: { color: '#000000' }, textColor: '#666666', fontFamily: "'SF Mono','Consolas',monospace", fontSize: 10 },
-  grid: { vertLines: { color: '#111111' }, horzLines: { color: '#111111' } },
+  layout: { backgroundColor: '#000000', textColor: '#b0b0b0', fontFamily: "'SF Mono','Consolas',monospace", fontSize: 10 },
+  grid: { vertLines: { color: '#1a1a1a' }, horzLines: { color: '#1a1a1a' } },
   rightPriceScale: { borderColor: '#1a1a1a' },
   timeScale: { borderColor: '#1a1a1a', timeVisible: false, fixLeftEdge: true, fixRightEdge: true },
 });
-const retSeries = retChart.addSeries(LightweightCharts.HistogramSeries, {
+const retSeries = retChart.addHistogramSeries({
   priceFormat: { type: 'custom', formatter: p => p.toFixed(1) + '%' },
 });
-retSeries.setData([
-  {time:'2025-01-06',value:31.80,color:'#00c853'},
-  {time:'2025-03-03',value:26.12,color:'#00c853'},
-  {time:'2025-05-05',value:14.72,color:'#00c853'},
-  {time:'2025-07-07',value:-6.24,color:'#ff1744'},
-  {time:'2025-09-01',value:13.88,color:'#00c853'},
-]);
+const retCodes = ['6383','2127','3087','6592','7564'];
+const retVals = [31.80, 26.12, 14.72, -6.24, 13.88];
+retSeries.setData(retVals.map((v,i) => ({
+  time: '2025-0'+(i+1)+'-15', value: v, color: v>=0?'#00c853':'#ff1744'
+})));
+retChart.applyOptions({
+  timeScale: {
+    tickMarkFormatter: (t) => {
+      const d = new Date(t*1000);
+      const m = d.getMonth();
+      return retCodes[m] || '';
+    }
+  }
+});
 retChart.timeScale().fitContent();
 
 // Resize
@@ -429,7 +577,6 @@ window.addEventListener('resize',()=>{
 
 // Init
 renderTable(S2025,'2025 Total');
-renderSS();
 </script>
 </body>
 </html>
