@@ -23,6 +23,18 @@
       "rsi": 52.1,
       "signal": "WAIT",
       "sma20": 3046.2,
+      "div_yield": 4.87,
+      "div_per_share": 150.0,
+      "div_records": [
+        {
+          "date": "2025-09-29",
+          "amount": 75.0
+        },
+        {
+          "date": "2026-03-30",
+          "amount": 75.0
+        }
+      ],
       "chart": [
         {
           "time": "2025-04-03",
@@ -232,7 +244,7 @@
         "Low Vol",
         "High Margin",
         "Leisure Exposure",
-        "High Profitability"
+        "Margin Leader"
       ]
     },
     {
@@ -251,6 +263,18 @@
       "rsi": 57.0,
       "signal": "WAIT",
       "sma20": 1183.4,
+      "div_yield": 4.16,
+      "div_per_share": 50.0,
+      "div_records": [
+        {
+          "date": "2025-09-29",
+          "amount": 25.0
+        },
+        {
+          "date": "2026-03-30",
+          "amount": 25.0
+        }
+      ],
       "chart": [
         {
           "time": "2025-04-03",
@@ -477,6 +501,18 @@
       "rsi": 54.8,
       "signal": "WAIT",
       "sma20": 6361.5,
+      "div_yield": 3.23,
+      "div_per_share": 210.0,
+      "div_records": [
+        {
+          "date": "2025-09-29",
+          "amount": 105.0
+        },
+        {
+          "date": "2026-03-30",
+          "amount": 105.0
+        }
+      ],
       "chart": [
         {
           "time": "2025-04-03",
@@ -683,8 +719,8 @@
         "Auto/Transport",
         "Cash Rich",
         "Deep Value",
-        "Supplier Consolidation",
-        "EV Transition"
+        "Supply Chain",
+        "Component Specialist"
       ]
     },
     {
@@ -703,6 +739,14 @@
       "rsi": 65.9,
       "signal": "WAIT",
       "sma20": 8019.5,
+      "div_yield": 3.01,
+      "div_per_share": 260.0,
+      "div_records": [
+        {
+          "date": "2025-12-29",
+          "amount": 260.0
+        }
+      ],
       "chart": [
         {
           "time": "2025-04-03",
@@ -911,7 +955,7 @@
         "Deep Value",
         "Low Vol",
         "Infrastructure Focus",
-        "Steady Dividends"
+        "Project Pipeline"
       ]
     },
     {
@@ -930,6 +974,18 @@
       "rsi": 55.2,
       "signal": "WAIT",
       "sma20": 843.9,
+      "div_yield": 1.15,
+      "div_per_share": 10.0,
+      "div_records": [
+        {
+          "date": "2025-09-29",
+          "amount": 5.0
+        },
+        {
+          "date": "2026-03-30",
+          "amount": 5.0
+        }
+      ],
       "chart": [
         {
           "time": "2025-04-03",
@@ -1138,8 +1194,8 @@
         "Deep Value",
         "Low Vol",
         "Good Margin",
-        "Property Services",
-        "Recurring Revenue"
+        "Asset Management",
+        "Service Revenue"
       ]
     },
     {
@@ -1158,6 +1214,18 @@
       "rsi": 55.5,
       "signal": "WAIT",
       "sma20": 1937.8,
+      "div_yield": 11.67,
+      "div_per_share": 233.3,
+      "div_records": [
+        {
+          "date": "2025-09-29",
+          "amount": 33.3
+        },
+        {
+          "date": "2026-03-30",
+          "amount": 200.0
+        }
+      ],
       "chart": [
         {
           "time": "2025-04-03",
@@ -1367,8 +1435,7 @@
         "Low Vol",
         "Good Margin",
         "Cyclical Recovery",
-        "Infrastructure Play",
-        "Specialty Steel"
+        "Asia Exposure"
       ]
     },
     {
@@ -1387,6 +1454,18 @@
       "rsi": 64.0,
       "signal": "WAIT",
       "sma20": 3303.9,
+      "div_yield": 2.92,
+      "div_per_share": 100.0,
+      "div_records": [
+        {
+          "date": "2025-09-29",
+          "amount": 50.0
+        },
+        {
+          "date": "2026-03-30",
+          "amount": 50.0
+        }
+      ],
       "chart": [
         {
           "time": "2025-04-03",
@@ -1594,8 +1673,8 @@
         "Deep Value",
         "Low Vol",
         "High Margin",
-        "Land Development",
-        "Urban Renewal"
+        "Urban Development",
+        "Premium Properties"
       ]
     },
     {
@@ -1614,6 +1693,14 @@
       "rsi": 59.1,
       "signal": "WAIT",
       "sma20": 1095.2,
+      "div_yield": 3.22,
+      "div_per_share": 37.0,
+      "div_records": [
+        {
+          "date": "2026-03-30",
+          "amount": 37.0
+        }
+      ],
       "chart": [
         {
           "time": "2025-04-03",

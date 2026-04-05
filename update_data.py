@@ -176,6 +176,28 @@ def fetch_stock(code):
         net_cash_str = "—"
         net_cash_positive = False
 
+    # Dividend data (past 1 year from history)
+    import pandas as pd
+    div_yield = None
+    div_per_share = None
+    div_records = []
+    try:
+        divs = t.dividends
+        if not divs.empty:
+            cutoff = pd.Timestamp.now(tz="Asia/Tokyo") - pd.Timedelta(days=365)
+            recent = divs[divs.index >= cutoff]
+            if not recent.empty:
+                annual = float(recent.sum())
+                div_per_share = round(annual, 1)
+                div_yield = round(annual / last_close * 100, 2) if last_close > 0 else None
+                for d, v in recent.items():
+                    div_records.append({
+                        "date": d.strftime("%Y-%m-%d"),
+                        "amount": round(float(v), 1),
+                    })
+    except Exception:
+        pass
+
     # Chart data (sample every 5 bars for mini chart)
     chart_data = []
     for i in range(0, len(closes), 5):
@@ -207,6 +229,9 @@ def fetch_stock(code):
         "rsi": round(current_rsi, 1),
         "signal": signal,
         "sma20": round(sma20, 1),
+        "div_yield": div_yield,
+        "div_per_share": div_per_share,
+        "div_records": div_records,
         "chart": chart_data,
         "_industry": industry,
         "_net_cash_val": net_cash_val if net_cash_positive else 0,
