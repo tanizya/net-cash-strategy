@@ -26,8 +26,12 @@ import pandas as pd
 MAX_UNIT_PRICE = 1_000_000   # 100 shares < 1M yen
 MIN_MARKET_CAP = 50e9        # > 50B yen
 MAX_STOCKS = 8               # Final portfolio size
-RATE_LIMIT_DELAY = 0.3       # Seconds between yfinance calls
-BATCH_SIZE = 20              # yfinance batch download size
+RATE_LIMIT_DELAY = 1.0       # Seconds between yfinance calls (individual)
+BATCH_DELAY = 0.5            # Seconds between batch downloads
+BATCH_SIZE = 50              # yfinance batch download size (price fetch)
+MAX_RETRIES = 3              # Retry count for failed fetches
+RETRY_DELAY = 5              # Seconds between retries
+CACHE_FILE = "docs/screening.json"
 
 # Financial sectors to exclude
 EXCLUDE_SECTORS = [
@@ -97,28 +101,33 @@ def fetch_prices_batch(codes):
     for i in range(0, len(codes), BATCH_SIZE):
         batch = codes[i:i + BATCH_SIZE]
         tickers_str = " ".join(f"{c}.T" for c in batch)
-        try:
-            data = yf.download(tickers_str, period="1d", progress=False, threads=True)
-            if data.empty:
-                continue
-            # Handle single vs multi ticker response
-            if len(batch) == 1:
-                close = data["Close"].iloc[-1] if not data["Close"].empty else 0
-                results[batch[0]] = {"price": float(close)}
-            else:
-                for code in batch:
-                    ticker = f"{code}.T"
-                    try:
-                        close = float(data["Close"][ticker].iloc[-1])
-                        if not np.isnan(close):
-                            results[code] = {"price": close}
-                    except (KeyError, IndexError):
-                        pass
-        except Exception as e:
-            print(f"  Batch error at {i}: {e}")
+        for attempt in range(MAX_RETRIES):
+            try:
+                data = yf.download(tickers_str, period="1d", progress=False, threads=True)
+                if data.empty:
+                    break
+                if len(batch) == 1:
+                    close = data["Close"].iloc[-1] if not data["Close"].empty else 0
+                    results[batch[0]] = {"price": float(close)}
+                else:
+                    for code in batch:
+                        ticker = f"{code}.T"
+                        try:
+                            close = float(data["Close"][ticker].iloc[-1])
+                            if not np.isnan(close):
+                                results[code] = {"price": close}
+                        except (KeyError, IndexError):
+                            pass
+                break
+            except Exception as e:
+                if attempt < MAX_RETRIES - 1:
+                    print(f"  Batch {i} retry {attempt+1}/{MAX_RETRIES}: {e}")
+                    time.sleep(RETRY_DELAY)
+                else:
+                    print(f"  Batch {i} failed after {MAX_RETRIES} retries: {e}")
         if i % 100 == 0 and i > 0:
-            print(f"  ... {i}/{len(codes)} done")
-        time.sleep(RATE_LIMIT_DELAY)
+            print(f"  ... {i}/{len(codes)} done ({len(results)} prices)")
+        time.sleep(BATCH_DELAY)
 
     print(f"  Got prices for {len(results)} stocks")
     return results
@@ -148,109 +157,137 @@ def filter_by_price(df, prices):
     return passed
 
 
+def load_cache():
+    """Load previous screening results for differential scanning."""
+    try:
+        with open(CACHE_FILE, "r") as f:
+            data = json.load(f)
+        cached = {s["code"]: s for s in data.get("all_passed", [])}
+        print(f"  Cache loaded: {len(cached)} stocks from {data.get('date', '?')}")
+        return cached
+    except (FileNotFoundError, json.JSONDecodeError, KeyError):
+        print("  No cache found, full scan required")
+        return {}
+
+
 def fetch_fundamentals(candidates):
-    """Step 5: Fetch balance sheet and info for candidates. Rate-limited."""
-    print(f"[5/6] Fetching fundamentals for {len(candidates)} candidates...")
+    """Step 5: Fetch balance sheet and info. Uses cache for known net-cash stocks."""
+    cache = load_cache()
+    cached_codes = set(cache.keys())
+    # Split: cached (quick price update) vs new (full scan)
+    cached_candidates = [c for c in candidates if c["code"] in cached_codes]
+    new_candidates = [c for c in candidates if c["code"] not in cached_codes]
+    print(f"[5/8] Fetching fundamentals: {len(cached_candidates)} cached + {len(new_candidates)} new")
     results = []
-    for i, c in enumerate(candidates):
-        code = c["code"]
-        try:
-            t = yf.Ticker(f"{code}.T")
-            info = t.info
-            bs = t.balance_sheet
 
-            # Market cap filter
-            mkt_cap = info.get("marketCap", 0)
-            if mkt_cap < MIN_MARKET_CAP:
-                continue
+    def fetch_one(code, c, need_bs=True):
+        """Fetch single stock data. need_bs=False skips balance sheet (cached)."""
+        for attempt in range(MAX_RETRIES):
+            try:
+                t = yf.Ticker(f"{code}.T")
+                info = t.info
 
-            if bs.empty:
-                continue
+                mkt_cap = info.get("marketCap", 0)
+                if mkt_cap < MIN_MARKET_CAP:
+                    return None
 
-            col = bs.columns[0]
-            debt = float(bs.loc["Total Debt", col]) if "Total Debt" in bs.index else 0
-            cash = float(bs.loc["Cash And Cash Equivalents", col]) if "Cash And Cash Equivalents" in bs.index else 0
-            net_cash = cash - debt
+                pbr = info.get("priceToBook", 99) or 99
+                op_margin = info.get("operatingMargins", 0) or 0
+                beta = info.get("beta", 1) or 1
+                industry = info.get("industry", "")
 
-            if net_cash <= 0:
-                continue
+                if need_bs:
+                    bs = t.balance_sheet
+                    if bs.empty:
+                        return None
+                    col = bs.columns[0]
+                    debt = float(bs.loc["Total Debt", col]) if "Total Debt" in bs.index else 0
+                    cash_val = float(bs.loc["Cash And Cash Equivalents", col]) if "Cash And Cash Equivalents" in bs.index else 0
+                    net_cash = cash_val - debt
+                    if net_cash <= 0:
+                        return None
+                else:
+                    # Use cached score, just verify mkt_cap still OK
+                    prev = cache.get(code, {})
+                    net_cash = prev.get("net_cash", 0)
+                    if net_cash is None or net_cash <= 0:
+                        # Cache invalid, do full fetch
+                        return fetch_one(code, c, need_bs=True)
 
-            pbr = info.get("priceToBook", 99) or 99
-            op_margin = info.get("operatingMargins", 0) or 0
-            beta = info.get("beta", 1) or 1
-            industry = info.get("industry", "")
+                sector = SECTOR_MAP.get(c["sector_jp"], c["sector_jp"])
+                net_cash_ratio = net_cash / mkt_cap if mkt_cap > 0 else 0
+                score = (
+                    net_cash_ratio * 40 +
+                    max(0, (2 - pbr)) * 20 +
+                    op_margin * 20 +
+                    max(0, (1.5 - beta)) * 20
+                )
 
-            # Sector mapping
-            sector = SECTOR_MAP.get(c["sector_jp"], c["sector_jp"])
+                # 1-month price data
+                hist = t.history(period="1mo")
+                if not hist.empty:
+                    month_high = float(hist["High"].max())
+                    month_low = float(hist["Low"].min())
+                    month_open = float(hist["Close"].iloc[0])
+                    month_change = (c["price"] / month_open - 1) * 100 if month_open > 0 else 0
+                else:
+                    month_high = c["price"]
+                    month_low = c["price"]
+                    month_change = 0
 
-            # Composite score
-            net_cash_ratio = net_cash / mkt_cap if mkt_cap > 0 else 0
-            score = (
-                net_cash_ratio * 40 +
-                max(0, (2 - pbr)) * 20 +
-                op_margin * 20 +
-                max(0, (1.5 - beta)) * 20
-            )
+                # RSI(14) from 3-month history
+                hist_rsi = t.history(period="3mo")
+                rsi_val = None
+                if len(hist_rsi) > 14:
+                    closes = hist_rsi["Close"].values
+                    deltas = np.diff(closes)
+                    gains = np.where(deltas > 0, deltas, 0.0)
+                    losses = np.where(deltas < 0, -deltas, 0.0)
+                    avg_g = np.mean(gains[:14])
+                    avg_l = np.mean(losses[:14])
+                    for j in range(14, len(deltas)):
+                        avg_g = (avg_g * 13 + gains[j]) / 14
+                        avg_l = (avg_l * 13 + losses[j]) / 14
+                    rs_val = avg_g / avg_l if avg_l != 0 else 100
+                    rsi_val = round(100 - 100 / (1 + rs_val), 1)
 
-            # 1-month price data for RS
-            hist = t.history(period="1mo")
-            if not hist.empty:
-                month_high = float(hist["High"].max())
-                month_low = float(hist["Low"].min())
-                month_open = float(hist["Close"].iloc[0])
-                month_change = (c["price"] / month_open - 1) * 100 if month_open > 0 else 0
-            else:
-                month_high = c["price"]
-                month_low = c["price"]
-                month_change = 0
+                return {
+                    "code": code, "name": c["name"], "sector": sector,
+                    "sector_jp": c["sector_jp"], "market": c["market"],
+                    "industry": industry, "price": c["price"],
+                    "unit_cost": int(c["price"] * 100), "mkt_cap": mkt_cap,
+                    "net_cash": net_cash, "net_cash_ratio": net_cash_ratio,
+                    "pbr": pbr, "op_margin": op_margin, "beta": beta,
+                    "month_high": month_high, "month_low": month_low,
+                    "month_change": round(month_change, 2), "rsi": rsi_val,
+                    "score": score,
+                }
+            except Exception as e:
+                if attempt < MAX_RETRIES - 1:
+                    time.sleep(RETRY_DELAY)
+        return None
 
-            # RSI(14)
-            hist_rsi = t.history(period="3mo")
-            rsi_val = None
-            if len(hist_rsi) > 14:
-                closes = hist_rsi["Close"].values
-                deltas = np.diff(closes)
-                gains = np.where(deltas > 0, deltas, 0.0)
-                losses = np.where(deltas < 0, -deltas, 0.0)
-                avg_g = np.mean(gains[:14])
-                avg_l = np.mean(losses[:14])
-                for j in range(14, len(deltas)):
-                    avg_g = (avg_g * 13 + gains[j]) / 14
-                    avg_l = (avg_l * 13 + losses[j]) / 14
-                rs_val = avg_g / avg_l if avg_l != 0 else 100
-                rsi_val = round(100 - 100 / (1 + rs_val), 1)
-
-            results.append({
-                "code": code,
-                "name": c["name"],
-                "sector": sector,
-                "sector_jp": c["sector_jp"],
-                "market": c["market"],
-                "industry": industry,
-                "price": c["price"],
-                "unit_cost": int(c["price"] * 100),
-                "mkt_cap": mkt_cap,
-                "net_cash": net_cash,
-                "net_cash_ratio": net_cash_ratio,
-                "pbr": pbr,
-                "op_margin": op_margin,
-                "beta": beta,
-                "month_high": month_high,
-                "month_low": month_low,
-                "month_change": round(month_change, 2),
-                "rsi": rsi_val,
-                "score": score,
-            })
-
-            if len(results) % 10 == 0:
-                print(f"  ... {i+1}/{len(candidates)} scanned, {len(results)} passed")
-
-        except Exception as e:
-            pass  # Silently skip problematic stocks
-
+    # Phase A: Quick update for cached stocks (skip balance sheet)
+    print(f"  Phase A: {len(cached_candidates)} cached stocks (skip BS)...")
+    for i, c in enumerate(cached_candidates):
+        r = fetch_one(c["code"], c, need_bs=False)
+        if r:
+            results.append(r)
+        if (i + 1) % 20 == 0:
+            print(f"    ... {i+1}/{len(cached_candidates)} done, {len(results)} passed")
         time.sleep(RATE_LIMIT_DELAY)
 
-    print(f"  {len(results)} stocks are net-cash positive with mkt cap > ¥{MIN_MARKET_CAP/1e9:.0f}B")
+    # Phase B: Full scan for new stocks
+    print(f"  Phase B: {len(new_candidates)} new stocks (full scan)...")
+    for i, c in enumerate(new_candidates):
+        r = fetch_one(c["code"], c, need_bs=True)
+        if r:
+            results.append(r)
+        if (i + 1) % 20 == 0:
+            print(f"    ... {i+1}/{len(new_candidates)} done, {len(results)} passed")
+        time.sleep(RATE_LIMIT_DELAY)
+
+    print(f"  Total: {len(results)} net-cash positive stocks")
     return results
 
 
@@ -326,7 +363,8 @@ def select_universe(results):
                 for s in selected
             ],
             "all_passed": [
-                {"code": s["code"], "name": s["name"], "score": round(s["score"], 2), "rs": s.get("rs")}
+                {"code": s["code"], "name": s["name"], "score": round(s["score"], 2),
+                 "rs": s.get("rs"), "net_cash": int(s.get("net_cash", 0))}
                 for s in results
             ],
         }, f, indent=2, ensure_ascii=False)
