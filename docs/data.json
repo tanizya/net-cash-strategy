@@ -226,8 +226,9 @@
         }
       ],
       "tags": [
-        "Logistics Automation",
-        "Factory Systems",
+        "Automation",
+        "Logistics Systems",
+        "Factory Automation",
         "Supply Chain"
       ]
     },
@@ -450,11 +451,11 @@
         }
       ],
       "tags": [
+        "Advisory",
         "Net Cash",
         "High Margin",
-        "M&A Advisory",
-        "Capital Markets",
-        "Fee-Based"
+        "M&A Specialist",
+        "Japan Consolidation"
       ]
     },
     {
@@ -676,10 +677,11 @@
         }
       ],
       "tags": [
+        "F&B",
         "Net Cash",
         "Value",
         "Franchise Model",
-        "Café Expansion"
+        "Japan Domestic"
       ]
     },
     {
@@ -901,11 +903,13 @@
         }
       ],
       "tags": [
+        "Motors",
         "Cash Rich",
         "Value",
         "Low Vol",
-        "Motor Innovation",
-        "Auto Electrification"
+        "Precision Motors",
+        "EV Exposure",
+        "High Margin"
       ]
     },
     {
@@ -1127,10 +1131,11 @@
         }
       ],
       "tags": [
+        "Retail",
         "Net Cash",
         "Good Margin",
-        "Casual Wear",
-        "Store Expansion"
+        "Workwear Specialist",
+        "Omnichannel Expansion"
       ]
     }
   ]
