@@ -419,6 +419,22 @@ def _supabase_headers():
     return endpoint, headers
 
 
+def _safe_int(v):
+    try:
+        if v is None or (isinstance(v, float) and np.isnan(v)):
+            return None
+        return int(v)
+    except (ValueError, TypeError):
+        return None
+
+def _safe_round(v, n=2):
+    try:
+        if v is None or (isinstance(v, float) and np.isnan(v)):
+            return None
+        return round(float(v), n)
+    except (ValueError, TypeError):
+        return None
+
 def _to_row(s):
     """Convert stock dict to Supabase row."""
     return {
@@ -427,24 +443,24 @@ def _to_row(s):
         "market": s.get("market", ""),
         "sector_jp": s.get("sector_jp", ""),
         "sector": s.get("sector", ""),
-        "price": s.get("price"),
-        "unit_cost": s.get("unit_cost", int(s.get("price", 0) * 100)),
-        "market_cap": int(s["mkt_cap"]) if s.get("mkt_cap") else None,
-        "net_cash": int(s["net_cash"]) if s.get("net_cash") else None,
-        "net_cash_ratio": round(s["net_cash_ratio"], 4) if s.get("net_cash_ratio") else None,
-        "pbr": round(s["pbr"], 2) if s.get("pbr") and s["pbr"] != 99 else None,
-        "op_margin": round(s["op_margin"], 4) if s.get("op_margin") else None,
-        "beta": round(s["beta"], 2) if s.get("beta") and s["beta"] != 1 else None,
-        "month_high": round(s["month_high"], 1) if s.get("month_high") else None,
-        "month_low": round(s["month_low"], 1) if s.get("month_low") else None,
-        "month_change": s.get("month_change"),
-        "rs": s.get("rs"),
-        "rsi": s.get("rsi"),
-        "score": round(s["score"], 2) if s.get("score") else None,
+        "price": _safe_round(s.get("price"), 1),
+        "unit_cost": _safe_int(s.get("unit_cost")),
+        "market_cap": _safe_int(s.get("mkt_cap")),
+        "net_cash": _safe_int(s.get("net_cash")),
+        "net_cash_ratio": _safe_round(s.get("net_cash_ratio"), 4),
+        "pbr": _safe_round(s.get("pbr"), 2) if s.get("pbr") != 99 else None,
+        "op_margin": _safe_round(s.get("op_margin"), 4),
+        "beta": _safe_round(s.get("beta"), 2) if s.get("beta") != 1 else None,
+        "month_high": _safe_round(s.get("month_high"), 1),
+        "month_low": _safe_round(s.get("month_low"), 1),
+        "month_change": _safe_round(s.get("month_change"), 2),
+        "rs": _safe_int(s.get("rs")),
+        "rsi": _safe_round(s.get("rsi"), 1),
+        "score": _safe_round(s.get("score"), 2),
         "strategy": s.get("strategy"),
         "signal": s.get("signal", "WAIT"),
         "tags": s.get("tags"),
-        "updated_at": datetime.datetime.utcnow().isoformat() + "Z",
+        "updated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
     }
 
 
