@@ -284,24 +284,36 @@ def fetch_fundamentals(candidates):
         return None
 
     # Phase A: Quick update for cached stocks (skip balance sheet)
+    phase_a = []
     print(f"  Phase A: {len(cached_candidates)} cached stocks (skip BS)...")
     for i, c in enumerate(cached_candidates):
         r = fetch_one(c["code"], c, need_bs=False)
         if r:
             results.append(r)
+            phase_a.append(r)
         if (i + 1) % 20 == 0:
             print(f"    ... {i+1}/{len(cached_candidates)} done, {len(results)} passed")
         time.sleep(RATE_LIMIT_DELAY)
+    if phase_a:
+        supabase_upsert_batch(phase_a, "Phase A cached")
 
-    # Phase B: Full scan for new stocks
+    # Phase B: Full scan for new stocks (upsert every 20 stocks)
+    phase_b_batch = []
     print(f"  Phase B: {len(new_candidates)} new stocks (full scan)...")
     for i, c in enumerate(new_candidates):
         r = fetch_one(c["code"], c, need_bs=True)
         if r:
             results.append(r)
+            phase_b_batch.append(r)
+        # Upsert every 20 passed stocks
+        if len(phase_b_batch) >= 20:
+            supabase_upsert_batch(phase_b_batch, f"Phase B batch@{i+1}")
+            phase_b_batch = []
         if (i + 1) % 20 == 0:
             print(f"    ... {i+1}/{len(new_candidates)} done, {len(results)} passed")
         time.sleep(RATE_LIMIT_DELAY)
+    if phase_b_batch:
+        supabase_upsert_batch(phase_b_batch, "Phase B final")
 
     print(f"  Total: {len(results)} net-cash positive stocks")
     return results, force_bs
@@ -390,77 +402,105 @@ def select_universe(results, force_bs=False):
     return results
 
 
-def upsert_supabase(results):
-    """Step 8: DELETE + INSERT all net-cash stocks to Supabase jpx_stocks."""
-    print("[8/8] Upserting to Supabase...")
+def _supabase_headers():
+    """Get Supabase connection info. Returns (endpoint, headers) or (None, None)."""
     base_url = os.environ.get("SUPABASE_URL", "").rstrip("/")
     service_key = os.environ.get("SUPABASE_SERVICE_KEY", "")
     if not base_url or not service_key:
-        print("  SUPABASE_URL / SUPABASE_SERVICE_KEY not set – skipping")
-        return
-
+        return None, None
     endpoint = f"{base_url}/rest/v1/jpx_stocks"
     headers = {
         "apikey": service_key,
         "Authorization": f"Bearer {service_key}",
         "Content-Type": "application/json",
         "Content-Profile": "public",
-        "Prefer": "return=minimal",
+        "Prefer": "resolution=merge-duplicates,return=minimal",
+    }
+    return endpoint, headers
+
+
+def _to_row(s):
+    """Convert stock dict to Supabase row."""
+    return {
+        "code": s["code"],
+        "name": s["name"],
+        "market": s.get("market", ""),
+        "sector_jp": s.get("sector_jp", ""),
+        "sector": s.get("sector", ""),
+        "price": s.get("price"),
+        "unit_cost": s.get("unit_cost", int(s.get("price", 0) * 100)),
+        "market_cap": int(s["mkt_cap"]) if s.get("mkt_cap") else None,
+        "net_cash": int(s["net_cash"]) if s.get("net_cash") else None,
+        "net_cash_ratio": round(s["net_cash_ratio"], 4) if s.get("net_cash_ratio") else None,
+        "pbr": round(s["pbr"], 2) if s.get("pbr") and s["pbr"] != 99 else None,
+        "op_margin": round(s["op_margin"], 4) if s.get("op_margin") else None,
+        "beta": round(s["beta"], 2) if s.get("beta") and s["beta"] != 1 else None,
+        "month_high": round(s["month_high"], 1) if s.get("month_high") else None,
+        "month_low": round(s["month_low"], 1) if s.get("month_low") else None,
+        "month_change": s.get("month_change"),
+        "rs": s.get("rs"),
+        "rsi": s.get("rsi"),
+        "score": round(s["score"], 2) if s.get("score") else None,
+        "strategy": s.get("strategy"),
+        "signal": s.get("signal", "WAIT"),
+        "tags": s.get("tags"),
+        "updated_at": datetime.datetime.utcnow().isoformat() + "Z",
     }
 
-    # DELETE all existing rows
-    del_url = f"{endpoint}?code=neq.NONE"
-    req = urllib.request.Request(del_url, method="DELETE", headers=headers)
-    try:
-        urllib.request.urlopen(req)
-        print("  Deleted existing rows")
-    except Exception as e:
-        print(f"  DELETE failed: {e}")
+
+def supabase_upsert_batch(stocks, label=""):
+    """Upsert a batch of stocks to Supabase. Can be called at each phase."""
+    endpoint, headers = _supabase_headers()
+    if not endpoint:
         return
 
-    # Build rows
-    now = datetime.datetime.utcnow().isoformat() + "Z"
-    rows = []
-    for s in results:
-        rows.append({
-            "code": s["code"],
-            "name": s["name"],
-            "market": s.get("market", ""),
-            "sector_jp": s.get("sector_jp", ""),
-            "sector": s["sector"],
-            "price": s["price"],
-            "unit_cost": s.get("unit_cost", int(s["price"] * 100)),
-            "market_cap": int(s["mkt_cap"]),
-            "net_cash": int(s["net_cash"]),
-            "net_cash_ratio": round(s["net_cash_ratio"], 4),
-            "pbr": round(s["pbr"], 2) if s["pbr"] != 99 else None,
-            "op_margin": round(s["op_margin"], 4) if s["op_margin"] else None,
-            "beta": round(s["beta"], 2) if s["beta"] != 1 else None,
-            "month_high": round(s.get("month_high", 0), 1) or None,
-            "month_low": round(s.get("month_low", 0), 1) or None,
-            "month_change": s.get("month_change"),
-            "rs": s.get("rs"),
-            "rsi": s.get("rsi"),
-            "score": round(s["score"], 2),
-            "strategy": s.get("strategy"),
-            "signal": "WAIT",
-            "tags": None,
-            "updated_at": now,
-        })
-
-    # INSERT in batches of 50
+    rows = [_to_row(s) for s in stocks]
     batch_size = 50
+    ok = 0
     for i in range(0, len(rows), batch_size):
         batch = rows[i:i + batch_size]
         body = json.dumps(batch, ensure_ascii=False).encode("utf-8")
         req = urllib.request.Request(endpoint, data=body, headers=headers, method="POST")
         try:
             urllib.request.urlopen(req)
+            ok += len(batch)
         except Exception as e:
-            print(f"  INSERT batch {i} failed: {e}")
-            continue
+            print(f"  [Supabase] upsert batch {i} failed: {e}")
 
-    print(f"  Inserted {len(rows)} rows to jpx_stocks")
+    print(f"  [Supabase] {label}: upserted {ok}/{len(rows)} rows")
+
+
+def supabase_cleanup(valid_codes):
+    """Remove stocks no longer in the net-cash universe."""
+    endpoint, headers = _supabase_headers()
+    if not endpoint:
+        return
+
+    # Fetch all codes currently in DB
+    fetch_headers = {**headers, "Accept": "application/json"}
+    fetch_headers.pop("Prefer", None)
+    req = urllib.request.Request(f"{endpoint}?select=code", headers=fetch_headers)
+    try:
+        resp = urllib.request.urlopen(req).read()
+        db_codes = {r["code"] for r in json.loads(resp)}
+    except Exception:
+        return
+
+    stale = db_codes - set(valid_codes)
+    if not stale:
+        print("  [Supabase] cleanup: no stale rows")
+        return
+
+    # Delete stale in batches
+    del_headers = {k: v for k, v in headers.items() if k != "Prefer"}
+    del_headers["Prefer"] = "return=minimal"
+    for code in stale:
+        req = urllib.request.Request(f"{endpoint}?code=eq.{code}", method="DELETE", headers=del_headers)
+        try:
+            urllib.request.urlopen(req)
+        except Exception:
+            pass
+    print(f"  [Supabase] cleanup: removed {len(stale)} stale rows")
 
 
 def main():
@@ -487,8 +527,9 @@ def main():
     # Step 7: Select universe, patch update_data.py
     results = select_universe(results, force_bs=force_bs)
 
-    # Step 8: Upsert to Supabase
-    upsert_supabase(results)
+    # Step 8: Final upsert (strategy/RS/score) + cleanup stale rows
+    supabase_upsert_batch(results, "Final (strategy+RS)")
+    supabase_cleanup([r["code"] for r in results])
 
     print("\nDone.")
 
