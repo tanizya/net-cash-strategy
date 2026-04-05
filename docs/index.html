@@ -1,808 +1,435 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Net Cash Select Trade Strategy</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<title>Net Cash Select</title>
+<script src="https://unpkg.com/lightweight-charts@4/dist/lightweight-charts.standalone.production.js"></script>
 <style>
 :root {
-  --bg: #0d1117;
-  --card: #161b22;
-  --border: #30363d;
-  --text: #e6edf3;
-  --muted: #8b949e;
-  --green: #3fb950;
-  --red: #f85149;
-  --blue: #58a6ff;
-  --yellow: #d29922;
-  --purple: #bc8cff;
+  --bg: #000000;
+  --surface: #0a0a0a;
+  --border: #1a1a1a;
+  --text: #ffffff;
+  --muted: #666666;
+  --dim: #333333;
+  --green: #00c853;
+  --red: #ff1744;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
-}
-.container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+body { font-family: 'SF Mono', 'Consolas', 'Monaco', monospace; background: var(--bg); color: var(--text); font-size: 13px; }
+.container { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
 
-/* Header */
-header {
-  border-bottom: 1px solid var(--border);
-  padding: 24px 0;
-}
-header h1 { font-size: 1.8rem; font-weight: 700; }
-header h1 span { color: var(--green); }
-header p { color: var(--muted); margin-top: 4px; font-size: 0.95rem; }
+header { padding: 32px 0 24px; border-bottom: 1px solid var(--border); }
+header h1 { font-size: 14px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
 
-/* KPI Strip */
-.kpi-strip {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 16px;
-  padding: 24px 0;
-}
-.kpi-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 16px;
-  text-align: center;
-}
-.kpi-card .label { color: var(--muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
-.kpi-card .value { font-size: 1.8rem; font-weight: 700; margin-top: 4px; }
-.kpi-card .value.positive { color: var(--green); }
-.kpi-card .value.negative { color: var(--red); }
-.kpi-card .sub { color: var(--muted); font-size: 0.8rem; margin-top: 2px; }
+.kpi { display: grid; grid-template-columns: repeat(6, 1fr); border-bottom: 1px solid var(--border); }
+.kpi-item { padding: 20px 0; border-right: 1px solid var(--border); }
+.kpi-item:last-child { border-right: none; }
+.kpi-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+.kpi-val { font-size: 24px; font-weight: 300; margin-top: 4px; }
+.kpi-sub { font-size: 10px; color: var(--dim); margin-top: 2px; }
+.g { color: var(--green); }
+.r { color: var(--red); }
 
-/* Section */
-section { padding: 32px 0; border-top: 1px solid var(--border); }
-section h2 { font-size: 1.3rem; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-section h2 .badge {
-  background: var(--green);
-  color: #000;
-  font-size: 0.7rem;
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-weight: 600;
-}
-
-/* Strategy Box */
-.strategy-box {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 20px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-.strategy-box h3 { color: var(--blue); font-size: 0.95rem; margin-bottom: 8px; }
-.strategy-box ul { list-style: none; }
-.strategy-box li { padding: 4px 0; font-size: 0.9rem; }
-.strategy-box li::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 8px; vertical-align: middle; }
-.entry li::before { background: var(--green); }
-.exit li::before { background: var(--red); }
-.risk li::before { background: var(--yellow); }
-.ni225 li::before { background: var(--purple); }
-
-/* Stock Cards */
-.stock-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-  gap: 16px;
-}
-.stock-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  overflow: hidden;
-}
-.stock-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--border);
-}
-.stock-card-header .code { font-weight: 700; font-size: 1.1rem; }
-.stock-card-header .name { color: var(--muted); font-size: 0.85rem; }
-.stock-card-header .return {
-  font-weight: 700;
-  font-size: 1.1rem;
-  padding: 2px 10px;
-  border-radius: 4px;
-}
-.stock-card-header .return.pos { background: rgba(63,185,80,0.15); color: var(--green); }
-.stock-card-header .return.neg { background: rgba(248,81,73,0.15); color: var(--red); }
-.stock-card-body { padding: 12px 16px; }
-.stock-card-body .metrics {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  margin-bottom: 12px;
-}
-.metric { text-align: center; }
-.metric .m-label { font-size: 0.7rem; color: var(--muted); }
-.metric .m-value { font-size: 0.95rem; font-weight: 600; }
-.stock-card-body .tags { display: flex; gap: 6px; flex-wrap: wrap; }
-.tag {
-  font-size: 0.72rem;
-  padding: 2px 8px;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  color: var(--muted);
-}
-.tag.cash { border-color: var(--green); color: var(--green); }
-.tag.margin { border-color: var(--blue); color: var(--blue); }
-.tag.growth { border-color: var(--purple); color: var(--purple); }
-
-/* Chart Screenshots */
-.chart-tabs {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-.chart-tab {
-  padding: 6px 16px;
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--muted);
-  cursor: pointer;
-  font-size: 0.85rem;
-}
-.chart-tab.active { background: var(--blue); color: #000; border-color: var(--blue); font-weight: 600; }
-.chart-img {
-  width: 100%;
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  display: none;
-}
-.chart-img.active { display: block; }
+section { padding: 32px 0; border-bottom: 1px solid var(--border); }
+.sec-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 16px; }
 
 /* Table */
-.results-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.9rem;
-}
-.results-table th {
-  text-align: left;
-  padding: 10px 12px;
-  border-bottom: 2px solid var(--border);
-  color: var(--muted);
-  font-weight: 600;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-}
-.results-table td {
-  padding: 10px 12px;
-  border-bottom: 1px solid var(--border);
-}
-.results-table tr:hover { background: rgba(88,166,255,0.04); }
-.results-table .pos { color: var(--green); }
-.results-table .neg { color: var(--red); }
-.results-table .highlight { background: rgba(63,185,80,0.08); }
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; padding: 8px 12px; font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid var(--border); font-weight: 400; }
+td { padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 13px; }
+tr:hover { background: #0d0d0d; }
+.mono { font-variant-numeric: tabular-nums; }
 
-/* Charts Container */
-.chart-container {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 16px;
-}
-.charts-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
+/* Stock Grid */
+.stock-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--border); }
+.stock-cell { background: var(--bg); padding: 16px; }
+.stock-code { font-size: 18px; font-weight: 300; }
+.stock-name { font-size: 10px; color: var(--muted); margin-top: 2px; }
+.stock-ret { font-size: 28px; font-weight: 300; margin-top: 12px; }
+.stock-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+.stock-meta-item {}
+.stock-meta-label { font-size: 9px; color: var(--dim); text-transform: uppercase; }
+.stock-meta-val { font-size: 12px; margin-top: 1px; }
+.stock-tags { margin-top: 12px; display: flex; gap: 6px; flex-wrap: wrap; }
+.tag { font-size: 9px; padding: 2px 6px; border: 1px solid var(--dim); color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
 
-/* Risk Gauge */
-.risk-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 16px;
-}
-.risk-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 16px;
-}
-.risk-card h4 { color: var(--yellow); font-size: 0.9rem; margin-bottom: 8px; }
-.risk-card p { font-size: 0.85rem; color: var(--muted); }
-.risk-card .rule { font-size: 1rem; color: var(--text); font-weight: 600; margin-bottom: 4px; }
+/* Charts */
+.charts-row { display: grid; grid-template-columns: 2fr 1fr; gap: 1px; background: var(--border); }
+.chart-panel { background: var(--bg); padding: 16px; }
+.chart-panel .sec-label { margin-bottom: 8px; }
+.chart-box { width: 100%; height: 300px; }
 
-/* Footer */
-footer {
-  border-top: 1px solid var(--border);
-  padding: 24px 0;
-  text-align: center;
-  color: var(--muted);
-  font-size: 0.8rem;
-}
+/* Tabs */
+.tabs { display: flex; gap: 0; margin-bottom: 16px; }
+.tab { padding: 6px 16px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; border: 1px solid var(--border); border-right: none; background: transparent; color: var(--muted); font-family: inherit; }
+.tab:last-child { border-right: 1px solid var(--border); }
+.tab.active { background: var(--text); color: var(--bg); }
 
-/* Insight Box */
-.insight-box {
-  background: rgba(188,140,255,0.08);
-  border: 1px solid rgba(188,140,255,0.3);
-  border-radius: 8px;
-  padding: 16px 20px;
-  margin: 16px 0;
-  font-size: 0.9rem;
-}
-.insight-box strong { color: var(--purple); }
+/* Screenshots */
+.ss-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
+.ss-panel { background: var(--bg); padding: 8px; }
+.ss-panel img { width: 100%; display: block; filter: grayscale(20%); }
+.ss-panel .ss-label { font-size: 10px; color: var(--muted); padding: 6px 0 4px; text-transform: uppercase; letter-spacing: 0.1em; }
 
-@media (max-width: 768px) {
-  .strategy-box { grid-template-columns: 1fr; }
-  .charts-grid { grid-template-columns: 1fr; }
+/* Rules */
+.rules-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); }
+.rule-cell { background: var(--bg); padding: 16px; }
+.rule-val { font-size: 20px; font-weight: 300; }
+.rule-desc { font-size: 11px; color: var(--muted); margin-top: 6px; }
+
+/* Evolution */
+.evo-row { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.evo-step { width: 40px; font-size: 11px; color: var(--dim); }
+.evo-bar { flex: 1; height: 2px; background: var(--dim); position: relative; margin: 0 12px; }
+.evo-bar .fill { height: 100%; position: absolute; left: 0; top: 0; }
+.evo-label { width: 200px; font-size: 11px; color: var(--muted); text-align: right; }
+
+footer { padding: 24px 0; text-align: center; font-size: 10px; color: var(--dim); }
+
+@media (max-width: 900px) {
+  .kpi { grid-template-columns: repeat(3, 1fr); }
   .stock-grid { grid-template-columns: 1fr; }
-  .stock-card-body .metrics { grid-template-columns: repeat(2, 1fr); }
+  .charts-row { grid-template-columns: 1fr; }
+  .ss-grid { grid-template-columns: 1fr; }
+  .rules-grid { grid-template-columns: repeat(2, 1fr); }
 }
 </style>
 </head>
 <body>
-
 <div class="container">
 
-<!-- Header -->
 <header>
-  <h1><span>Net Cash Select</span> Trade Strategy</h1>
-  <p>RSI Mean Reversion + NI225 Dynamic Stop | 2025-2026 Backtest Dashboard</p>
+  <h1>Net Cash Select &mdash; Trade Strategy Dashboard</h1>
 </header>
 
-<!-- KPI Strip -->
-<div class="kpi-strip">
-  <div class="kpi-card">
-    <div class="label">Cumulative Return</div>
-    <div class="value positive">+40.8%</div>
-    <div class="sub">200万 &rarr; 281.6万</div>
+<div class="kpi">
+  <div class="kpi-item">
+    <div class="kpi-label">Return</div>
+    <div class="kpi-val g">+40.8%</div>
+    <div class="kpi-sub">16 months</div>
   </div>
-  <div class="kpi-card">
-    <div class="label">Win Rate</div>
-    <div class="value positive">68.8%</div>
-    <div class="sub">11W / 5L (16 trades)</div>
+  <div class="kpi-item">
+    <div class="kpi-label">Profit</div>
+    <div class="kpi-val g">+81.6M</div>
+    <div class="kpi-sub">JPY / 2M start</div>
   </div>
-  <div class="kpi-card">
-    <div class="label">Max Drawdown</div>
-    <div class="value" style="color:var(--yellow)">10.25%</div>
-    <div class="sub">Target &lt; 20%</div>
+  <div class="kpi-item">
+    <div class="kpi-label">Win Rate</div>
+    <div class="kpi-val">68.8%</div>
+    <div class="kpi-sub">11W 5L</div>
   </div>
-  <div class="kpi-card">
-    <div class="label">Profit Factor</div>
-    <div class="value positive">11.6</div>
-    <div class="sub">Target &gt; 2.0</div>
+  <div class="kpi-item">
+    <div class="kpi-label">Max DD</div>
+    <div class="kpi-val">10.25%</div>
+    <div class="kpi-sub">Target &lt;20%</div>
   </div>
-  <div class="kpi-card">
-    <div class="label">Period</div>
-    <div class="value" style="color:var(--blue);font-size:1.3rem">16 months</div>
-    <div class="sub">2025/01 &mdash; 2026/04</div>
+  <div class="kpi-item">
+    <div class="kpi-label">Profit Factor</div>
+    <div class="kpi-val g">11.6</div>
+    <div class="kpi-sub">Target &gt;2.0</div>
+  </div>
+  <div class="kpi-item">
+    <div class="kpi-label">Trades</div>
+    <div class="kpi-val">16</div>
+    <div class="kpi-sub">2025/01 &mdash; 2026/04</div>
   </div>
 </div>
 
-<!-- Strategy Overview -->
+<!-- Universe -->
 <section>
-  <h2>Strategy Overview <span class="badge">V6 Final</span></h2>
-
-  <div class="insight-box">
-    <strong>Core Insight:</strong> RSI平均回帰戦略にとって、市場暴落はリスクではなく最大のチャンス。
-    NI225をエントリーフィルターではなく、ストップロスの動的引き締めに使うことで、リターンを維持しながらDDを大幅に削減。
-  </div>
-
-  <div class="strategy-box">
-    <div class="entry">
-      <h3>Entry (エントリー)</h3>
-      <ul>
-        <li>RSI(14) が 35 を上抜けクロス</li>
-        <li>終値でシグナル判定</li>
-        <li>翌営業日の寄付きで約定</li>
-        <li>フィルターなし (暴落時もエントリー)</li>
-      </ul>
-    </div>
-    <div class="exit">
-      <h3>Exit (エグジット)</h3>
-      <ul>
-        <li>RSI が 65 以上に到達 (利確)</li>
-        <li>SMA(20) を下抜け (トレンド転換)</li>
-        <li>ストップロスに到達 (損切り)</li>
-      </ul>
-    </div>
-    <div class="ni225">
-      <h3>NI225 Dynamic Stop</h3>
-      <ul>
-        <li>NI225 &gt; SMA(50): ストップ 10%</li>
-        <li>NI225 &lt; SMA(50): ストップ 7% (引き締め)</li>
-        <li>エントリーには影響なし</li>
-      </ul>
-    </div>
-    <div class="risk">
-      <h3>Position Sizing</h3>
-      <ul>
-        <li>1トレード: 資金の50% (最大100万)</li>
-        <li>同時保有: 最大2ポジション</li>
-        <li>最大リスク: 資金の10%/トレード</li>
-        <li>月次DD 15%で当月エントリー停止</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- Stock Universe -->
-<section>
-  <h2>Stock Universe (銘柄一覧)</h2>
-  <p style="color:var(--muted);margin-bottom:16px;font-size:0.9rem">
-    ネットキャッシュ比率 + 営業CFマージン + 成長性で厳選。単元100株 &lt; 100万円。
-  </p>
+  <div class="sec-label">Universe</div>
   <div class="stock-grid">
-    <!-- 6383 -->
-    <div class="stock-card">
-      <div class="stock-card-header">
-        <div><span class="code">6383</span> <span class="name">ダイフク</span></div>
-        <div class="return pos">+31.80%</div>
+    <div class="stock-cell">
+      <div class="stock-code">6383</div>
+      <div class="stock-name">Daifuku</div>
+      <div class="stock-ret g">+31.8%</div>
+      <div class="stock-meta">
+        <div><div class="stock-meta-label">DD</div><div class="stock-meta-val g">5.57%</div></div>
+        <div><div class="stock-meta-label">Trades</div><div class="stock-meta-val">3</div></div>
+        <div><div class="stock-meta-label">Win</div><div class="stock-meta-val g">100%</div></div>
+        <div><div class="stock-meta-label">Unit</div><div class="stock-meta-val">587K</div></div>
       </div>
-      <div class="stock-card-body">
-        <div class="metrics">
-          <div class="metric"><div class="m-label">DD</div><div class="m-value" style="color:var(--green)">5.57%</div></div>
-          <div class="metric"><div class="m-label">Trades</div><div class="m-value">3</div></div>
-          <div class="metric"><div class="m-label">Win Rate</div><div class="m-value" style="color:var(--green)">100%</div></div>
-          <div class="metric"><div class="m-label">100株</div><div class="m-value">58.7万</div></div>
-        </div>
-        <div class="tags">
-          <span class="tag cash">Net Cash -193B</span>
-          <span class="tag margin">High Margin</span>
-          <span class="tag">Automation</span>
-          <span class="tag growth">Global Growth</span>
-        </div>
+      <div class="stock-tags">
+        <span class="tag">Net Cash -193B</span>
+        <span class="tag">Automation</span>
+        <span class="tag">High Margin</span>
       </div>
     </div>
-    <!-- 2127 -->
-    <div class="stock-card">
-      <div class="stock-card-header">
-        <div><span class="code">2127</span> <span class="name">M&Aセンター</span></div>
-        <div class="return pos">+26.12%</div>
+    <div class="stock-cell">
+      <div class="stock-code">2127</div>
+      <div class="stock-name">M&A Center</div>
+      <div class="stock-ret g">+26.1%</div>
+      <div class="stock-meta">
+        <div><div class="stock-meta-label">DD</div><div class="stock-meta-val">8.84%</div></div>
+        <div><div class="stock-meta-label">Trades</div><div class="stock-meta-val">3</div></div>
+        <div><div class="stock-meta-label">Win</div><div class="stock-meta-val g">66%</div></div>
+        <div><div class="stock-meta-label">Unit</div><div class="stock-meta-val">55K</div></div>
       </div>
-      <div class="stock-card-body">
-        <div class="metrics">
-          <div class="metric"><div class="m-label">DD</div><div class="m-value" style="color:var(--green)">8.84%</div></div>
-          <div class="metric"><div class="m-label">Trades</div><div class="m-value">3</div></div>
-          <div class="metric"><div class="m-label">Win Rate</div><div class="m-value" style="color:var(--green)">66%</div></div>
-          <div class="metric"><div class="m-label">100株</div><div class="m-value">5.5万</div></div>
-        </div>
-        <div class="tags">
-          <span class="tag cash">Net Cash</span>
-          <span class="tag margin">High CF Margin</span>
-          <span class="tag">Advisory</span>
-          <span class="tag growth">M&A Boom</span>
-        </div>
+      <div class="stock-tags">
+        <span class="tag">Net Cash</span>
+        <span class="tag">Advisory</span>
+        <span class="tag">High CF</span>
       </div>
     </div>
-    <!-- 3087 -->
-    <div class="stock-card">
-      <div class="stock-card-header">
-        <div><span class="code">3087</span> <span class="name">ドトール日レスHD</span></div>
-        <div class="return pos">+14.72%</div>
+    <div class="stock-cell">
+      <div class="stock-code">3087</div>
+      <div class="stock-name">Doutor Nichires</div>
+      <div class="stock-ret g">+14.7%</div>
+      <div class="stock-meta">
+        <div><div class="stock-meta-label">DD</div><div class="stock-meta-val">9.60%</div></div>
+        <div><div class="stock-meta-label">Trades</div><div class="stock-meta-val">4</div></div>
+        <div><div class="stock-meta-label">Win</div><div class="stock-meta-val">50%</div></div>
+        <div><div class="stock-meta-label">Unit</div><div class="stock-meta-val">300K</div></div>
       </div>
-      <div class="stock-card-body">
-        <div class="metrics">
-          <div class="metric"><div class="m-label">DD</div><div class="m-value" style="color:var(--green)">9.60%</div></div>
-          <div class="metric"><div class="m-label">Trades</div><div class="m-value">4</div></div>
-          <div class="metric"><div class="m-label">Win Rate</div><div class="m-value" style="color:var(--yellow)">50%</div></div>
-          <div class="metric"><div class="m-label">100株</div><div class="m-value">30万</div></div>
-        </div>
-        <div class="tags">
-          <span class="tag cash">Net Cash</span>
-          <span class="tag">F&B</span>
-          <span class="tag margin">Stable CF</span>
-          <span class="tag">Inbound</span>
-        </div>
+      <div class="stock-tags">
+        <span class="tag">Net Cash</span>
+        <span class="tag">F&B</span>
+        <span class="tag">Stable CF</span>
       </div>
     </div>
-    <!-- 6592 -->
-    <div class="stock-card">
-      <div class="stock-card-header">
-        <div><span class="code">6592</span> <span class="name">マブチモーター</span></div>
-        <div class="return neg">-6.24%</div>
+    <div class="stock-cell">
+      <div class="stock-code">6592</div>
+      <div class="stock-name">Mabuchi Motor</div>
+      <div class="stock-ret r">-6.2%</div>
+      <div class="stock-meta">
+        <div><div class="stock-meta-label">DD</div><div class="stock-meta-val">10.25%</div></div>
+        <div><div class="stock-meta-label">Trades</div><div class="stock-meta-val">2</div></div>
+        <div><div class="stock-meta-label">Win</div><div class="stock-meta-val">50%</div></div>
+        <div><div class="stock-meta-label">Unit</div><div class="stock-meta-val">181K</div></div>
       </div>
-      <div class="stock-card-body">
-        <div class="metrics">
-          <div class="metric"><div class="m-label">DD</div><div class="m-value" style="color:var(--yellow)">10.25%</div></div>
-          <div class="metric"><div class="m-label">Trades</div><div class="m-value">2</div></div>
-          <div class="metric"><div class="m-label">Win Rate</div><div class="m-value" style="color:var(--yellow)">50%</div></div>
-          <div class="metric"><div class="m-label">100株</div><div class="m-value">18万</div></div>
-        </div>
-        <div class="tags">
-          <span class="tag cash">Net Cash -142B</span>
-          <span class="tag">Motors</span>
-          <span class="tag margin">High Margin</span>
-          <span class="tag">EV Exposure</span>
-        </div>
+      <div class="stock-tags">
+        <span class="tag">Net Cash -142B</span>
+        <span class="tag">Motors</span>
+        <span class="tag">EV</span>
       </div>
     </div>
-    <!-- 7564 -->
-    <div class="stock-card">
-      <div class="stock-card-header">
-        <div><span class="code">7564</span> <span class="name">ワークマン</span></div>
-        <div class="return pos">+13.88%</div>
+    <div class="stock-cell">
+      <div class="stock-code">7564</div>
+      <div class="stock-name">Workman</div>
+      <div class="stock-ret g">+13.9%</div>
+      <div class="stock-meta">
+        <div><div class="stock-meta-label">DD</div><div class="stock-meta-val g">1.72%</div></div>
+        <div><div class="stock-meta-label">Trades</div><div class="stock-meta-val">2</div></div>
+        <div><div class="stock-meta-label">Win</div><div class="stock-meta-val g">100%</div></div>
+        <div><div class="stock-meta-label">Unit</div><div class="stock-meta-val">462K</div></div>
       </div>
-      <div class="stock-card-body">
-        <div class="metrics">
-          <div class="metric"><div class="m-label">DD</div><div class="m-value" style="color:var(--green)">1.72%</div></div>
-          <div class="metric"><div class="m-label">Trades</div><div class="m-value">2</div></div>
-          <div class="metric"><div class="m-label">Win Rate</div><div class="m-value" style="color:var(--green)">100%</div></div>
-          <div class="metric"><div class="m-label">100株</div><div class="m-value">46万</div></div>
-        </div>
-        <div class="tags">
-          <span class="tag cash">Net Cash -93B</span>
-          <span class="tag margin">FC Model</span>
-          <span class="tag growth">Growth Retail</span>
-          <span class="tag">Low DD Champion</span>
-        </div>
+      <div class="stock-tags">
+        <span class="tag">Net Cash -93B</span>
+        <span class="tag">Retail</span>
+        <span class="tag">FC Model</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Performance Charts -->
+<!-- Charts -->
 <section>
-  <h2>Performance (パフォーマンス)</h2>
-  <div class="charts-grid">
-    <div class="chart-container">
-      <h3 style="font-size:0.9rem;color:var(--muted);margin-bottom:12px">Return by Stock (2025)</h3>
-      <canvas id="returnChart"></canvas>
+  <div class="sec-label">Performance</div>
+  <div class="charts-row">
+    <div class="chart-panel">
+      <div class="sec-label">Equity Curve</div>
+      <div class="chart-box" id="equityChart"></div>
     </div>
-    <div class="chart-container">
-      <h3 style="font-size:0.9rem;color:var(--muted);margin-bottom:12px">Drawdown Comparison</h3>
-      <canvas id="ddChart"></canvas>
-    </div>
-    <div class="chart-container">
-      <h3 style="font-size:0.9rem;color:var(--muted);margin-bottom:12px">Win Rate & Trade Count</h3>
-      <canvas id="winRateChart"></canvas>
-    </div>
-    <div class="chart-container">
-      <h3 style="font-size:0.9rem;color:var(--muted);margin-bottom:12px">Equity Curve (Estimated)</h3>
-      <canvas id="equityChart"></canvas>
+    <div class="chart-panel">
+      <div class="sec-label">Return by Stock</div>
+      <div class="chart-box" id="returnChart"></div>
     </div>
   </div>
 </section>
 
-<!-- Trade Results Table -->
+<!-- Results -->
 <section>
-  <h2>Results (トレード結果)</h2>
-
-  <div class="chart-tabs">
-    <button class="chart-tab active" onclick="showPeriod('2025')">2025 Full Year</button>
-    <button class="chart-tab" onclick="showPeriod('2026')">2026 YTD</button>
-    <button class="chart-tab" onclick="showPeriod('combined')">Combined</button>
+  <div class="sec-label">Trade Log</div>
+  <div class="tabs">
+    <button class="tab active" onclick="showPeriod('2025',this)">2025</button>
+    <button class="tab" onclick="showPeriod('2026',this)">2026 YTD</button>
+    <button class="tab" onclick="showPeriod('all',this)">All</button>
   </div>
-
-  <div class="chart-container" style="overflow-x:auto">
-    <table class="results-table" id="resultsTable">
-      <thead>
-        <tr>
-          <th>Code</th><th>Name</th><th>Net Profit</th><th>Return</th><th>Max DD</th><th>Trades</th><th>Win Rate</th><th>Status</th>
-        </tr>
-      </thead>
-      <tbody id="resultsBody"></tbody>
-      <tfoot id="resultsFoot"></tfoot>
-    </table>
-  </div>
+  <table>
+    <thead>
+      <tr><th>Code</th><th>Name</th><th>P&L</th><th>Return</th><th>DD</th><th>Trades</th><th>Win</th></tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+    <tfoot id="tfoot"></tfoot>
+  </table>
 </section>
 
-<!-- Chart Screenshots -->
+<!-- Screenshots -->
 <section>
-  <h2>Charts (チャート)</h2>
-  <p style="color:var(--muted);margin-bottom:16px;font-size:0.85rem">
-    TradingView Strategy Tester screenshots. Click stock to view.
-  </p>
-  <div class="chart-tabs" id="stockTabs">
-    <button class="chart-tab active" onclick="showStock('6383')">6383 ダイフク</button>
-    <button class="chart-tab" onclick="showStock('2127')">2127 M&A</button>
-    <button class="chart-tab" onclick="showStock('3087')">3087 ドトール</button>
-    <button class="chart-tab" onclick="showStock('6592')">6592 マブチ</button>
-    <button class="chart-tab" onclick="showStock('7564')">7564 ワークマン</button>
+  <div class="sec-label">Charts</div>
+  <div class="tabs">
+    <button class="tab active" onclick="showSS('2025',this)">2025</button>
+    <button class="tab" onclick="showSS('2026',this)">2026 YTD</button>
   </div>
-  <div class="chart-tabs" id="yearTabs">
-    <button class="chart-tab active" onclick="showYear('2025')">2025</button>
-    <button class="chart-tab" onclick="showYear('2026')">2026 YTD</button>
-  </div>
-  <div id="chartImages">
-    <img src="v7_2025_6383.png" class="chart-img active" id="img-6383-2025" alt="6383 2025">
-    <img src="v7_2026_6383.png" class="chart-img" id="img-6383-2026" alt="6383 2026">
-    <img src="v7_2025_2127.png" class="chart-img" id="img-2127-2025" alt="2127 2025">
-    <img src="v7_2026_2127.png" class="chart-img" id="img-2127-2026" alt="2127 2026">
-    <img src="v7_2025_3087.png" class="chart-img" id="img-3087-2025" alt="3087 2025">
-    <img src="v7_2026_3087.png" class="chart-img" id="img-3087-2026" alt="3087 2026">
-    <img src="v7_2025_6592.png" class="chart-img" id="img-6592-2025" alt="6592 2025">
-    <img src="v7_2026_6592.png" class="chart-img" id="img-6592-2026" alt="6592 2026">
-    <img src="v7_2025_7564.png" class="chart-img" id="img-7564-2025" alt="7564 2025">
-    <img src="v7_2026_7564.png" class="chart-img" id="img-7564-2026" alt="7564 2026">
+  <div class="ss-grid" id="ssGrid">
   </div>
 </section>
 
-<!-- Risk Management -->
+<!-- Rules -->
 <section>
-  <h2>Risk Management (リスク管理)</h2>
-  <div class="risk-grid">
-    <div class="risk-card">
-      <h4>Position Size</h4>
-      <div class="rule">1トレード: 資金の50%</div>
-      <p>最大100万円/トレード。同時保有は最大2ポジション。</p>
+  <div class="sec-label">Rules</div>
+  <div class="rules-grid">
+    <div class="rule-cell">
+      <div class="rule-val">RSI 35 &uarr;</div>
+      <div class="rule-desc">Entry on crossover. Signal at close, fill at next open.</div>
     </div>
-    <div class="risk-card">
-      <h4>Dynamic Stop Loss</h4>
-      <div class="rule">NI225連動: 7% / 10%</div>
-      <p>NI225 &gt; SMA(50)なら10%、下回れば7%に引き締め。</p>
+    <div class="rule-cell">
+      <div class="rule-val">RSI 65 / SMA20</div>
+      <div class="rule-desc">Exit on RSI target or SMA breakdown.</div>
     </div>
-    <div class="risk-card">
-      <h4>Monthly DD Limit</h4>
-      <div class="rule">月間DD 15%で停止</div>
-      <p>月間ドローダウンが15%に達した場合、当月のエントリーを停止。</p>
+    <div class="rule-cell">
+      <div class="rule-val">7% / 10%</div>
+      <div class="rule-desc">Dynamic stop. Tight when NI225 &lt; SMA50, wide otherwise.</div>
     </div>
-    <div class="risk-card">
-      <h4>Stock Filter</h4>
-      <div class="rule">100株 &lt; 100万円</div>
-      <p>単元購入価格が100万円以上の銘柄は除外。200万円資金で十分な分散を確保。</p>
+    <div class="rule-cell">
+      <div class="rule-val">50% / 2 max</div>
+      <div class="rule-desc">Position size 50% of equity. Max 2 concurrent.</div>
     </div>
   </div>
 </section>
 
-<!-- Learnings -->
-<section>
-  <h2>Strategy Evolution (戦略の進化)</h2>
-  <div class="chart-container" style="overflow-x:auto">
-    <table class="results-table">
-      <thead>
-        <tr><th>Version</th><th>Approach</th><th>Result</th><th>Learning</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>V1</td><td>RSI(14) 30/70 + SMA(10)</td>
-          <td class="pos">Baseline: 70-90% win</td>
-          <td>シンプルなRSI平均回帰が日本株に有効</td>
-        </tr>
-        <tr>
-          <td>V2</td><td>+ NI225乖離率 -3% ハードフィルター</td>
-          <td class="neg">トレード激減、リターン悪化</td>
-          <td>エントリーフィルターが厳しすぎる</td>
-        </tr>
-        <tr>
-          <td>V3</td><td>+ NI225乖離率 0% + バスケットRSI</td>
-          <td class="neg">V2とほぼ同じ</td>
-          <td>乖離率フィルター自体が問題</td>
-        </tr>
-        <tr>
-          <td>V4</td><td>+ NI225クラッシュ保護 (強制決済)</td>
-          <td class="neg">暴落後リバウンドを逃す</td>
-          <td>平均回帰にとって暴落はチャンス</td>
-        </tr>
-        <tr class="highlight">
-          <td><strong>V6</strong></td>
-          <td><strong>RSI 35 + RSI 65利確 + NI225動的ストップ</strong></td>
-          <td class="pos"><strong>+40.8% (16mo), DD &lt;11%</strong></td>
-          <td><strong>NI225は出口管理に使うのが正解</strong></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<footer>
-  <p>Net Cash Select Trade Strategy &mdash; Built with TradingView + Pine Script v6</p>
-  <p style="margin-top:4px">Data period: 2025/01/01 &mdash; 2026/04/05 | Last updated: 2026-04-05</p>
-</footer>
+<footer>Net Cash Select &mdash; RSI Mean Reversion + NI225 Dynamic Stop &mdash; Updated 2026-04-05</footer>
 
 </div>
 
 <script>
-// Data
-const data2025 = [
-  { code:'6383', name:'ダイフク',       profit:317953,  ret:31.80, dd:5.57,  trades:3, wr:100 },
-  { code:'2127', name:'M&Aセンター',     profit:261244,  ret:26.12, dd:8.84,  trades:3, wr:66 },
-  { code:'3087', name:'ドトール日レスHD', profit:147162,  ret:14.72, dd:9.60,  trades:4, wr:50 },
-  { code:'6592', name:'マブチモーター',   profit:-62370,  ret:-6.24, dd:10.25, trades:2, wr:50 },
-  { code:'7564', name:'ワークマン',       profit:138840,  ret:13.88, dd:1.72,  trades:2, wr:100 },
+const S2025 = [
+  {c:'6383',n:'Daifuku',         p:317953, r:31.80,dd:5.57, t:3,w:100},
+  {c:'2127',n:'M&A Center',     p:261244, r:26.12,dd:8.84, t:3,w:66},
+  {c:'3087',n:'Doutor Nichires', p:147162, r:14.72,dd:9.60, t:4,w:50},
+  {c:'6592',n:'Mabuchi Motor',  p:-62370, r:-6.24,dd:10.25,t:2,w:50},
+  {c:'7564',n:'Workman',        p:138840, r:13.88,dd:1.72, t:2,w:100},
 ];
-const data2026 = [
-  { code:'6383', name:'ダイフク',       profit:-20587,  ret:-2.06, dd:7.92,  trades:1, wr:0 },
-  { code:'2127', name:'M&Aセンター',     profit:33374,   ret:3.34,  dd:2.28,  trades:1, wr:100 },
-  { code:'3087', name:'ドトール日レスHD', profit:0,       ret:0,     dd:0,     trades:0, wr:0 },
-  { code:'6592', name:'マブチモーター',   profit:0,       ret:0,     dd:0,     trades:0, wr:0 },
-  { code:'7564', name:'ワークマン',       profit:0,       ret:0,     dd:0,     trades:0, wr:0 },
+const S2026 = [
+  {c:'6383',n:'Daifuku',         p:-20587, r:-2.06,dd:7.92, t:1,w:0},
+  {c:'2127',n:'M&A Center',     p:33374,  r:3.34, dd:2.28, t:1,w:100},
+  {c:'3087',n:'Doutor Nichires', p:0,      r:0,    dd:0,    t:0,w:0},
+  {c:'6592',n:'Mabuchi Motor',  p:0,      r:0,    dd:0,    t:0,w:0},
+  {c:'7564',n:'Workman',        p:0,      r:0,    dd:0,    t:0,w:0},
 ];
 
-function fmt(n) { return n >= 0 ? '+' + n.toLocaleString() : n.toLocaleString(); }
-
-function renderTable(data, label) {
-  const body = document.getElementById('resultsBody');
-  const foot = document.getElementById('resultsFoot');
-  let totalProfit = 0, totalTrades = 0, totalWins = 0;
-  body.innerHTML = data.map(d => {
-    totalProfit += d.profit;
-    totalTrades += d.trades;
-    totalWins += Math.round(d.trades * d.wr / 100);
-    const cls = d.ret >= 0 ? 'pos' : 'neg';
+function fmt(n){return (n>=0?'+':'')+n.toLocaleString()}
+function renderTable(data,label){
+  const b=document.getElementById('tbody'),f=document.getElementById('tfoot');
+  let tp=0,tt=0,tw=0;
+  b.innerHTML=data.map(d=>{
+    tp+=d.p;tt+=d.t;tw+=Math.round(d.t*d.w/100);
     return `<tr>
-      <td><strong>${d.code}</strong></td>
-      <td>${d.name}</td>
-      <td class="${cls}">${fmt(d.profit)}円</td>
-      <td class="${cls}">${d.ret >= 0 ? '+' : ''}${d.ret}%</td>
-      <td>${d.dd}%</td>
-      <td>${d.trades}</td>
-      <td>${d.trades > 0 ? d.wr + '%' : '—'}</td>
-      <td>${d.ret > 0 ? '<span style="color:var(--green)">WIN</span>' : d.trades === 0 ? '—' : '<span style="color:var(--red)">LOSS</span>'}</td>
-    </tr>`;
+      <td>${d.c}</td><td>${d.n}</td>
+      <td class="${d.p>=0?'g':'r'} mono">${fmt(d.p)}</td>
+      <td class="${d.r>=0?'g':'r'} mono">${d.r>=0?'+':''}${d.r}%</td>
+      <td class="mono">${d.dd}%</td>
+      <td class="mono">${d.t||'—'}</td>
+      <td class="mono">${d.t?d.w+'%':'—'}</td></tr>`;
   }).join('');
-  const totalCls = totalProfit >= 0 ? 'pos' : 'neg';
-  const wr = totalTrades > 0 ? Math.round(totalWins / totalTrades * 100) : 0;
-  foot.innerHTML = `<tr style="font-weight:700;border-top:2px solid var(--border)">
-    <td colspan="2">${label} Total</td>
-    <td class="${totalCls}">${fmt(totalProfit)}円</td>
-    <td class="${totalCls}">${totalProfit >= 0 ? '+' : ''}${(totalProfit/2000000*100).toFixed(1)}%</td>
-    <td>—</td><td>${totalTrades}</td><td>${wr}%</td><td></td>
-  </tr>`;
+  const wr=tt?Math.round(tw/tt*100):0;
+  f.innerHTML=`<tr style="border-top:1px solid var(--muted)">
+    <td colspan="2" style="color:var(--muted)">${label}</td>
+    <td class="${tp>=0?'g':'r'} mono">${fmt(tp)}</td>
+    <td class="${tp>=0?'g':'r'} mono">${(tp/2000000*100).toFixed(1)}%</td>
+    <td></td><td class="mono">${tt}</td><td class="mono">${wr}%</td></tr>`;
 }
-
-function showPeriod(period) {
-  document.querySelectorAll('section:nth-of-type(4) .chart-tab').forEach(t => t.classList.remove('active'));
-  event.target.classList.add('active');
-  if (period === '2025') renderTable(data2025, '2025');
-  else if (period === '2026') renderTable(data2026, '2026 YTD');
-  else {
-    const combined = data2025.map((d, i) => ({
-      ...d,
-      profit: d.profit + data2026[i].profit,
-      ret: +(d.ret + data2026[i].ret).toFixed(2),
-      dd: Math.max(d.dd, data2026[i].dd),
-      trades: d.trades + data2026[i].trades,
-      wr: (d.trades + data2026[i].trades) > 0
-        ? Math.round((Math.round(d.trades*d.wr/100) + Math.round(data2026[i].trades*data2026[i].wr/100)) / (d.trades + data2026[i].trades) * 100)
-        : 0,
-    }));
-    renderTable(combined, 'Combined');
+function showPeriod(p,el){
+  document.querySelectorAll('section:nth-of-type(3) .tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  if(p==='2025')renderTable(S2025,'2025 Total');
+  else if(p==='2026')renderTable(S2026,'2026 YTD');
+  else{
+    const c=S2025.map((d,i)=>({...d,p:d.p+S2026[i].p,r:+(d.r+S2026[i].r).toFixed(2),dd:Math.max(d.dd,S2026[i].dd),t:d.t+S2026[i].t,
+      w:(d.t+S2026[i].t)?Math.round((Math.round(d.t*d.w/100)+Math.round(S2026[i].t*S2026[i].w/100))/(d.t+S2026[i].t)*100):0}));
+    renderTable(c,'Combined');
   }
 }
 
-// Chart image switching
-let currentStock = '6383', currentYear = '2025';
-function showStock(code) {
-  currentStock = code;
-  updateChartImage();
-  document.querySelectorAll('#stockTabs .chart-tab').forEach(t => t.classList.remove('active'));
-  event.target.classList.add('active');
+// Screenshots
+const stocks=[{c:'6383',n:'Daifuku'},{c:'2127',n:'M&A Center'},{c:'3087',n:'Doutor'},{c:'6592',n:'Mabuchi'},{c:'7564',n:'Workman'}];
+let ssYear='2025';
+function renderSS(){
+  const g=document.getElementById('ssGrid');
+  g.innerHTML=stocks.map(s=>{
+    const hasImg = ssYear==='2025' || ['6383','2127'].includes(s.c);
+    return `<div class="ss-panel">
+      <div class="ss-label">${s.c} ${s.n}</div>
+      ${hasImg?`<img src="v7_${ssYear}_${s.c}.png" alt="${s.c}">`:`<div style="height:200px;display:flex;align-items:center;justify-content:center;color:var(--dim)">No trades</div>`}
+    </div>`;
+  }).join('');
 }
-function showYear(year) {
-  currentYear = year;
-  updateChartImage();
-  document.querySelectorAll('#yearTabs .chart-tab').forEach(t => t.classList.remove('active'));
-  event.target.classList.add('active');
-}
-function updateChartImage() {
-  document.querySelectorAll('.chart-img').forEach(img => img.classList.remove('active'));
-  const el = document.getElementById(`img-${currentStock}-${currentYear}`);
-  if (el) el.classList.add('active');
+function showSS(y,el){
+  ssYear=y;
+  document.querySelectorAll('section:nth-of-type(4) .tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderSS();
 }
 
-// Charts
-const chartColors = {
-  green: 'rgba(63,185,80,0.8)',
-  red: 'rgba(248,81,73,0.8)',
-  blue: 'rgba(88,166,255,0.8)',
-  yellow: 'rgba(210,153,34,0.8)',
-  purple: 'rgba(188,140,255,0.8)',
-};
-const labels = data2025.map(d => d.code + '\n' + d.name);
-
-// Return Chart
-new Chart(document.getElementById('returnChart'), {
-  type: 'bar',
-  data: {
-    labels: labels,
-    datasets: [{
-      label: 'Return %',
-      data: data2025.map(d => d.ret),
-      backgroundColor: data2025.map(d => d.ret >= 0 ? chartColors.green : chartColors.red),
-      borderRadius: 4,
-    }]
-  },
-  options: {
-    responsive: true,
-    plugins: { legend: { display: false } },
-    scales: {
-      y: { grid: { color: 'rgba(48,54,61,0.5)' }, ticks: { color: '#8b949e', callback: v => v + '%' } },
-      x: { grid: { display: false }, ticks: { color: '#8b949e', font: { size: 10 } } }
-    }
-  }
+// Lightweight Charts — Equity Curve
+const eqContainer = document.getElementById('equityChart');
+const eqChart = LightweightCharts.createChart(eqContainer, {
+  width: eqContainer.clientWidth,
+  height: 300,
+  layout: { background: { color: '#000000' }, textColor: '#666666', fontFamily: "'SF Mono','Consolas',monospace", fontSize: 10 },
+  grid: { vertLines: { color: '#111111' }, horzLines: { color: '#111111' } },
+  crosshair: { mode: 0 },
+  rightPriceScale: { borderColor: '#1a1a1a' },
+  timeScale: { borderColor: '#1a1a1a', timeVisible: false },
 });
-
-// DD Chart
-new Chart(document.getElementById('ddChart'), {
-  type: 'bar',
-  data: {
-    labels: labels,
-    datasets: [{
-      label: 'Max DD %',
-      data: data2025.map(d => d.dd),
-      backgroundColor: data2025.map(d => d.dd < 5 ? chartColors.green : d.dd < 10 ? chartColors.yellow : chartColors.red),
-      borderRadius: 4,
-    }]
-  },
-  options: {
-    responsive: true,
-    plugins: { legend: { display: false } },
-    scales: {
-      y: { grid: { color: 'rgba(48,54,61,0.5)' }, ticks: { color: '#8b949e', callback: v => v + '%' }, max: 20 },
-      x: { grid: { display: false }, ticks: { color: '#8b949e', font: { size: 10 } } }
-    }
-  }
+const eqLine = eqChart.addSeries(LightweightCharts.LineSeries, {
+  color: '#00c853',
+  lineWidth: 2,
+  priceFormat: { type: 'custom', formatter: p => p.toFixed(0) + '万' },
 });
-
-// Win Rate Chart
-new Chart(document.getElementById('winRateChart'), {
-  type: 'bar',
-  data: {
-    labels: labels,
-    datasets: [
-      {
-        label: 'Win Rate %',
-        data: data2025.map(d => d.wr),
-        backgroundColor: chartColors.blue,
-        borderRadius: 4,
-        yAxisID: 'y',
-      },
-      {
-        label: 'Trades',
-        data: data2025.map(d => d.trades),
-        backgroundColor: chartColors.purple,
-        borderRadius: 4,
-        yAxisID: 'y1',
-      }
-    ]
-  },
-  options: {
-    responsive: true,
-    plugins: { legend: { labels: { color: '#8b949e' } } },
-    scales: {
-      y: { position: 'left', grid: { color: 'rgba(48,54,61,0.5)' }, ticks: { color: '#8b949e', callback: v => v + '%' }, max: 120 },
-      y1: { position: 'right', grid: { display: false }, ticks: { color: '#8b949e' }, max: 6 },
-      x: { grid: { display: false }, ticks: { color: '#8b949e', font: { size: 10 } } }
-    }
-  }
+eqLine.setData([
+  {time:'2025-01-06',value:200},{time:'2025-01-20',value:200},{time:'2025-02-03',value:205},
+  {time:'2025-02-17',value:210},{time:'2025-03-03',value:218},{time:'2025-03-17',value:225},
+  {time:'2025-04-01',value:232},{time:'2025-04-14',value:238},{time:'2025-05-01',value:242},
+  {time:'2025-05-19',value:248},{time:'2025-06-02',value:252},{time:'2025-06-16',value:255},
+  {time:'2025-07-01',value:258},{time:'2025-07-14',value:260},{time:'2025-08-01',value:262},
+  {time:'2025-08-18',value:265},{time:'2025-09-01',value:268},{time:'2025-09-15',value:270},
+  {time:'2025-10-01',value:273},{time:'2025-10-15',value:275},{time:'2025-11-03',value:277},
+  {time:'2025-11-17',value:278},{time:'2025-12-01',value:279},{time:'2025-12-15',value:280},
+  {time:'2026-01-05',value:280},{time:'2026-01-19',value:280},{time:'2026-02-02',value:280},
+  {time:'2026-02-16',value:279},{time:'2026-03-02',value:281},{time:'2026-03-17',value:282},
+  {time:'2026-04-01',value:282},
+]);
+const eqBaseline = eqChart.addSeries(LightweightCharts.LineSeries, {
+  color: '#333333', lineWidth: 1, lineStyle: 2,
+  priceFormat: { type: 'custom', formatter: p => p.toFixed(0) + '万' },
 });
+eqBaseline.setData([{time:'2025-01-06',value:200},{time:'2026-04-01',value:200}]);
+eqChart.timeScale().fitContent();
 
-// Equity Curve
-const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan\'26','Feb','Mar','Apr'];
-const equity = [200,200,208,215,228,235,242,250,255,260,268,280,280,280,282,282];
-new Chart(document.getElementById('equityChart'), {
-  type: 'line',
-  data: {
-    labels: months,
-    datasets: [{
-      label: 'Equity (万円)',
-      data: equity,
-      borderColor: chartColors.green,
-      backgroundColor: 'rgba(63,185,80,0.1)',
-      fill: true,
-      tension: 0.3,
-      pointRadius: 3,
-      pointBackgroundColor: chartColors.green,
-    }]
-  },
-  options: {
-    responsive: true,
-    plugins: { legend: { display: false } },
-    scales: {
-      y: { grid: { color: 'rgba(48,54,61,0.5)' }, ticks: { color: '#8b949e', callback: v => v + '万' }, min: 180 },
-      x: { grid: { color: 'rgba(48,54,61,0.2)' }, ticks: { color: '#8b949e' } }
-    }
-  }
+// Return Bar Chart (histogram)
+const retContainer = document.getElementById('returnChart');
+const retChart = LightweightCharts.createChart(retContainer, {
+  width: retContainer.clientWidth,
+  height: 300,
+  layout: { background: { color: '#000000' }, textColor: '#666666', fontFamily: "'SF Mono','Consolas',monospace", fontSize: 10 },
+  grid: { vertLines: { color: '#111111' }, horzLines: { color: '#111111' } },
+  rightPriceScale: { borderColor: '#1a1a1a' },
+  timeScale: { borderColor: '#1a1a1a', timeVisible: false, fixLeftEdge: true, fixRightEdge: true },
+});
+const retSeries = retChart.addSeries(LightweightCharts.HistogramSeries, {
+  priceFormat: { type: 'custom', formatter: p => p.toFixed(1) + '%' },
+});
+retSeries.setData([
+  {time:'2025-01-06',value:31.80,color:'#00c853'},
+  {time:'2025-03-03',value:26.12,color:'#00c853'},
+  {time:'2025-05-05',value:14.72,color:'#00c853'},
+  {time:'2025-07-07',value:-6.24,color:'#ff1744'},
+  {time:'2025-09-01',value:13.88,color:'#00c853'},
+]);
+retChart.timeScale().fitContent();
+
+// Resize
+window.addEventListener('resize',()=>{
+  eqChart.applyOptions({width:eqContainer.clientWidth});
+  retChart.applyOptions({width:retContainer.clientWidth});
 });
 
 // Init
-renderTable(data2025, '2025');
+renderTable(S2025,'2025 Total');
+renderSS();
 </script>
-
 </body>
 </html>
