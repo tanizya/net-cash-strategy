@@ -571,16 +571,18 @@ const retSeries = retChart.addHistogramSeries({
 });
 const retCodes = ['6419','7860','7292','1899','8841','5445','8871','6118'];
 const retVals = [4.41, 20.92, 6.39, 31.81, 10.60, 13.12, 8.03, 30.13];
+const retDates = retVals.map((_,i) => '2025-0'+(i+1)+'-15');
+const retTimeMap = {};
+retDates.forEach((d,i) => {
+  const ts = Math.floor(new Date(d+'T00:00:00Z').getTime()/1000);
+  retTimeMap[ts] = retCodes[i];
+});
 retSeries.setData(retVals.map((v,i) => ({
-  time: '2025-0'+(i+1)+'-15', value: v, color: v>=0 ? '#00c853' : '#ff1744'
+  time: retDates[i], value: v, color: v>=0 ? '#00c853' : '#ff1744'
 })));
 retChart.applyOptions({
   timeScale: {
-    tickMarkFormatter: (t) => {
-      const d = new Date(t*1000);
-      const m = d.getMonth();
-      return retCodes[m] || '';
-    }
+    tickMarkFormatter: (t) => retTimeMap[t] || ''
   }
 });
 retChart.timeScale().fitContent();
