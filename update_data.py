@@ -138,7 +138,40 @@ def main():
     with open("docs/data.json", "w") as f:
         json.dump(output, f, indent=2, ensure_ascii=False)
 
-    print(f"Updated docs/data.json ({today})")
+    # Also update inline LIVE_DATA in index.html
+    # Sample chart data to every 10th point for compact inline
+    compact = {
+        "updated": output["updated"],
+        "ni225": {"close": round(ni225["close"], 1), "sma50": round(ni225["sma50"], 1), "uptrend": ni225["uptrend"]},
+        "stop_pct": output["stop_pct"],
+        "stocks": [],
+    }
+    for s in stocks:
+        cs = {k: s[k] for k in s if k != "chart"}
+        cs["chart"] = s["chart"][::2]  # every other point
+        if s["chart"][-1] not in cs["chart"]:
+            cs["chart"].append(s["chart"][-1])
+        compact["stocks"].append(cs)
+
+    inline_json = json.dumps(compact, ensure_ascii=False, separators=(",", ":"))
+
+    index_path = "docs/index.html"
+    with open(index_path, "r") as f:
+        html = f.read()
+
+    import re
+    html = re.sub(
+        r'const LIVE_DATA = \{.*?\};',
+        f'const LIVE_DATA = {inline_json};',
+        html,
+        count=1,
+        flags=re.DOTALL,
+    )
+
+    with open(index_path, "w") as f:
+        f.write(html)
+
+    print(f"Updated docs/data.json and docs/index.html ({today})")
     print(f"NI225: {ni225['close']:.0f} (SMA50: {ni225['sma50']:.0f}, {'UP' if ni225['uptrend'] else 'DOWN'})")
     for s in stocks:
         print(f"  {s['code']} {s['name']}: RSI={s['rsi']:.1f} Signal={s['signal']} Price={s['price']}")

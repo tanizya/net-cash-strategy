@@ -19,52 +19,52 @@
   --red: #ff1744;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'JetBrains Mono', monospace; background: var(--bg); color: var(--text); font-size: 13px; }
+body { font-family: 'JetBrains Mono', monospace; background: var(--bg); color: var(--text); font-size: 18px; }
 .container { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
 
-header { padding: 32px 0 24px; border-bottom: 1px solid var(--border); }
-header h1 { font-size: 14px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+header { padding: 32px 0 24px; }
+header h1 { font-size: 16px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
 
-.kpi { display: grid; grid-template-columns: repeat(6, 1fr); border-bottom: 1px solid var(--border); }
-.kpi-item { padding: 20px 0; border-right: 1px solid var(--border); }
+.kpi { display: grid; grid-template-columns: repeat(6, 1fr); }
+.kpi-item { padding: 20px 0; }
 .kpi-item:last-child { border-right: none; }
-.kpi-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
-.kpi-val { font-size: 24px; font-weight: 300; margin-top: 4px; }
-.kpi-sub { font-size: 10px; color: var(--dim); margin-top: 2px; }
+.kpi-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+.kpi-val { font-size: 28px; font-weight: 300; margin-top: 4px; }
+.kpi-sub { font-size: 12px; color: var(--dim); margin-top: 2px; }
 .g { color: var(--green); }
 .r { color: var(--red); }
 
-section { padding: 32px 0; border-bottom: 1px solid var(--border); }
-.sec-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 16px; }
+section { padding: 32px 0; }
+.sec-label { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 16px; }
 
 /* Table */
 table { width: 100%; border-collapse: collapse; }
-th { text-align: left; padding: 8px 12px; font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid var(--border); font-weight: 400; }
-td { padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 13px; }
+th { text-align: left; padding: 10px 14px; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 400; }
+td { padding: 12px 14px; font-size: 15px; }
 tr:hover { background: #0d0d0d; }
 .mono { font-variant-numeric: tabular-nums; }
 
 /* Signal */
-.signal-row { display: flex; gap: 1px; background: var(--border); }
-.signal-item { flex: 1; background: var(--bg); padding: 16px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
-.traffic { display: flex; flex-direction: column; gap: 4px; padding: 6px 8px; border: 1px solid #555555; }
-.light { width: 16px; height: 16px; }
+.signal-row { display: flex; gap: 1px; }
+.signal-item { flex: 1; background: var(--bg); padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.traffic { display: flex; flex-direction: column; gap: 5px; padding: 8px 10px; border: 1px solid #555555; }
+.light { width: 20px; height: 20px; }
 .light.red { background: #442020; }
-.light.red.on { background: var(--red); box-shadow: 0 0 8px var(--red); }
+.light.red.on { background: var(--red); box-shadow: 0 0 10px var(--red); }
 .light.green { background: #204420; }
-.light.green.on { background: var(--green); box-shadow: 0 0 8px var(--green); }
+.light.green.on { background: var(--green); box-shadow: 0 0 10px var(--green); }
 .light.off { opacity: 1; }
-.signal-code { font-size: 14px; font-weight: 300; }
-.signal-name { font-size: 9px; color: var(--muted); }
-.signal-status { font-size: 10px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.1em; }
+.signal-code { font-size: 18px; font-weight: 300; }
+.signal-name { font-size: 12px; color: var(--muted); }
+.signal-status { font-size: 13px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.1em; }
 .signal-status.buy { color: var(--green); }
 .signal-status.exit { color: var(--red); }
 
 /* Portfolio */
 .port-summary { margin-bottom: 16px; }
-.port-bar { display: flex; height: 32px; gap: 1px; overflow: hidden; }
+.port-bar { display: flex; height: 36px; gap: 1px; overflow: hidden; }
 .port-seg { display: flex; align-items: center; justify-content: center; min-width: 0; transition: flex 0.3s; }
-.port-seg-label { font-size: 10px; color: var(--bg); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; overflow: hidden; }
+.port-seg-label { font-size: 13px; color: var(--bg); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; overflow: hidden; }
 .port-seg.cash { background: #555555; }
 .port-seg.cash .port-seg-label { color: var(--text); }
 .port-seg.pos6383 { background: #00c853; }
@@ -72,62 +72,62 @@ tr:hover { background: #0d0d0d; }
 .port-seg.pos3087 { background: #2979ff; }
 .port-seg.pos6592 { background: #ff6d00; }
 .port-seg.pos7564 { background: #aa00ff; }
-.port-legend { display: flex; gap: 16px; margin-top: 8px; flex-wrap: wrap; }
-.port-legend-item { display: flex; align-items: center; gap: 6px; font-size: 10px; color: var(--text); }
-.port-dot { width: 8px; height: 8px; }
+.port-legend { display: flex; gap: 16px; margin-top: 10px; flex-wrap: wrap; }
+.port-legend-item { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text); }
+.port-dot { width: 10px; height: 10px; }
 .port-dot.cash { background: #555555; }
 .port-dot.pos6383 { background: #00c853; }
 .port-dot.pos2127 { background: #00bfa5; }
 .port-dot.pos3087 { background: #2979ff; }
 .port-dot.pos6592 { background: #ff6d00; }
 .port-dot.pos7564 { background: #aa00ff; }
-.port-metrics { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: var(--border); }
-.port-metric { background: var(--bg); padding: 12px; }
-.port-metric-label { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
-.port-metric-val { font-size: 16px; font-weight: 300; margin-top: 2px; }
+.port-metrics { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; }
+.port-metric { background: var(--bg); padding: 14px; }
+.port-metric-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+.port-metric-val { font-size: 18px; font-weight: 300; margin-top: 2px; }
 
 /* Stock Grid */
-.stock-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--border); }
+.stock-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; }
 .stock-cell { background: var(--bg); padding: 16px; }
 .stock-header { display: flex; align-items: baseline; gap: 8px; }
-.stock-code { font-size: 18px; font-weight: 300; }
-.stock-ret { font-size: 18px; font-weight: 300; }
-.stock-name { font-size: 10px; color: var(--muted); margin-top: 2px; }
+.stock-code { font-size: 22px; font-weight: 300; }
+.stock-ret { font-size: 22px; font-weight: 300; }
+.stock-name { font-size: 13px; color: var(--muted); margin-top: 2px; }
 .stock-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
 .stock-meta-item {}
-.stock-meta-label { font-size: 9px; color: var(--dim); text-transform: uppercase; }
-.stock-meta-val { font-size: 12px; margin-top: 1px; }
+.stock-meta-label { font-size: 11px; color: var(--dim); text-transform: uppercase; }
+.stock-meta-val { font-size: 15px; margin-top: 1px; }
 .stock-chart { width: 100%; height: 120px; margin-top: 8px; }
 .stock-tags { margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
-.tag { font-size: 9px; padding: 2px 6px; border: 1px solid var(--dim); color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.tag { font-size: 11px; padding: 3px 8px; border: 1px solid var(--dim); color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
 
 /* Charts */
-.charts-row { display: grid; grid-template-columns: 2fr 1fr; gap: 1px; background: var(--border); }
+.charts-row { display: grid; grid-template-columns: 2fr 1fr; gap: 1px; }
 .chart-panel { background: var(--bg); padding: 16px; }
 .chart-panel .sec-label { margin-bottom: 8px; }
 .chart-box { width: 100%; height: 300px; }
 
 /* Tabs */
 .tabs { display: flex; gap: 0; margin-bottom: 16px; }
-.tab { padding: 6px 16px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; border: 1px solid var(--border); border-right: none; background: transparent; color: var(--muted); font-family: inherit; }
+.tab { padding: 8px 20px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; border: 1px solid var(--border); border-right: none; background: transparent; color: var(--muted); font-family: inherit; }
 .tab:last-child { border-right: 1px solid var(--border); }
 .tab.active { background: var(--text); color: var(--bg); }
 
 
 /* Rules */
-.rules-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); }
-.rule-cell { background: var(--bg); padding: 16px; }
-.rule-val { font-size: 20px; font-weight: 300; }
-.rule-desc { font-size: 11px; color: var(--muted); margin-top: 6px; }
+.rules-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; }
+.rule-cell { background: var(--bg); padding: 20px; }
+.rule-val { font-size: 24px; font-weight: 300; }
+.rule-desc { font-size: 13px; color: var(--muted); margin-top: 6px; }
 
 /* Evolution */
-.evo-row { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); }
-.evo-step { width: 40px; font-size: 11px; color: var(--dim); }
+.evo-row { display: flex; align-items: center; padding: 10px 0; }
+.evo-step { width: 40px; font-size: 13px; color: var(--dim); }
 .evo-bar { flex: 1; height: 2px; background: var(--dim); position: relative; margin: 0 12px; }
 .evo-bar .fill { height: 100%; position: absolute; left: 0; top: 0; }
-.evo-label { width: 200px; font-size: 11px; color: var(--muted); text-align: right; }
+.evo-label { width: 200px; font-size: 13px; color: var(--muted); text-align: right; }
 
-footer { padding: 24px 0; text-align: center; font-size: 10px; color: var(--dim); }
+footer { padding: 24px 0; text-align: center; font-size: 12px; color: var(--dim); border: none; }
 
 @media (max-width: 900px) {
   .kpi { grid-template-columns: repeat(3, 1fr); }
@@ -445,7 +445,15 @@ function showPeriod(p,el){
   }
 }
 
-// Load data.json and render dynamic sections
+// Inline data (also available as data.json, updated by GitHub Actions)
+const LIVE_DATA = {"updated":"2026-04-05","ni225":{"close":53123.5,"sma50":54716.6,"uptrend":false},"stop_pct":7.0,"stocks":[
+{"code":"6383","name":"Daifuku","sector":"Automation","net_debt":"-193B","op_margin":"10.2%","cf_growth":"+18%","price":5881.0,"unit_cost":588100,"rsi":52.6,"signal":"WAIT","sma20":5714.4,"chart":[{"time":"2025-04-03","value":3455.6},{"time":"2025-04-17","value":3441.9},{"time":"2025-05-02","value":3702.1},{"time":"2025-05-20","value":3586.2},{"time":"2025-06-03","value":3694.2},{"time":"2025-06-17","value":3638.3},{"time":"2025-07-01","value":3598.6},{"time":"2025-07-15","value":3675.9},{"time":"2025-07-30","value":3779.9},{"time":"2025-08-14","value":4509.4},{"time":"2025-08-28","value":4607.5},{"time":"2025-09-11","value":4507.4},{"time":"2025-09-29","value":4621.3},{"time":"2025-10-14","value":4616.4},{"time":"2025-10-28","value":4814.6},{"time":"2025-11-12","value":5090.1},{"time":"2025-11-27","value":4870.1},{"time":"2025-12-11","value":4975.2},{"time":"2025-12-25","value":4905.8},{"time":"2026-01-14","value":5363.0},{"time":"2026-01-28","value":5450.0},{"time":"2026-02-12","value":5968.0},{"time":"2026-02-27","value":6472.0},{"time":"2026-03-13","value":5727.0},{"time":"2026-03-30","value":5553.0},{"time":"2026-04-03","value":5881.0}]},
+{"code":"2127","name":"M&A Center","sector":"Advisory","net_debt":"-8B","op_margin":"32.5%","cf_growth":"+25%","price":649.9,"unit_cost":64990,"rsi":51.9,"signal":"WAIT","sma20":632.1,"chart":[{"time":"2025-04-03","value":537.4},{"time":"2025-04-17","value":559.9},{"time":"2025-05-02","value":641.8},{"time":"2025-05-20","value":643.7},{"time":"2025-06-03","value":663.2},{"time":"2025-06-17","value":684.4},{"time":"2025-07-01","value":681.7},{"time":"2025-07-15","value":673.4},{"time":"2025-07-30","value":690.8},{"time":"2025-08-14","value":712.2},{"time":"2025-08-28","value":723.4},{"time":"2025-09-11","value":755.0},{"time":"2025-09-29","value":723.4},{"time":"2025-10-14","value":679.5},{"time":"2025-10-28","value":759.5},{"time":"2025-11-12","value":746.3},{"time":"2025-11-27","value":719.1},{"time":"2025-12-11","value":705.6},{"time":"2025-12-25","value":712.7},{"time":"2026-01-14","value":718.5},{"time":"2026-01-28","value":702.2},{"time":"2026-02-12","value":693.1},{"time":"2026-02-27","value":706.0},{"time":"2026-03-13","value":624.5},{"time":"2026-03-30","value":623.7},{"time":"2026-04-03","value":649.9}]},
+{"code":"3087","name":"Doutor Nichires","sector":"F&B","net_debt":"-12B","op_margin":"7.8%","cf_growth":"+12%","price":3010.0,"unit_cost":301000,"rsi":61.2,"signal":"WAIT","sma20":2936.0,"chart":[{"time":"2025-04-03","value":2326.7},{"time":"2025-04-17","value":2673.6},{"time":"2025-05-02","value":2567.8},{"time":"2025-05-20","value":2579.5},{"time":"2025-06-03","value":2606.0},{"time":"2025-06-17","value":2591.3},{"time":"2025-07-01","value":2565.8},{"time":"2025-07-15","value":2436.4},{"time":"2025-07-30","value":2450.2},{"time":"2025-08-14","value":2522.7},{"time":"2025-08-28","value":2572.9},{"time":"2025-09-11","value":2600.7},{"time":"2025-09-29","value":2636.3},{"time":"2025-10-14","value":2548.2},{"time":"2025-10-28","value":2409.5},{"time":"2025-11-12","value":2431.3},{"time":"2025-11-27","value":2542.2},{"time":"2025-12-11","value":2496.7},{"time":"2025-12-25","value":2573.9},{"time":"2026-01-14","value":2580.9},{"time":"2026-01-28","value":2775.9},{"time":"2026-02-12","value":2947.3},{"time":"2026-02-27","value":2996.0},{"time":"2026-03-13","value":2887.0},{"time":"2026-03-30","value":2930.0},{"time":"2026-04-03","value":3010.0}]},
+{"code":"6592","name":"Mabuchi Motor","sector":"Motors","net_debt":"-142B","op_margin":"14.6%","cf_growth":"-3%","price":1624.0,"unit_cost":162400,"rsi":48.9,"signal":"WAIT","sma20":1634.7,"chart":[{"time":"2025-04-03","value":1073.6},{"time":"2025-04-17","value":1007.4},{"time":"2025-05-02","value":1013.8},{"time":"2025-05-20","value":1029.4},{"time":"2025-06-03","value":1025.3},{"time":"2025-06-17","value":1017.9},{"time":"2025-07-01","value":1031.2},{"time":"2025-07-15","value":1043.6},{"time":"2025-07-30","value":1050.9},{"time":"2025-08-14","value":1188.5},{"time":"2025-08-28","value":1253.7},{"time":"2025-09-11","value":1247.4},{"time":"2025-09-29","value":1254.4},{"time":"2025-10-14","value":1229.5},{"time":"2025-10-28","value":1271.3},{"time":"2025-11-12","value":1322.6},{"time":"2025-11-27","value":1351.7},{"time":"2025-12-11","value":1372.9},{"time":"2025-12-25","value":1421.8},{"time":"2026-01-14","value":1491.0},{"time":"2026-01-28","value":1433.0},{"time":"2026-02-12","value":1541.5},{"time":"2026-02-27","value":1840.0},{"time":"2026-03-13","value":1659.0},{"time":"2026-03-30","value":1568.0},{"time":"2026-04-03","value":1624.0}]},
+{"code":"7564","name":"Workman","sector":"Retail","net_debt":"-93B","op_margin":"16.1%","cf_growth":"+8%","price":6620.0,"unit_cost":662000,"rsi":52.2,"signal":"WAIT","sma20":6507.3,"chart":[{"time":"2025-04-03","value":4368.7},{"time":"2025-04-17","value":4487.3},{"time":"2025-05-02","value":4408.2},{"time":"2025-05-20","value":4942.0},{"time":"2025-06-03","value":5722.8},{"time":"2025-06-17","value":5880.9},{"time":"2025-07-01","value":6306.0},{"time":"2025-07-15","value":6424.6},{"time":"2025-07-30","value":6167.6},{"time":"2025-08-14","value":5535.0},{"time":"2025-08-28","value":5317.6},{"time":"2025-09-11","value":5703.0},{"time":"2025-09-29","value":5910.6},{"time":"2025-10-14","value":5732.7},{"time":"2025-10-28","value":5643.7},{"time":"2025-11-12","value":6365.3},{"time":"2025-11-27","value":7086.8},{"time":"2025-12-11","value":6385.0},{"time":"2025-12-25","value":6454.2},{"time":"2026-01-14","value":6553.1},{"time":"2026-01-28","value":6306.0},{"time":"2026-02-12","value":6711.2},{"time":"2026-02-27","value":7689.7},{"time":"2026-03-13","value":6582.7},{"time":"2026-03-30","value":6150.0},{"time":"2026-04-03","value":6620.0}]}
+]};
+
 function applyData(data) {
   // Signal section
   document.getElementById('signalLabel').textContent = 'Signal \u2014 as of ' + data.updated +
@@ -484,16 +492,8 @@ function applyData(data) {
   window._miniData = data.stocks;
   setTimeout(renderMiniCharts, 100);
 }
-fetch('data.json').then(r=>r.json()).then(applyData).catch(e => {
-  console.warn('data.json fetch failed, using inline fallback:', e);
-  const s = document.createElement('script');
-  s.src = 'data.json';
-  // If fetch fails (file:// CORS), try XMLHttpRequest
-  const xhr = new XMLHttpRequest();
-  xhr.open('GET', 'data.json', true);
-  xhr.onload = function() { if(xhr.status===200||xhr.status===0) applyData(JSON.parse(xhr.responseText)); };
-  xhr.send();
-});
+// Try fetching fresh data.json, fall back to inline LIVE_DATA
+fetch('data.json').then(r=>r.json()).then(applyData).catch(() => applyData(LIVE_DATA));
 
 function renderMiniCharts() {
   if (!window._miniData) return;
@@ -523,7 +523,8 @@ function renderMiniCharts() {
   });
 }
 
-// Lightweight Charts v3 — Equity Curve
+// Lightweight Charts v3 — Equity Curve (wait for layout)
+window.addEventListener('DOMContentLoaded', function() {
 const eqContainer = document.getElementById('equityChart');
 const eqChart = LightweightCharts.createChart(eqContainer, {
   width: eqContainer.clientWidth,
@@ -594,8 +595,8 @@ window.addEventListener('resize',()=>{
   retChart.applyOptions({width:retContainer.clientWidth});
 });
 
-// Init
 renderTable(S2025,'2025 Total');
+}); // end DOMContentLoaded
 </script>
 </body>
 </html>
