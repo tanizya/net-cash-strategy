@@ -192,18 +192,53 @@ def fetch_fundamentals(candidates):
                 max(0, (1.5 - beta)) * 20
             )
 
+            # 1-month price data for RS
+            hist = t.history(period="1mo")
+            if not hist.empty:
+                month_high = float(hist["High"].max())
+                month_low = float(hist["Low"].min())
+                month_open = float(hist["Close"].iloc[0])
+                month_change = (c["price"] / month_open - 1) * 100 if month_open > 0 else 0
+            else:
+                month_high = c["price"]
+                month_low = c["price"]
+                month_change = 0
+
+            # RSI(14)
+            hist_rsi = t.history(period="3mo")
+            rsi_val = None
+            if len(hist_rsi) > 14:
+                closes = hist_rsi["Close"].values
+                deltas = np.diff(closes)
+                gains = np.where(deltas > 0, deltas, 0.0)
+                losses = np.where(deltas < 0, -deltas, 0.0)
+                avg_g = np.mean(gains[:14])
+                avg_l = np.mean(losses[:14])
+                for j in range(14, len(deltas)):
+                    avg_g = (avg_g * 13 + gains[j]) / 14
+                    avg_l = (avg_l * 13 + losses[j]) / 14
+                rs_val = avg_g / avg_l if avg_l != 0 else 100
+                rsi_val = round(100 - 100 / (1 + rs_val), 1)
+
             results.append({
                 "code": code,
                 "name": c["name"],
                 "sector": sector,
+                "sector_jp": c["sector_jp"],
+                "market": c["market"],
                 "industry": industry,
                 "price": c["price"],
+                "unit_cost": int(c["price"] * 100),
                 "mkt_cap": mkt_cap,
                 "net_cash": net_cash,
                 "net_cash_ratio": net_cash_ratio,
                 "pbr": pbr,
                 "op_margin": op_margin,
                 "beta": beta,
+                "month_high": month_high,
+                "month_low": month_low,
+                "month_change": round(month_change, 2),
+                "rsi": rsi_val,
                 "score": score,
             })
 
@@ -219,38 +254,49 @@ def fetch_fundamentals(candidates):
     return results
 
 
-def select_and_update(results):
-    """Step 6: Score, rank, select top N, update update_data.py."""
-    print(f"[6/6] Selecting top {MAX_STOCKS}...")
-    results.sort(key=lambda x: x["score"], reverse=True)
-    selected = results[:MAX_STOCKS]
+def calc_rs(results):
+    """Calculate Relative Strength (1-99) based on 1-month change percentile."""
+    print("[6/8] Calculating RS...")
+    changes = [r["month_change"] for r in results]
+    if not changes:
+        return
+    sorted_changes = sorted(changes)
+    n = len(sorted_changes)
+    for r in results:
+        rank = sorted_changes.index(r["month_change"])
+        r["rs"] = max(1, min(99, int(rank / n * 98) + 1))
+    print(f"  RS range: {min(changes):.1f}% (RS 1) to {max(changes):.1f}% (RS 99)")
 
+
+def select_universe(results):
+    """Step 7: Score, rank, select top N, mark strategy."""
+    print(f"[7/8] Selecting top {MAX_STOCKS} for net_cash_select...")
+    results.sort(key=lambda x: x["score"], reverse=True)
+
+    for r in results:
+        r["strategy"] = None
+    for r in results[:MAX_STOCKS]:
+        r["strategy"] = "net_cash_select"
+
+    selected = results[:MAX_STOCKS]
     print(f"\n{'='*60}")
     print(f"  SELECTED UNIVERSE ({len(selected)} stocks)")
     print(f"{'='*60}")
     for i, s in enumerate(selected, 1):
-        print(f"  {i}. {s['code']} {s['name']}")
-        print(f"     Score={s['score']:.2f} NC/MC={s['net_cash_ratio']:.1%} PBR={s['pbr']:.1f} Margin={s['op_margin']:.1%} Beta={s['beta']:.2f}")
+        print(f"  {i}. {s['code']} {s['name']} RS={s.get('rs','-')}")
+        print(f"     Score={s['score']:.2f} NC/MC={s['net_cash_ratio']:.1%} PBR={s['pbr']:.1f} Margin={s['op_margin']:.1%}")
 
-    # Also show runners-up
     if len(results) > MAX_STOCKS:
         print(f"\n  Runners-up:")
-        for s in results[MAX_STOCKS:MAX_STOCKS+5]:
-            print(f"    {s['code']} {s['name']}: Score={s['score']:.2f}")
+        for s in results[MAX_STOCKS:MAX_STOCKS + 5]:
+            print(f"    {s['code']} {s['name']}: Score={s['score']:.2f} RS={s.get('rs','-')}")
 
-    # Build STOCKS dict for update_data.py
+    # Patch update_data.py
     stocks_dict = {}
     for s in selected:
         nc = s["net_cash"]
-        if nc >= 1e12:
-            nc_str = f"-{nc/1e12:.1f}T"
-        elif nc >= 1e9:
-            nc_str = f"-{nc/1e9:.0f}B"
-        else:
-            nc_str = f"-{nc/1e6:.0f}M"
-
+        nc_str = f"-{nc/1e12:.1f}T" if nc >= 1e12 else f"-{nc/1e9:.0f}B" if nc >= 1e9 else f"-{nc/1e6:.0f}M"
         om = f"{s['op_margin']*100:.1f}%" if s["op_margin"] else "N/A"
-
         stocks_dict[s["code"]] = {
             "name": s["name"],
             "sector": s["sector"],
@@ -259,52 +305,107 @@ def select_and_update(results):
             "cf_growth": "N/A",
         }
 
-    # Patch update_data.py
     import re
     stocks_str = "STOCKS = " + json.dumps(stocks_dict, indent=4, ensure_ascii=False)
-
     with open("update_data.py", "r") as f:
         content = f.read()
-
-    content = re.sub(
-        r'STOCKS = \{.*?\n\}',
-        stocks_str,
-        content,
-        count=1,
-        flags=re.DOTALL,
-    )
-
+    content = re.sub(r'STOCKS = \{.*?\n\}', stocks_str, content, count=1, flags=re.DOTALL)
     with open("update_data.py", "w") as f:
         f.write(content)
-
     print(f"\n  Patched update_data.py with {len(selected)} stocks.")
 
     # Save screening results
     with open("docs/screening.json", "w") as f:
         json.dump({
             "date": datetime.date.today().isoformat(),
-            "scanned_total": "JPX Prime+Standard",
             "net_cash_positive": len(results),
             "selected": len(selected),
             "universe": [
-                {
-                    "code": s["code"],
-                    "name": s["name"],
-                    "sector": s["sector"],
-                    "score": round(s["score"], 2),
-                    "net_cash_ratio": round(s["net_cash_ratio"], 4),
-                    "pbr": round(s["pbr"], 2),
-                    "op_margin": round(s["op_margin"] * 100, 1),
-                    "beta": round(s["beta"], 2),
-                }
+                {k: (round(v, 2) if isinstance(v, float) else v)
+                 for k, v in s.items() if k not in ("industry",)}
                 for s in selected
             ],
             "all_passed": [
-                {"code": s["code"], "name": s["name"], "score": round(s["score"], 2)}
+                {"code": s["code"], "name": s["name"], "score": round(s["score"], 2), "rs": s.get("rs")}
                 for s in results
             ],
         }, f, indent=2, ensure_ascii=False)
     print("  Saved docs/screening.json")
+
+    return results
+
+
+def upsert_supabase(results):
+    """Step 8: DELETE + INSERT all net-cash stocks to Supabase jpx_stocks."""
+    print("[8/8] Upserting to Supabase...")
+    base_url = os.environ.get("SUPABASE_URL", "").rstrip("/")
+    service_key = os.environ.get("SUPABASE_SERVICE_KEY", "")
+    if not base_url or not service_key:
+        print("  SUPABASE_URL / SUPABASE_SERVICE_KEY not set – skipping")
+        return
+
+    endpoint = f"{base_url}/rest/v1/jpx_stocks"
+    headers = {
+        "apikey": service_key,
+        "Authorization": f"Bearer {service_key}",
+        "Content-Type": "application/json",
+        "Content-Profile": "public",
+        "Prefer": "return=minimal",
+    }
+
+    # DELETE all existing rows
+    del_url = f"{endpoint}?code=neq.NONE"
+    req = urllib.request.Request(del_url, method="DELETE", headers=headers)
+    try:
+        urllib.request.urlopen(req)
+        print("  Deleted existing rows")
+    except Exception as e:
+        print(f"  DELETE failed: {e}")
+        return
+
+    # Build rows
+    now = datetime.datetime.utcnow().isoformat() + "Z"
+    rows = []
+    for s in results:
+        rows.append({
+            "code": s["code"],
+            "name": s["name"],
+            "market": s.get("market", ""),
+            "sector_jp": s.get("sector_jp", ""),
+            "sector": s["sector"],
+            "price": s["price"],
+            "unit_cost": s.get("unit_cost", int(s["price"] * 100)),
+            "market_cap": int(s["mkt_cap"]),
+            "net_cash": int(s["net_cash"]),
+            "net_cash_ratio": round(s["net_cash_ratio"], 4),
+            "pbr": round(s["pbr"], 2) if s["pbr"] != 99 else None,
+            "op_margin": round(s["op_margin"], 4) if s["op_margin"] else None,
+            "beta": round(s["beta"], 2) if s["beta"] != 1 else None,
+            "month_high": round(s.get("month_high", 0), 1) or None,
+            "month_low": round(s.get("month_low", 0), 1) or None,
+            "month_change": s.get("month_change"),
+            "rs": s.get("rs"),
+            "rsi": s.get("rsi"),
+            "score": round(s["score"], 2),
+            "strategy": s.get("strategy"),
+            "signal": "WAIT",
+            "tags": None,
+            "updated_at": now,
+        })
+
+    # INSERT in batches of 50
+    batch_size = 50
+    for i in range(0, len(rows), batch_size):
+        batch = rows[i:i + batch_size]
+        body = json.dumps(batch, ensure_ascii=False).encode("utf-8")
+        req = urllib.request.Request(endpoint, data=body, headers=headers, method="POST")
+        try:
+            urllib.request.urlopen(req)
+        except Exception as e:
+            print(f"  INSERT batch {i} failed: {e}")
+            continue
+
+    print(f"  Inserted {len(rows)} rows to jpx_stocks")
 
 
 def main():
@@ -313,24 +414,26 @@ def main():
     print(f"  {datetime.date.today().isoformat()}")
     print("=" * 60)
 
-    # Step 1: Download JPX list
+    # Step 1-2: Download and filter JPX list
     df = download_jpx_list()
-
-    # Step 2: Basic filter
     df = filter_basic(df)
     codes = [str(c) for c in df["コード"].tolist()]
 
-    # Step 3: Fetch prices (batch, fast)
+    # Step 3-4: Fetch prices, filter by unit price
     prices = fetch_prices_batch(codes)
-
-    # Step 4: Filter by unit price
     candidates = filter_by_price(df, prices)
 
-    # Step 5: Fetch fundamentals (slower, rate-limited)
+    # Step 5: Fetch fundamentals
     results = fetch_fundamentals(candidates)
 
-    # Step 6: Select and update
-    select_and_update(results)
+    # Step 6: Calculate RS
+    calc_rs(results)
+
+    # Step 7: Select universe, patch update_data.py
+    results = select_universe(results)
+
+    # Step 8: Upsert to Supabase
+    upsert_supabase(results)
 
     print("\nDone.")
 

@@ -21,6 +21,9 @@ jobs:
         run: pip install yfinance numpy anthropic pandas xlrd openpyxl
 
       - name: Run rebalance screening
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: python rebalance.py
 
       - name: Run data update with new universe
