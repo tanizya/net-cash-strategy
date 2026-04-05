@@ -234,6 +234,9 @@ Return ONLY a JSON array of strings, e.g. ["Global Growth", "Automation"]. No ex
             messages=[{"role": "user", "content": prompt}],
         )
         result = message.content[0].text.strip()
+        # Strip markdown code fences if present
+        if result.startswith("```"):
+            result = result.split("\n", 1)[-1].rsplit("```", 1)[0].strip()
         return json.loads(result)
     except Exception as e:
         print(f"  Claude API fallback for {stock_data['code']}: {e}")
