@@ -8,20 +8,6 @@ import yfinance as yf
 import numpy as np
 
 STOCKS = {
-    "2168": {
-        "name": "パソナグループ",
-        "sector": "Services",
-        "net_debt": "-92B",
-        "op_margin": "0.5%",
-        "cf_growth": "N/A"
-    },
-    "3668": {
-        "name": "コロプラ",
-        "sector": "IT/Telecom",
-        "net_debt": "-50B",
-        "op_margin": "-1.8%",
-        "cf_growth": "N/A"
-    },
     "6419": {
         "name": "マースグループホールディングス",
         "sector": "Machinery",
@@ -29,18 +15,46 @@ STOCKS = {
         "op_margin": "29.2%",
         "cf_growth": "N/A"
     },
-    "2329": {
-        "name": "東北新社",
+    "7860": {
+        "name": "エイベックス",
         "sector": "IT/Telecom",
-        "net_debt": "-62B",
-        "op_margin": "9.4%",
+        "net_debt": "-36B",
+        "op_margin": "4.9%",
         "cf_growth": "N/A"
     },
-    "2121": {
-        "name": "ＭＩＸＩ",
-        "sector": "IT/Telecom",
-        "net_debt": "-98B",
-        "op_margin": "12.2%",
+    "7292": {
+        "name": "村上開明堂",
+        "sector": "Auto/Transport",
+        "net_debt": "-47B",
+        "op_margin": "7.5%",
+        "cf_growth": "N/A"
+    },
+    "1899": {
+        "name": "福田組",
+        "sector": "Construction",
+        "net_debt": "-30B",
+        "op_margin": "2.8%",
+        "cf_growth": "N/A"
+    },
+    "8841": {
+        "name": "テーオーシー",
+        "sector": "Real Estate",
+        "net_debt": "-28B",
+        "op_margin": "19.8%",
+        "cf_growth": "N/A"
+    },
+    "5445": {
+        "name": "東京鐵鋼",
+        "sector": "Steel",
+        "net_debt": "-9B",
+        "op_margin": "15.2%",
+        "cf_growth": "N/A"
+    },
+    "8871": {
+        "name": "ゴールドクレスト",
+        "sector": "Real Estate",
+        "net_debt": "-2B",
+        "op_margin": "27.5%",
         "cf_growth": "N/A"
     },
     "6118": {
@@ -48,20 +62,6 @@ STOCKS = {
         "sector": "Machinery",
         "net_debt": "-33B",
         "op_margin": "5.9%",
-        "cf_growth": "N/A"
-    },
-    "3632": {
-        "name": "グリーホールディングス",
-        "sector": "IT/Telecom",
-        "net_debt": "-52B",
-        "op_margin": "6.8%",
-        "cf_growth": "N/A"
-    },
-    "6463": {
-        "name": "ＴＰＲ",
-        "sector": "Machinery",
-        "net_debt": "-45B",
-        "op_margin": "8.5%",
         "cf_growth": "N/A"
     }
 }
