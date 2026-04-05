@@ -226,7 +226,9 @@
         }
       ],
       "tags": [
-        "Specialty Industrial Machinery"
+        "Logistics Automation",
+        "Factory Systems",
+        "Supply Chain"
       ]
     },
     {
@@ -450,7 +452,9 @@
       "tags": [
         "Net Cash",
         "High Margin",
-        "Capital Markets"
+        "M&A Advisory",
+        "Capital Markets",
+        "Fee-Based"
       ]
     },
     {
@@ -674,7 +678,8 @@
       "tags": [
         "Net Cash",
         "Value",
-        "Restaurants"
+        "Franchise Model",
+        "Café Expansion"
       ]
     },
     {
@@ -899,7 +904,8 @@
         "Cash Rich",
         "Value",
         "Low Vol",
-        "Auto Parts"
+        "Motor Innovation",
+        "Auto Electrification"
       ]
     },
     {
@@ -1123,7 +1129,8 @@
       "tags": [
         "Net Cash",
         "Good Margin",
-        "Apparel Retail"
+        "Casual Wear",
+        "Store Expansion"
       ]
     }
   ]
