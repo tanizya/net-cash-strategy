@@ -2,7 +2,7 @@ name: Monthly Rebalance
 
 on:
   schedule:
-    - cron: '0 9 L * *'  # Last day of month, 9:00 UTC = 18:00 JST
+    - cron: '0 9 28 * *'  # 28th of each month, 9:00 UTC = 18:00 JST
   workflow_dispatch:
 
 jobs:
