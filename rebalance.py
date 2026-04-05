@@ -241,14 +241,11 @@ def fetch_fundamentals(candidates):
                 if any(np.isnan(x) for x in [net_cash_ratio, pbr, op_margin, beta] if isinstance(x, float)):
                     return None
 
-                score = (
-                    net_cash_ratio * 40 +
-                    max(0, (2 - pbr)) * 20 +
-                    op_margin * 20 +
-                    max(0, (1.5 - beta)) * 20
-                )
+                # Skip unprofitable businesses
+                if op_margin < 0:
+                    return None
 
-                # 1-month price data
+                # 1-month price data (needed for score)
                 hist = t.history(period="1mo")
                 if not hist.empty:
                     month_high = float(hist["High"].max())
@@ -275,6 +272,18 @@ def fetch_fundamentals(candidates):
                         avg_l = (avg_l * 13 + losses[j]) / 14
                     rs_val = avg_g / avg_l if avg_l != 0 else 100
                     rsi_val = round(100 - 100 / (1 + rs_val), 1)
+
+                # Composite score: quality + momentum + value + cash + stability
+                # Momentum: normalize month_change to 0-1 range (clip -20%..+20%)
+                momentum = max(0, min(1, (month_change + 20) / 40))
+                score = (
+                    net_cash_ratio * 15 +              # Cash safety (15%)
+                    op_margin * 25 +                   # Profitability (25%)
+                    momentum * 25 +                    # Price momentum (25%)
+                    max(0, (2 - pbr)) * 15 +           # Value (15%)
+                    max(0, (1.5 - beta)) * 10 +        # Stability (10%)
+                    (0.1 if op_margin > 0.15 else 0)   # High margin bonus
+                )
 
                 return {
                     "code": code, "name": c["name"], "sector": sector,
