@@ -452,18 +452,22 @@ function applyData(data) {
     </tr>`;
   }).join('');
 
-  // Universe cards (dynamic)
+  // Universe cards (dynamic) — merge backtest results from S2025
   const bt = {};
-  S2025.forEach(d => { bt[d.c] = d; });
+  if (typeof S2025 !== 'undefined') {
+    S2025.forEach(d => { bt[d.c] = d; });
+  }
   const ug = document.getElementById('universeGrid');
   if (ug) {
     ug.innerHTML = data.stocks.map(s => {
-      const b = bt[s.code] || {};
-      const ret = b.r || 0;
+      const b = bt[s.code];
+      const hasBt = b !== undefined;
+      const ret = hasBt ? b.r : 0;
       const retCls = ret >= 0 ? 'g' : 'r';
-      const dd = b.dd || 0;
+      const dd = hasBt ? b.dd : 0;
       const ddCls = dd < 5 ? 'g' : '';
-      const wr = b.t ? b.w : 0;
+      const trades = hasBt ? b.t : 0;
+      const wr = trades > 0 ? b.w : 0;
       const wrCls = wr >= 60 ? 'g' : '';
       const tags = (s.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
       return `<div class="stock-cell">
@@ -471,8 +475,8 @@ function applyData(data) {
         <div class="stock-name">${s.name}</div>
         <div class="stock-meta">
           <div><div class="stock-meta-label">DD</div><div class="stock-meta-val ${ddCls}">${dd.toFixed(1)}%</div></div>
-          <div><div class="stock-meta-label">Trades</div><div class="stock-meta-val">${b.t||0}</div></div>
-          <div><div class="stock-meta-label">Win</div><div class="stock-meta-val ${wrCls}">${b.t?wr.toFixed(0)+'%':'—'}</div></div>
+          <div><div class="stock-meta-label">Trades</div><div class="stock-meta-val">${trades}</div></div>
+          <div><div class="stock-meta-label">Win</div><div class="stock-meta-val ${wrCls}">${trades>0?wr.toFixed(0)+'%':'—'}</div></div>
           <div><div class="stock-meta-label">RSI</div><div class="stock-meta-val">${s.rsi||'—'}</div></div>
         </div>
         <div class="stock-chart" id="mini-${s.code}"></div>
