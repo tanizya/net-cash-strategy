@@ -3,6 +3,7 @@
 
 import json
 import datetime
+import os
 import yfinance as yf
 import numpy as np
 
@@ -90,7 +91,9 @@ def fetch_stock(code):
         beta = str(round(beta, 2)) if beta else "—"
         pbr = info.get("priceToBook")
         pbr = str(round(pbr, 2)) if pbr else "—"
+        industry = info.get("industry", "")
         mc = info.get("marketCap", 0)
+        mkt_cap_raw = mc
         if mc >= 1e12:
             mkt_cap = f"¥{mc/1e12:.1f}T"
         elif mc >= 1e9:
@@ -101,6 +104,8 @@ def fetch_stock(code):
         beta = "—"
         pbr = "—"
         mkt_cap = "—"
+        industry = ""
+        mkt_cap_raw = 0
     try:
         bs = t.balance_sheet
         col = bs.columns[0]
@@ -152,7 +157,95 @@ def fetch_stock(code):
         "signal": signal,
         "sma20": round(sma20, 1),
         "chart": chart_data,
+        "_industry": industry,
+        "_net_cash_val": net_cash_val if net_cash_positive else 0,
+        "_mkt_cap_raw": mkt_cap_raw,
     }
+
+
+def generate_quantitative_tags(stock_data):
+    """Generate tags from numeric data."""
+    tags = []
+    # Net Cash
+    if stock_data.get("net_cash_positive"):
+        nc = stock_data.get("_net_cash_val", 0)
+        mc = stock_data.get("_mkt_cap_raw", 1)
+        if mc > 0 and nc / mc > 0.3:
+            tags.append("Cash Rich")
+        elif mc > 0 and nc / mc > 0.1:
+            tags.append("Net Cash")
+    # PBR
+    try:
+        pbr = float(stock_data.get("pbr", "0"))
+        if pbr > 0 and pbr < 1.0:
+            tags.append("Deep Value")
+        elif pbr > 0 and pbr < 1.5:
+            tags.append("Value")
+    except (ValueError, TypeError):
+        pass
+    # Beta
+    try:
+        beta = float(stock_data.get("beta", "0"))
+        if beta > 0 and beta < 0.5:
+            tags.append("Low Vol")
+        elif beta > 1.2:
+            tags.append("High Vol")
+    except (ValueError, TypeError):
+        pass
+    # Op Margin
+    try:
+        margin = float(stock_data.get("op_margin", "0").replace("%", ""))
+        if margin >= 20:
+            tags.append("High Margin")
+        elif margin >= 15:
+            tags.append("Good Margin")
+    except (ValueError, TypeError):
+        pass
+    return tags
+
+
+def generate_qualitative_tags(stock_data, quantitative_tags):
+    """Generate qualitative tags via Claude API. Falls back to sector only."""
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    if not api_key:
+        # Fallback: use yfinance industry
+        industry = stock_data.get("_industry", "")
+        return [industry] if industry else []
+
+    try:
+        import anthropic
+        client = anthropic.Anthropic(api_key=api_key)
+
+        prompt = f"""Given this Japanese stock, generate 2-3 short qualitative tags (max 2 words each) for an investment dashboard.
+Tags should describe growth drivers, business model strengths, or thematic exposure.
+Do NOT repeat these existing tags: {quantitative_tags}
+
+Stock: {stock_data['code']} {stock_data['name']}
+Sector: {stock_data['sector']}
+Industry: {stock_data.get('_industry', 'N/A')}
+Market Cap: {stock_data.get('mkt_cap', 'N/A')}
+Op Margin: {stock_data.get('op_margin', 'N/A')}
+
+Return ONLY a JSON array of strings, e.g. ["Global Growth", "Automation"]. No explanation."""
+
+        message = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=100,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        result = message.content[0].text.strip()
+        return json.loads(result)
+    except Exception as e:
+        print(f"  Claude API fallback for {stock_data['code']}: {e}")
+        industry = stock_data.get("_industry", "")
+        return [industry] if industry else []
+
+
+def generate_tags(stock_data):
+    """Combine quantitative and qualitative tags."""
+    quant = generate_quantitative_tags(stock_data)
+    qual = generate_qualitative_tags(stock_data, quant)
+    return quant + qual
 
 
 def main():
@@ -165,6 +258,13 @@ def main():
         print(f"Fetching {code}...")
         data = fetch_stock(code)
         if data:
+            print(f"  Generating tags...")
+            data["tags"] = generate_tags(data)
+            print(f"  Tags: {data['tags']}")
+            # Remove internal fields
+            for k in list(data.keys()):
+                if k.startswith("_"):
+                    del data[k]
             stocks.append(data)
 
     output = {

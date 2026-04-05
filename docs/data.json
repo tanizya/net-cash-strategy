@@ -224,6 +224,9 @@
           "time": "2026-04-03",
           "value": 5881.0
         }
+      ],
+      "tags": [
+        "Specialty Industrial Machinery"
       ]
     },
     {
@@ -443,6 +446,11 @@
           "time": "2026-04-03",
           "value": 649.9
         }
+      ],
+      "tags": [
+        "Net Cash",
+        "High Margin",
+        "Capital Markets"
       ]
     },
     {
@@ -662,6 +670,11 @@
           "time": "2026-04-03",
           "value": 3010.0
         }
+      ],
+      "tags": [
+        "Net Cash",
+        "Value",
+        "Restaurants"
       ]
     },
     {
@@ -881,6 +894,12 @@
           "time": "2026-04-03",
           "value": 1624.0
         }
+      ],
+      "tags": [
+        "Cash Rich",
+        "Value",
+        "Low Vol",
+        "Auto Parts"
       ]
     },
     {
@@ -1100,6 +1119,11 @@
           "time": "2026-04-03",
           "value": 6620.0
         }
+      ],
+      "tags": [
+        "Net Cash",
+        "Good Margin",
+        "Apparel Retail"
       ]
     }
   ]
