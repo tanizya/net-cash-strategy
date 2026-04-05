@@ -26,7 +26,7 @@ import pandas as pd
 MAX_UNIT_PRICE = 1_000_000   # 100 shares < 1M yen
 MIN_MARKET_CAP = 50e9        # > 50B yen
 MAX_STOCKS = 8               # Final portfolio size
-RATE_LIMIT_DELAY = 1.0       # Seconds between yfinance calls (individual)
+RATE_LIMIT_DELAY = 0.5       # Seconds between yfinance calls (individual)
 BATCH_DELAY = 0.5            # Seconds between batch downloads
 BATCH_SIZE = 50              # yfinance batch download size (price fetch)
 MAX_RETRIES = 3              # Retry count for failed fetches
