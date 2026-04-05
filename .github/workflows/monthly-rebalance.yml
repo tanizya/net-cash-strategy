@@ -1,0 +1,37 @@
+name: Monthly Rebalance
+
+on:
+  schedule:
+    - cron: '0 9 L * *'  # Last day of month, 9:00 UTC = 18:00 JST
+  workflow_dispatch:
+
+jobs:
+  rebalance:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install yfinance numpy anthropic
+
+      - name: Run rebalance screening
+        run: python rebalance.py
+
+      - name: Run data update with new universe
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python update_data.py
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add update_data.py docs/data.json docs/index.html docs/screening.json
+          git diff --staged --quiet || git commit -m "Monthly rebalance $(date -u +%Y-%m)"
+          git push
