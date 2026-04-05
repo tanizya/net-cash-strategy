@@ -13,8 +13,8 @@
   --surface: #0a0a0a;
   --border: #1a1a1a;
   --text: #ffffff;
-  --muted: #b0b0b0;
-  --dim: #707070;
+  --muted: #ffffff;
+  --dim: #ffffff;
   --green: #00c853;
   --red: #ff1744;
 }
@@ -446,7 +446,7 @@ function showPeriod(p,el){
 }
 
 // Load data.json and render dynamic sections
-fetch('data.json').then(r=>r.json()).then(data => {
+function applyData(data) {
   // Signal section
   document.getElementById('signalLabel').textContent = 'Signal \u2014 as of ' + data.updated +
     ' | NI225 ' + (data.ni225.uptrend ? '\u2191' : '\u2193') + ' Stop ' + data.stop_pct + '%';
@@ -480,13 +480,30 @@ fetch('data.json').then(r=>r.json()).then(data => {
     </tr>`;
   }).join('');
 
-  // Mini charts
-  data.stocks.forEach(s => {
+  // Mini charts — delay to ensure layout is ready
+  window._miniData = data.stocks;
+  setTimeout(renderMiniCharts, 100);
+}
+fetch('data.json').then(r=>r.json()).then(applyData).catch(e => {
+  console.warn('data.json fetch failed, using inline fallback:', e);
+  const s = document.createElement('script');
+  s.src = 'data.json';
+  // If fetch fails (file:// CORS), try XMLHttpRequest
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', 'data.json', true);
+  xhr.onload = function() { if(xhr.status===200||xhr.status===0) applyData(JSON.parse(xhr.responseText)); };
+  xhr.send();
+});
+
+function renderMiniCharts() {
+  if (!window._miniData) return;
+  window._miniData.forEach(s => {
     const el = document.getElementById('mini-'+s.code);
     if(!el || !s.chart || !s.chart.length) return;
+    const w = el.clientWidth || el.offsetWidth || 200;
     const ch = LightweightCharts.createChart(el, {
-      width: el.clientWidth, height: 120,
-      layout: { backgroundColor: '#000000', textColor: '#444444', fontFamily: "'JetBrains Mono',monospace", fontSize: 9 },
+      width: w, height: 120,
+      layout: { backgroundColor: '#000000', textColor: '#ffffff', fontFamily: "'JetBrains Mono',monospace", fontSize: 9 },
       grid: { vertLines: { visible: false }, horzLines: { color: '#111111' } },
       rightPriceScale: { borderVisible: false, scaleMargins: { top: 0.1, bottom: 0.1 } },
       timeScale: { borderVisible: false, visible: false },
@@ -504,7 +521,7 @@ fetch('data.json').then(r=>r.json()).then(data => {
     series.setData(s.chart);
     ch.timeScale().fitContent();
   });
-}).catch(e => console.error('data.json load failed:', e));
+}
 
 // Lightweight Charts v3 — Equity Curve
 const eqContainer = document.getElementById('equityChart');
