@@ -6,6 +6,7 @@
 <title>Net Cash Select</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>@font-face { font-family: 'JetBrains Mono'; font-feature-settings: "liga" 1, "calt" 1; }</style>
 <script src="https://unpkg.com/lightweight-charts@3.8.0/dist/lightweight-charts.standalone.production.js"></script>
 <style>
 :root {
@@ -19,28 +20,28 @@
   --red: #ff1744;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'JetBrains Mono', monospace; background: var(--bg); color: var(--text); font-size: 18px; }
+body { font-family: 'JetBrains Mono', monospace; background: var(--bg); color: var(--text); font-size: 20px; font-feature-settings: "liga" 1, "calt" 1; }
 .container { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
 
 header { padding: 32px 0 24px; }
-header h1 { font-size: 16px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+header h1 { font-size: 18px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
 
 .kpi { display: grid; grid-template-columns: repeat(6, 1fr); }
 .kpi-item { padding: 20px 0; }
 .kpi-item:last-child { border-right: none; }
-.kpi-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
-.kpi-val { font-size: 28px; font-weight: 300; margin-top: 4px; }
-.kpi-sub { font-size: 12px; color: var(--dim); margin-top: 2px; }
+.kpi-label { font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+.kpi-val { font-size: 30px; font-weight: 300; margin-top: 4px; }
+.kpi-sub { font-size: 14px; color: var(--dim); margin-top: 2px; }
 .g { color: var(--green); }
 .r { color: var(--red); }
 
-section { padding: 32px 0; }
-.sec-label { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 16px; font-weight: 700; }
+section { padding: 20px 0; }
+.sec-label { font-size: 15px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 16px; font-weight: 700; }
 
 /* Table */
 table { width: 100%; border-collapse: collapse; }
-th { text-align: left; padding: 10px 14px; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 400; }
-td { padding: 12px 14px; font-size: 15px; }
+th { text-align: left; padding: 10px 14px; font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 400; }
+td { padding: 12px 14px; font-size: 17px; }
 tr:hover { background: #0d0d0d; }
 .mono { font-variant-numeric: tabular-nums; }
 
@@ -48,23 +49,23 @@ tr:hover { background: #0d0d0d; }
 .signal-row { display: flex; gap: 1px; }
 .signal-item { flex: 1; background: var(--bg); padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .traffic { display: flex; flex-direction: column; gap: 5px; padding: 8px 10px; border: 1px solid #555555; }
-.light { width: 20px; height: 20px; }
+.light { width: 22px; height: 22px; }
 .light.red { background: #442020; }
 .light.red.on { background: var(--red); box-shadow: 0 0 10px var(--red); }
 .light.green { background: #204420; }
 .light.green.on { background: var(--green); box-shadow: 0 0 10px var(--green); }
 .light.off { opacity: 1; }
-.signal-code { font-size: 18px; font-weight: 300; }
-.signal-name { font-size: 12px; color: var(--muted); }
-.signal-status { font-size: 13px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; }
+.signal-code { font-size: 20px; font-weight: 300; }
+.signal-name { font-size: 14px; color: var(--muted); }
+.signal-status { font-size: 15px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; }
 .signal-status.buy { color: var(--green); }
 .signal-status.exit { color: var(--red); }
 
 /* Portfolio */
 .port-summary { margin-bottom: 16px; }
-.port-bar { display: flex; height: 36px; gap: 1px; overflow: hidden; }
+.port-bar { display: flex; height: 40px; gap: 1px; overflow: hidden; }
 .port-seg { display: flex; align-items: center; justify-content: center; min-width: 0; transition: flex 0.3s; }
-.port-seg-label { font-size: 13px; color: var(--bg); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; overflow: hidden; }
+.port-seg-label { font-size: 15px; color: var(--bg); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; overflow: hidden; }
 .port-seg.cash { background: #555555; }
 .port-seg.cash .port-seg-label { color: var(--text); }
 .port-seg.pos6383 { background: #00c853; }
@@ -73,7 +74,7 @@ tr:hover { background: #0d0d0d; }
 .port-seg.pos6592 { background: #ff6d00; }
 .port-seg.pos7564 { background: #aa00ff; }
 .port-legend { display: flex; gap: 16px; margin-top: 10px; flex-wrap: wrap; }
-.port-legend-item { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text); }
+.port-legend-item { display: flex; align-items: center; gap: 6px; font-size: 15px; color: var(--text); }
 .port-dot { width: 10px; height: 10px; }
 .port-dot.cash { background: #555555; }
 .port-dot.pos6383 { background: #00c853; }
@@ -83,23 +84,23 @@ tr:hover { background: #0d0d0d; }
 .port-dot.pos7564 { background: #aa00ff; }
 .port-metrics { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; }
 .port-metric { background: var(--bg); padding: 14px; }
-.port-metric-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
-.port-metric-val { font-size: 18px; font-weight: 300; margin-top: 2px; }
+.port-metric-label { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+.port-metric-val { font-size: 20px; font-weight: 300; margin-top: 2px; }
 
 /* Stock Grid */
 .stock-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; }
 .stock-cell { background: var(--bg); padding: 16px; }
 .stock-header { display: flex; align-items: baseline; gap: 8px; }
-.stock-code { font-size: 22px; font-weight: 300; }
-.stock-ret { font-size: 22px; font-weight: 300; }
-.stock-name { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.stock-code { font-size: 24px; font-weight: 300; }
+.stock-ret { font-size: 24px; font-weight: 300; }
+.stock-name { font-size: 15px; color: var(--muted); margin-top: 2px; }
 .stock-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
 .stock-meta-item {}
-.stock-meta-label { font-size: 11px; color: var(--dim); text-transform: uppercase; }
-.stock-meta-val { font-size: 15px; margin-top: 1px; }
+.stock-meta-label { font-size: 13px; color: var(--dim); text-transform: uppercase; }
+.stock-meta-val { font-size: 17px; margin-top: 1px; }
 .stock-chart { width: 100%; height: 120px; margin-top: 8px; }
 .stock-tags { margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
-.tag { font-size: 11px; padding: 3px 8px; border: 1px solid var(--dim); color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.tag { font-size: 13px; padding: 3px 8px; border: none; border-left: 2px solid var(--dim); border-bottom: 1px solid var(--dim); color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
 
 /* Charts */
 .charts-row { display: grid; grid-template-columns: 2fr 1fr; gap: 1px; }
@@ -108,26 +109,25 @@ tr:hover { background: #0d0d0d; }
 .chart-box { width: 100%; height: 300px; }
 
 /* Tabs */
-.tabs { display: flex; gap: 0; margin-bottom: 16px; }
-.tab { padding: 8px 20px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; border: 1px solid var(--border); border-right: none; background: transparent; color: var(--muted); font-family: inherit; }
-.tab:last-child { border-right: 1px solid var(--border); }
-.tab.active { background: var(--text); color: var(--bg); }
+.tabs { display: flex; gap: 16px; margin-bottom: 16px; }
+.tab { padding: 6px 12px; font-size: 15px; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; border-top: none; border-right: none; border-left: 2px solid transparent; border-bottom: 1px solid transparent; background: transparent; color: var(--muted); font-family: inherit; opacity: 0.5; }
+.tab.active { opacity: 1; border-left-color: var(--text); border-bottom-color: var(--text); color: var(--text); }
 
 
 /* Rules */
 .rules-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; }
 .rule-cell { background: var(--bg); padding: 20px; }
-.rule-val { font-size: 24px; font-weight: 300; }
-.rule-desc { font-size: 13px; color: var(--muted); margin-top: 6px; }
+.rule-val { font-size: 26px; font-weight: 300; }
+.rule-desc { font-size: 15px; color: var(--muted); margin-top: 6px; }
 
 /* Evolution */
 .evo-row { display: flex; align-items: center; padding: 10px 0; }
-.evo-step { width: 40px; font-size: 13px; color: var(--dim); }
+.evo-step { width: 40px; font-size: 15px; color: var(--dim); }
 .evo-bar { flex: 1; height: 2px; background: var(--dim); position: relative; margin: 0 12px; }
 .evo-bar .fill { height: 100%; position: absolute; left: 0; top: 0; }
-.evo-label { width: 200px; font-size: 13px; color: var(--muted); text-align: right; }
+.evo-label { width: 200px; font-size: 15px; color: var(--muted); text-align: right; }
 
-footer { padding: 24px 0; text-align: center; font-size: 12px; color: var(--dim); border: none; }
+footer { padding: 24px 0; text-align: center; font-size: 14px; color: var(--dim); border: none; }
 
 @media (max-width: 900px) {
   .kpi { grid-template-columns: repeat(3, 1fr); }
@@ -165,12 +165,12 @@ footer { padding: 24px 0; text-align: center; font-size: 12px; color: var(--dim)
   <div class="kpi-item">
     <div class="kpi-label">Max DD</div>
     <div class="kpi-val">10.25%</div>
-    <div class="kpi-sub">Target &lt;20%</div>
+    <div class="kpi-sub">Target &lt;=20%</div>
   </div>
   <div class="kpi-item">
     <div class="kpi-label">Profit Factor</div>
     <div class="kpi-val g">11.6</div>
-    <div class="kpi-sub">Target &gt;2.0</div>
+    <div class="kpi-sub">Target &gt;=2.0</div>
   </div>
   <div class="kpi-item">
     <div class="kpi-label">Trades</div>
@@ -183,6 +183,21 @@ footer { padding: 24px 0; text-align: center; font-size: 12px; color: var(--dim)
 <section>
   <div class="sec-label" id="signalLabel">Signal</div>
   <div class="signal-row" id="signalRow"></div>
+</section>
+
+<!-- Positions -->
+<section>
+  <div class="sec-label">Positions</div>
+  <div style="overflow-x:auto">
+  <table>
+    <thead>
+      <tr><th>Code</th><th>Name</th><th>Side</th><th>Qty</th><th>Entry</th><th>Current</th><th>P&L</th><th>P&L %</th><th>Stop</th><th>Entry Date</th></tr>
+    </thead>
+    <tbody>
+      <tr><td colspan="10" style="color:var(--muted);text-align:center">No open positions</td></tr>
+    </tbody>
+  </table>
+  </div>
 </section>
 
 <!-- Portfolio -->
@@ -206,7 +221,6 @@ footer { padding: 24px 0; text-align: center; font-size: 12px; color: var(--dim)
       <div class="port-legend-item"><div class="port-dot pos3087"></div>3087 &mdash;</div>
       <div class="port-legend-item"><div class="port-dot pos6592"></div>6592 &mdash;</div>
       <div class="port-legend-item"><div class="port-dot pos7564"></div>7564 &mdash;</div>
-      <div class="port-legend-item" style="margin-left:auto;color:var(--muted)">No open positions</div>
     </div>
   </div>
   <div class="port-metrics">
@@ -223,8 +237,8 @@ footer { padding: 24px 0; text-align: center; font-size: 12px; color: var(--dim)
       <div class="port-metric-val">0%</div>
     </div>
     <div class="port-metric">
-      <div class="port-metric-label">Tax Paid</div>
-      <div class="port-metric-val r">&yen;165,692</div>
+      <div class="port-metric-label">Open P&L</div>
+      <div class="port-metric-val">&yen;0</div>
     </div>
     <div class="port-metric">
       <div class="port-metric-label">After-Tax P&L</div>
@@ -434,7 +448,7 @@ function renderTable(data,label){
     <td></td><td class="mono">${tt}</td><td class="mono">${wr}%</td></tr>`;
 }
 function showPeriod(p,el){
-  document.querySelectorAll('section:nth-of-type(3) .tab').forEach(t=>t.classList.remove('active'));
+  el.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
   if(p==='2025')renderTable(S2025,'2025 Total');
   else if(p==='2026')renderTable(S2026,'2026 YTD');
