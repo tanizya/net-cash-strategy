@@ -9,7 +9,7 @@
   "stocks": [
     {
       "code": "6419",
-      "name": "マースグループホールディングス",
+      "name": "Mars Group",
       "sector": "Machinery",
       "net_debt": "+¥36B",
       "net_cash_positive": true,
@@ -231,13 +231,13 @@
         "Deep Value",
         "Low Vol",
         "High Margin",
-        "Leisure Focus",
-        "Premium Margins"
+        "Leisure Exposure",
+        "High Profitability"
       ]
     },
     {
       "code": "7860",
-      "name": "エイベックス",
+      "name": "Avex",
       "sector": "IT/Telecom",
       "net_debt": "+¥36B",
       "net_cash_positive": true,
@@ -457,13 +457,13 @@
         "IT/Telecom",
         "Cash Rich",
         "Value",
-        "Content Creator",
-        "Music Rights"
+        "Content IP",
+        "Digital Entertainment"
       ]
     },
     {
       "code": "7292",
-      "name": "村上開明堂",
+      "name": "Murakami Kaimeido",
       "sector": "Auto/Transport",
       "net_debt": "+¥47B",
       "net_cash_positive": true,
@@ -683,13 +683,13 @@
         "Auto/Transport",
         "Cash Rich",
         "Deep Value",
-        "Supply Chain Essential",
-        "Margin Expansion"
+        "Supplier Consolidation",
+        "EV Transition"
       ]
     },
     {
       "code": "1899",
-      "name": "福田組",
+      "name": "Fukuda-Gumi",
       "sector": "Construction",
       "net_debt": "+¥30B",
       "net_cash_positive": true,
@@ -911,12 +911,12 @@
         "Deep Value",
         "Low Vol",
         "Infrastructure Focus",
-        "Regional Exposure"
+        "Steady Dividends"
       ]
     },
     {
       "code": "8841",
-      "name": "テーオーシー",
+      "name": "TOC",
       "sector": "Real Estate",
       "net_debt": "+¥28B",
       "net_cash_positive": true,
@@ -1138,13 +1138,13 @@
         "Deep Value",
         "Low Vol",
         "Good Margin",
-        "Property Management",
+        "Property Services",
         "Recurring Revenue"
       ]
     },
     {
       "code": "5445",
-      "name": "東京鐵鋼",
+      "name": "Tokyo Tekko",
       "sector": "Steel",
       "net_debt": "+¥9B",
       "net_cash_positive": true,
@@ -1367,12 +1367,13 @@
         "Low Vol",
         "Good Margin",
         "Cyclical Recovery",
-        "Asia Exposure"
+        "Infrastructure Play",
+        "Specialty Steel"
       ]
     },
     {
       "code": "8871",
-      "name": "ゴールドクレスト",
+      "name": "Goldcrest",
       "sector": "Real Estate",
       "net_debt": "+¥2B",
       "net_cash_positive": true,
@@ -1593,13 +1594,13 @@
         "Deep Value",
         "Low Vol",
         "High Margin",
-        "Premium Development",
-        "Operational Efficiency"
+        "Land Development",
+        "Urban Renewal"
       ]
     },
     {
       "code": "6118",
-      "name": "アイダエンジニアリング",
+      "name": "Aida Engineering",
       "sector": "Machinery",
       "net_debt": "+¥33B",
       "net_cash_positive": true,
@@ -1820,8 +1821,8 @@
         "Cash Rich",
         "Deep Value",
         "Low Vol",
-        "Industrial Automation",
-        "Equipment Export"
+        "Semiconductor Equipment",
+        "Industrial Automation"
       ]
     }
   ]

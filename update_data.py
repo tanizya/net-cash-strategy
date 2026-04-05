@@ -9,56 +9,56 @@ import numpy as np
 
 STOCKS = {
     "6419": {
-        "name": "マースグループホールディングス",
+        "name": "Mars Group",
         "sector": "Machinery",
         "net_debt": "-36B",
         "op_margin": "29.2%",
         "cf_growth": "N/A"
     },
     "7860": {
-        "name": "エイベックス",
+        "name": "Avex",
         "sector": "IT/Telecom",
         "net_debt": "-36B",
         "op_margin": "4.9%",
         "cf_growth": "N/A"
     },
     "7292": {
-        "name": "村上開明堂",
+        "name": "Murakami Kaimeido",
         "sector": "Auto/Transport",
         "net_debt": "-47B",
         "op_margin": "7.5%",
         "cf_growth": "N/A"
     },
     "1899": {
-        "name": "福田組",
+        "name": "Fukuda-Gumi",
         "sector": "Construction",
         "net_debt": "-30B",
         "op_margin": "2.8%",
         "cf_growth": "N/A"
     },
     "8841": {
-        "name": "テーオーシー",
+        "name": "TOC",
         "sector": "Real Estate",
         "net_debt": "-28B",
         "op_margin": "19.8%",
         "cf_growth": "N/A"
     },
     "5445": {
-        "name": "東京鐵鋼",
+        "name": "Tokyo Tekko",
         "sector": "Steel",
         "net_debt": "-9B",
         "op_margin": "15.2%",
         "cf_growth": "N/A"
     },
     "8871": {
-        "name": "ゴールドクレスト",
+        "name": "Goldcrest",
         "sector": "Real Estate",
         "net_debt": "-2B",
         "op_margin": "27.5%",
         "cf_growth": "N/A"
     },
     "6118": {
-        "name": "アイダエンジニアリング",
+        "name": "Aida Engineering",
         "sector": "Machinery",
         "net_debt": "-33B",
         "op_margin": "5.9%",
