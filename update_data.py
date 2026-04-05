@@ -88,6 +88,8 @@ def fetch_stock(code):
         info = t.info
         beta = info.get("beta")
         beta = str(round(beta, 2)) if beta else "—"
+        pbr = info.get("priceToBook")
+        pbr = str(round(pbr, 2)) if pbr else "—"
         mc = info.get("marketCap", 0)
         if mc >= 1e12:
             mkt_cap = f"¥{mc/1e12:.1f}T"
@@ -97,6 +99,7 @@ def fetch_stock(code):
             mkt_cap = f"¥{mc/1e6:.0f}M"
     except Exception:
         beta = "—"
+        pbr = "—"
         mkt_cap = "—"
     try:
         bs = t.balance_sheet
@@ -141,6 +144,7 @@ def fetch_stock(code):
         "op_margin": STOCKS[code]["op_margin"],
         "cf_growth": STOCKS[code]["cf_growth"],
         "beta": beta,
+        "pbr": pbr,
         "mkt_cap": mkt_cap,
         "price": round(last_close, 1),
         "unit_cost": unit_cost,
