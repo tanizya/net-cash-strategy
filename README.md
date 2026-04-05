@@ -22,13 +22,6 @@ Stop loss       7%  when NI225 < SMA50
 Tax model       Japan capital gains tax @ 20.315%
 ```
 
-## Data Pipeline
-
-- **Daily**: market data updated via GitHub Actions (yfinance)
-- **Monthly**: rebalance using JPX stock list + yfinance fundamentals
-- **Tags**: auto-generated quantitative (Net Cash, Value, Low Vol)
-  and qualitative tags via Claude API
-
 ## Stack
 
 ```
