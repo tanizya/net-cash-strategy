@@ -48,8 +48,8 @@ tr:hover { background: #0d0d0d; }
 .mono { font-variant-numeric: tabular-nums; text-align: right; }
 
 /* Signal */
-.signal-row { display: flex; gap: 1px; }
-.signal-item { flex: 1; background: var(--bg); padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.signal-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; }
+.signal-item { background: var(--bg); padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .traffic { display: flex; flex-direction: column; gap: 5px; padding: 8px 10px; border: 1px solid #555555; }
 .light { width: 22px; height: 22px; }
 .light.red { background: #442020; }
@@ -146,8 +146,8 @@ footer { padding: 24px 0; text-align: center; font-size: 14px; color: var(--dim)
   .port-seg-label { font-size: 11px; }
   .port-legend { gap: 8px; }
   .port-legend-item { font-size: 11px; }
-  .signal-row { flex-wrap: wrap; }
-  .signal-item { flex: 0 0 calc(33.3% - 1px); min-width: 0; padding: 12px 4px; }
+  .signal-row { grid-template-columns: repeat(2, 1fr); }
+  .signal-item { padding: 12px 4px; }
   .signal-code { font-size: 16px; }
   .signal-name { font-size: 10px; }
   .light { width: 16px; height: 16px; }
@@ -162,7 +162,7 @@ footer { padding: 24px 0; text-align: center; font-size: 14px; color: var(--dim)
   .stock-grid { grid-template-columns: 1fr; }
   .rules-grid { grid-template-columns: 1fr; }
   .port-metrics { grid-template-columns: repeat(2, 1fr); }
-  .signal-item { flex: 0 0 calc(50% - 1px); }
+  .signal-row { grid-template-columns: repeat(2, 1fr); }
   .stock-code { font-size: 20px; }
   .stock-ret { font-size: 20px; }
   .stock-meta-val { font-size: 14px; }
