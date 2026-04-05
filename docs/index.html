@@ -43,7 +43,7 @@ table { width: 100%; border-collapse: collapse; }
 th { text-align: left; padding: 10px 14px; font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 400; }
 td { padding: 12px 14px; font-size: 17px; }
 tr:hover { background: #0d0d0d; }
-.mono { font-variant-numeric: tabular-nums; }
+.mono { font-variant-numeric: tabular-nums; text-align: right; }
 
 /* Signal */
 .signal-row { display: flex; gap: 1px; }
@@ -436,17 +436,17 @@ function renderTable(data,label){
     return `<tr>
       <td>${d.c}</td><td>${d.n}</td>
       <td class="${d.p>=0?'g':'r'} mono">${fmt(d.p)}</td>
-      <td class="${d.r>=0?'g':'r'} mono">${d.r>=0?'+':''}${d.r}%</td>
-      <td class="mono">${d.dd}%</td>
+      <td class="${d.r>=0?'g':'r'} mono">${d.r>=0?'+':''}${d.r.toFixed(1)}%</td>
+      <td class="mono">${d.dd.toFixed(1)}%</td>
       <td class="mono">${d.t||'—'}</td>
-      <td class="mono">${d.t?d.w+'%':'—'}</td></tr>`;
+      <td class="mono">${d.t?d.w.toFixed(1)+'%':'—'}</td></tr>`;
   }).join('');
   const wr=tt?Math.round(tw/tt*100):0;
   f.innerHTML=`<tr style="border-top:1px solid var(--muted)">
     <td colspan="2" style="color:var(--muted)">${label}</td>
     <td class="${tp>=0?'g':'r'} mono">${fmt(tp)}</td>
     <td class="${tp>=0?'g':'r'} mono">${(tp/2000000*100).toFixed(1)}%</td>
-    <td></td><td class="mono">${tt}</td><td class="mono">${wr}%</td></tr>`;
+    <td></td><td class="mono">${tt}</td><td class="mono">${wr.toFixed(1)}%</td></tr>`;
 }
 function showPeriod(p,el){
   el.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
@@ -494,8 +494,8 @@ function applyData(data) {
     return `<tr>
       <td>${s.code}</td><td>${s.name}</td>
       <td style="color:var(--muted)">${s.sector}</td>
-      <td class="mono">&yen;${s.price.toLocaleString()}</td>
-      <td class="mono">&yen;${s.unit_cost.toLocaleString()}</td>
+      <td class="mono">&yen;${Math.round(s.price).toLocaleString()}</td>
+      <td class="mono">&yen;${Math.round(s.unit_cost).toLocaleString()}</td>
       <td class="mono">${s.mkt_cap || '—'}</td>
       <td class="${s.net_cash_positive !== false ? 'g' : 'r'} mono">${s.net_debt}</td>
       <td class="${parseFloat(s.op_margin)>=15?'g':''} mono">${s.op_margin}</td>
