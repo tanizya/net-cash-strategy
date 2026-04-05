@@ -89,4 +89,6 @@ NI225フィルターの試行錯誤（4回失敗→5回目で正解）も、Clau
 - **Dashboard**: https://tanizya.github.io/net-cash-strategy/
 - **GitHub**: https://github.com/tanizya/net-cash-strategy
 
+2026年のトレードはまだゼロ。全銘柄WAITのまま信号機は沈黙している。バックテストで+52.8%と出ても、それは過去の話。この戦略が本物かどうかは、今年の年末に答え合わせをしよう。
+
 *免責: 投資助言ではありません。バックテスト結果は将来の成績を保証しません。*
