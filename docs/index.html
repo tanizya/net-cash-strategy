@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Net Cash Select</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lightweight-charts@3.8.0/dist/lightweight-charts.standalone.production.js"></script>
 <style>
 :root {
@@ -17,7 +19,7 @@
   --red: #ff1744;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'SF Mono', 'Consolas', 'Monaco', monospace; background: var(--bg); color: var(--text); font-size: 13px; }
+body { font-family: 'JetBrains Mono', monospace; background: var(--bg); color: var(--text); font-size: 13px; }
 .container { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
 
 header { padding: 32px 0 24px; border-bottom: 1px solid var(--border); }
@@ -484,7 +486,7 @@ fetch('data.json').then(r=>r.json()).then(data => {
     if(!el || !s.chart || !s.chart.length) return;
     const ch = LightweightCharts.createChart(el, {
       width: el.clientWidth, height: 120,
-      layout: { backgroundColor: '#000000', textColor: '#444444', fontFamily: "'SF Mono',monospace", fontSize: 9 },
+      layout: { backgroundColor: '#000000', textColor: '#444444', fontFamily: "'JetBrains Mono',monospace", fontSize: 9 },
       grid: { vertLines: { visible: false }, horzLines: { color: '#111111' } },
       rightPriceScale: { borderVisible: false, scaleMargins: { top: 0.1, bottom: 0.1 } },
       timeScale: { borderVisible: false, visible: false },
@@ -509,7 +511,7 @@ const eqContainer = document.getElementById('equityChart');
 const eqChart = LightweightCharts.createChart(eqContainer, {
   width: eqContainer.clientWidth,
   height: 300,
-  layout: { backgroundColor: '#000000', textColor: '#b0b0b0', fontFamily: "'SF Mono','Consolas',monospace", fontSize: 10 },
+  layout: { backgroundColor: '#000000', textColor: '#b0b0b0', fontFamily: "'JetBrains Mono',monospace", fontSize: 10 },
   grid: { vertLines: { color: '#1a1a1a' }, horzLines: { color: '#1a1a1a' } },
   crosshair: { mode: 0 },
   rightPriceScale: { borderColor: '#1a1a1a' },
@@ -545,7 +547,7 @@ const retContainer = document.getElementById('returnChart');
 const retChart = LightweightCharts.createChart(retContainer, {
   width: retContainer.clientWidth,
   height: 300,
-  layout: { backgroundColor: '#000000', textColor: '#b0b0b0', fontFamily: "'SF Mono','Consolas',monospace", fontSize: 10 },
+  layout: { backgroundColor: '#000000', textColor: '#b0b0b0', fontFamily: "'JetBrains Mono',monospace", fontSize: 10 },
   grid: { vertLines: { color: '#1a1a1a' }, horzLines: { color: '#1a1a1a' } },
   rightPriceScale: { borderColor: '#1a1a1a' },
   timeScale: { borderColor: '#1a1a1a', timeVisible: false, fixLeftEdge: true, fixRightEdge: true },
