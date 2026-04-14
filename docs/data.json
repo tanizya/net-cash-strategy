@@ -1,8 +1,8 @@
 {
-  "updated": "2026-04-13",
+  "updated": "2026-04-14",
   "ni225": {
-    "close": 56502.76953125,
-    "sma50": 54968.340390625,
+    "close": 57877.390625,
+    "sma50": 55058.376171875,
     "uptrend": true
   },
   "stop_pct": 10.0,
@@ -16,25 +16,16 @@
       "op_margin": "29.2%",
       "cf_growth": "N/A",
       "beta": "0.26",
-      "pbr": "0.67",
-      "mkt_cap": "¥56B",
-      "price": 3020.0,
-      "unit_cost": 302000,
-      "rsi": 43.2,
+      "pbr": "0.63",
+      "mkt_cap": "¥53B",
+      "price": 2860.0,
+      "unit_cost": 286000,
+      "rsi": 30.1,
       "signal": "WAIT",
-      "sma20": 3059.2,
-      "div_yield": 4.97,
-      "div_per_share": 150.0,
-      "div_records": [
-        {
-          "date": "2025-09-29",
-          "amount": 75.0
-        },
-        {
-          "date": "2026-03-30",
-          "amount": 75.0
-        }
-      ],
+      "sma20": 3053.0,
+      "div_yield": null,
+      "div_per_share": null,
+      "div_records": [],
       "chart": [
         {
           "time": "2025-04-14",
@@ -233,8 +224,8 @@
           "value": 3120.0
         },
         {
-          "time": "2026-04-13",
-          "value": 3020.0
+          "time": "2026-04-14",
+          "value": 2860.0
         }
       ],
       "tags": [
@@ -243,7 +234,7 @@
         "Deep Value",
         "Low Vol",
         "High Margin",
-        "Leisure Exposure",
+        "Niche Leader",
         "High Profitability"
       ]
     },
@@ -262,19 +253,10 @@
       "unit_cost": 120000,
       "rsi": 53.7,
       "signal": "WAIT",
-      "sma20": 1189.6,
-      "div_yield": 4.17,
-      "div_per_share": 50.0,
-      "div_records": [
-        {
-          "date": "2025-09-29",
-          "amount": 25.0
-        },
-        {
-          "date": "2026-03-30",
-          "amount": 25.0
-        }
-      ],
+      "sma20": 1190.8,
+      "div_yield": null,
+      "div_per_share": null,
+      "div_records": [],
       "chart": [
         {
           "time": "2025-04-14",
@@ -473,7 +455,7 @@
           "value": 1214.0
         },
         {
-          "time": "2026-04-13",
+          "time": "2026-04-14",
           "value": 1200.0
         }
       ],
@@ -482,7 +464,7 @@
         "Cash Rich",
         "Value",
         "Content Creator",
-        "Music Licensing"
+        "Digital Entertainment"
       ]
     },
     {
@@ -494,25 +476,16 @@
       "op_margin": "7.5%",
       "cf_growth": "N/A",
       "beta": "-0.0",
-      "pbr": "0.82",
-      "mkt_cap": "¥75B",
-      "price": 6490.0,
-      "unit_cost": 649000,
-      "rsi": 50.1,
+      "pbr": "0.85",
+      "mkt_cap": "¥77B",
+      "price": 6670.0,
+      "unit_cost": 667000,
+      "rsi": 55.8,
       "signal": "WAIT",
-      "sma20": 6460.7,
-      "div_yield": 3.24,
-      "div_per_share": 210.0,
-      "div_records": [
-        {
-          "date": "2025-09-29",
-          "amount": 105.0
-        },
-        {
-          "date": "2026-03-30",
-          "amount": 105.0
-        }
-      ],
+      "sma20": 6481.9,
+      "div_yield": null,
+      "div_per_share": null,
+      "div_records": [],
       "chart": [
         {
           "time": "2025-04-14",
@@ -711,16 +684,16 @@
           "value": 6630.0
         },
         {
-          "time": "2026-04-13",
-          "value": 6490.0
+          "time": "2026-04-14",
+          "value": 6670.0
         }
       ],
       "tags": [
         "Auto/Transport",
         "Cash Rich",
         "Deep Value",
-        "Supply Chain",
-        "Component Specialist"
+        "Parts Supplier",
+        "Operational Efficiency"
       ]
     },
     {
@@ -734,19 +707,14 @@
       "beta": "0.17",
       "pbr": "0.78",
       "mkt_cap": "¥70B",
-      "price": 8510.0,
-      "unit_cost": 851000,
-      "rsi": 57.9,
+      "price": 8460.0,
+      "unit_cost": 846000,
+      "rsi": 56.0,
       "signal": "WAIT",
-      "sma20": 8338.0,
-      "div_yield": 3.06,
-      "div_per_share": 260.0,
-      "div_records": [
-        {
-          "date": "2025-12-29",
-          "amount": 260.0
-        }
-      ],
+      "sma20": 8383.0,
+      "div_yield": null,
+      "div_per_share": null,
+      "div_records": [],
       "chart": [
         {
           "time": "2025-04-14",
@@ -945,8 +913,8 @@
           "value": 8740.0
         },
         {
-          "time": "2026-04-13",
-          "value": 8510.0
+          "time": "2026-04-14",
+          "value": 8460.0
         }
       ],
       "tags": [
@@ -955,7 +923,7 @@
         "Deep Value",
         "Low Vol",
         "Infrastructure Focus",
-        "Margin Expansion"
+        "Regional Consolidation"
       ]
     },
     {
@@ -967,25 +935,16 @@
       "op_margin": "19.8%",
       "cf_growth": "N/A",
       "beta": "0.19",
-      "pbr": "0.78",
-      "mkt_cap": "¥80B",
-      "price": 906.0,
-      "unit_cost": 90600,
-      "rsi": 61.3,
+      "pbr": "0.82",
+      "mkt_cap": "¥84B",
+      "price": 953.0,
+      "unit_cost": 95300,
+      "rsi": 69.1,
       "signal": "WAIT",
-      "sma20": 855.8,
-      "div_yield": 1.1,
-      "div_per_share": 10.0,
-      "div_records": [
-        {
-          "date": "2025-09-29",
-          "amount": 5.0
-        },
-        {
-          "date": "2026-03-30",
-          "amount": 5.0
-        }
-      ],
+      "sma20": 861.1,
+      "div_yield": null,
+      "div_per_share": null,
+      "div_records": [],
       "chart": [
         {
           "time": "2025-04-14",
@@ -1184,8 +1143,8 @@
           "value": 898.0
         },
         {
-          "time": "2026-04-13",
-          "value": 906.0
+          "time": "2026-04-14",
+          "value": 953.0
         }
       ],
       "tags": [
@@ -1207,25 +1166,16 @@
       "op_margin": "15.2%",
       "cf_growth": "N/A",
       "beta": "0.15",
-      "pbr": "0.79",
+      "pbr": "0.8",
       "mkt_cap": "¥49B",
-      "price": 1933.0,
-      "unit_cost": 193300,
-      "rsi": 47.8,
+      "price": 1947.0,
+      "unit_cost": 194700,
+      "rsi": 49.6,
       "signal": "WAIT",
-      "sma20": 1957.1,
-      "div_yield": 12.07,
-      "div_per_share": 233.3,
-      "div_records": [
-        {
-          "date": "2025-09-29",
-          "amount": 33.3
-        },
-        {
-          "date": "2026-03-30",
-          "amount": 200.0
-        }
-      ],
+      "sma20": 1959.8,
+      "div_yield": null,
+      "div_per_share": null,
+      "div_records": [],
       "chart": [
         {
           "time": "2025-04-14",
@@ -1424,8 +1374,8 @@
           "value": 1984.0
         },
         {
-          "time": "2026-04-13",
-          "value": 1933.0
+          "time": "2026-04-14",
+          "value": 1947.0
         }
       ],
       "tags": [
@@ -1435,7 +1385,7 @@
         "Low Vol",
         "Good Margin",
         "Cyclical Recovery",
-        "Industrial Exposure"
+        "Industrial Demand"
       ]
     },
     {
@@ -1449,23 +1399,14 @@
       "beta": "0.19",
       "pbr": "0.85",
       "mkt_cap": "¥115B",
-      "price": 3460.0,
-      "unit_cost": 346000,
-      "rsi": 60.3,
+      "price": 3465.0,
+      "unit_cost": 346500,
+      "rsi": 60.8,
       "signal": "WAIT",
-      "sma20": 3370.4,
-      "div_yield": 2.89,
-      "div_per_share": 100.0,
-      "div_records": [
-        {
-          "date": "2025-09-29",
-          "amount": 50.0
-        },
-        {
-          "date": "2026-03-30",
-          "amount": 50.0
-        }
-      ],
+      "sma20": 3379.8,
+      "div_yield": null,
+      "div_per_share": null,
+      "div_records": [],
       "chart": [
         {
           "time": "2025-04-14",
@@ -1664,8 +1605,8 @@
           "value": 3505.0
         },
         {
-          "time": "2026-04-13",
-          "value": 3460.0
+          "time": "2026-04-14",
+          "value": 3465.0
         }
       ],
       "tags": [
@@ -1673,8 +1614,8 @@
         "Deep Value",
         "Low Vol",
         "High Margin",
-        "Urban Development",
-        "Residential Focus"
+        "Property Developer",
+        "Urban Development"
       ]
     },
     {
@@ -1688,19 +1629,14 @@
       "beta": "0.34",
       "pbr": "0.79",
       "mkt_cap": "¥67B",
-      "price": 1227.0,
-      "unit_cost": 122700,
-      "rsi": 70.9,
+      "price": 1231.0,
+      "unit_cost": 123100,
+      "rsi": 71.4,
       "signal": "WAIT",
-      "sma20": 1119.4,
-      "div_yield": 3.02,
-      "div_per_share": 37.0,
-      "div_records": [
-        {
-          "date": "2026-03-30",
-          "amount": 37.0
-        }
-      ],
+      "sma20": 1126.4,
+      "div_yield": null,
+      "div_per_share": null,
+      "div_records": [],
       "chart": [
         {
           "time": "2025-04-14",
@@ -1899,8 +1835,8 @@
           "value": 1202.0
         },
         {
-          "time": "2026-04-13",
-          "value": 1227.0
+          "time": "2026-04-14",
+          "value": 1231.0
         }
       ],
       "tags": [
