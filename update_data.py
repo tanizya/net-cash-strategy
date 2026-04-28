@@ -8,60 +8,60 @@ import yfinance as yf
 import numpy as np
 
 STOCKS = {
-    "6419": {
-        "name": "Mars Group",
-        "sector": "Machinery",
-        "net_debt": "-36B",
-        "op_margin": "29.2%",
-        "cf_growth": "N/A"
-    },
-    "7860": {
-        "name": "Avex",
-        "sector": "IT/Telecom",
-        "net_debt": "-36B",
-        "op_margin": "4.9%",
-        "cf_growth": "N/A"
-    },
-    "7292": {
-        "name": "Murakami Kaimeido",
-        "sector": "Auto/Transport",
-        "net_debt": "-47B",
-        "op_margin": "7.5%",
-        "cf_growth": "N/A"
-    },
-    "1899": {
-        "name": "Fukuda-Gumi",
-        "sector": "Construction",
-        "net_debt": "-30B",
-        "op_margin": "2.8%",
+    "3608": {
+        "name": "ＴＳＩホールディングス",
+        "sector": "Textiles",
+        "net_debt": "-45B",
+        "op_margin": "1.2%",
         "cf_growth": "N/A"
     },
     "8841": {
-        "name": "TOC",
+        "name": "テーオーシー",
         "sector": "Real Estate",
         "net_debt": "-28B",
         "op_margin": "19.8%",
         "cf_growth": "N/A"
     },
-    "5445": {
-        "name": "Tokyo Tekko",
-        "sector": "Steel",
-        "net_debt": "-9B",
-        "op_margin": "15.2%",
-        "cf_growth": "N/A"
-    },
-    "8871": {
-        "name": "Goldcrest",
-        "sector": "Real Estate",
-        "net_debt": "-2B",
-        "op_margin": "27.5%",
+    "6419": {
+        "name": "マースグループホールディングス",
+        "sector": "Machinery",
+        "net_debt": "-36B",
+        "op_margin": "29.2%",
         "cf_growth": "N/A"
     },
     "6118": {
-        "name": "Aida Engineering",
+        "name": "アイダエンジニアリング",
         "sector": "Machinery",
         "net_debt": "-33B",
         "op_margin": "5.9%",
+        "cf_growth": "N/A"
+    },
+    "7292": {
+        "name": "村上開明堂",
+        "sector": "Auto/Transport",
+        "net_debt": "-47B",
+        "op_margin": "7.5%",
+        "cf_growth": "N/A"
+    },
+    "7860": {
+        "name": "エイベックス",
+        "sector": "IT/Telecom",
+        "net_debt": "-36B",
+        "op_margin": "4.9%",
+        "cf_growth": "N/A"
+    },
+    "7211": {
+        "name": "三菱自動車工業",
+        "sector": "Auto/Transport",
+        "net_debt": "-138B",
+        "op_margin": "2.0%",
+        "cf_growth": "N/A"
+    },
+    "9726": {
+        "name": "ＫＮＴ－ＣＴホールディングス",
+        "sector": "Services",
+        "net_debt": "-12B",
+        "op_margin": "3.9%",
         "cf_growth": "N/A"
     }
 }
