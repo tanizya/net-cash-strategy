@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-28",
+  "updated": "2026-04-29",
   "ni225": {
     "close": 59917.4609375,
     "sma50": 55889.167578125,
@@ -238,8 +238,8 @@
         "Cash Rich",
         "Deep Value",
         "Low Vol",
-        "Apparel Leader",
-        "Asia Expansion"
+        "Apparel Export",
+        "Cost Optimization"
       ]
     },
     {
@@ -718,7 +718,7 @@
         "Deep Value",
         "Low Vol",
         "High Margin",
-        "Leisure Automation",
+        "Leisure Exposure",
         "High Profitability"
       ]
     },
@@ -954,7 +954,7 @@
         "Deep Value",
         "Low Vol",
         "Industrial Automation",
-        "Niche Dominance"
+        "Precision Equipment"
       ]
     },
     {
@@ -1192,7 +1192,7 @@
         "Cash Rich",
         "Deep Value",
         "Supply Chain",
-        "Parts Consolidation"
+        "Component Specialist"
       ]
     },
     {
@@ -1430,7 +1430,7 @@
         "Cash Rich",
         "Value",
         "Content Creator",
-        "Digital Rights"
+        "Digital Streaming"
       ]
     },
     {
@@ -1669,7 +1669,7 @@
         "Deep Value",
         "Low Vol",
         "EV Transition",
-        "Emerging Markets"
+        "Asian Exposure"
       ]
     },
     {
@@ -1899,7 +1899,7 @@
         "Deep Value",
         "Low Vol",
         "Travel Recovery",
-        "Domestic Focus"
+        "Domestic Tourism"
       ]
     }
   ]
