@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-04",
+  "updated": "2026-05-05",
   "ni225": {
     "close": 59513.12109375,
     "sma50": 55997.67046875,
@@ -238,8 +238,8 @@
         "Cash Rich",
         "Deep Value",
         "Low Vol",
-        "Supply Chain",
-        "Cost Efficiency"
+        "Manufacturing Scale",
+        "Regional Expansion"
       ]
     },
     {
@@ -718,7 +718,7 @@
         "Deep Value",
         "Low Vol",
         "High Margin",
-        "Leisure Expansion",
+        "Leisure Demand",
         "High Profitability"
       ]
     },
@@ -953,8 +953,8 @@
         "Cash Rich",
         "Deep Value",
         "Low Vol",
-        "Industrial Automation",
-        "Niche Leader"
+        "Precision Equipment",
+        "Industrial Automation"
       ]
     },
     {
@@ -1192,8 +1192,8 @@
         "Cash Rich",
         "Deep Value",
         "Low Vol",
-        "Component Supplier",
-        "Cost Focus"
+        "Supply Chain",
+        "Component Specialist"
       ]
     },
     {
@@ -1431,7 +1431,7 @@
         "Cash Rich",
         "Deep Value",
         "Content Creator",
-        "Music Streaming"
+        "IP Monetization"
       ]
     },
     {
