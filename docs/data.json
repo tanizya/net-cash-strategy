@@ -1,8 +1,8 @@
 {
-  "updated": "2026-05-11",
+  "updated": "2026-05-12",
   "ni225": {
-    "close": 62417.87890625,
-    "sma50": 56328.23046875,
+    "close": 62742.5703125,
+    "sma50": 56436.660078125,
     "uptrend": true
   },
   "stop_pct": 10.0,
@@ -16,14 +16,14 @@
       "op_margin": "1.2%",
       "cf_growth": "N/A",
       "beta": "0.24",
-      "pbr": "0.71",
-      "mkt_cap": "¥71B",
-      "price": 1218.0,
-      "unit_cost": 121800,
-      "rsi": 43.0,
+      "pbr": "0.7",
+      "mkt_cap": "¥68B",
+      "price": 1195.0,
+      "unit_cost": 119500,
+      "rsi": 40.6,
       "signal": "WAIT",
-      "sma20": 1334.7,
-      "div_yield": 3.28,
+      "sma20": 1338.3,
+      "div_yield": 3.35,
       "div_per_share": 40.0,
       "div_records": [
         {
@@ -229,8 +229,8 @@
           "value": 1238.0
         },
         {
-          "time": "2026-05-11",
-          "value": 1218.0
+          "time": "2026-05-12",
+          "value": 1195.0
         }
       ],
       "tags": [
@@ -238,8 +238,8 @@
         "Cash Rich",
         "Deep Value",
         "Low Vol",
-        "Apparel Scale",
-        "Manufacturing Focus"
+        "Apparel Consolidation",
+        "Asia Expansion"
       ]
     },
     {
@@ -251,14 +251,14 @@
       "op_margin": "19.8%",
       "cf_growth": "N/A",
       "beta": "0.36",
-      "pbr": "0.97",
-      "mkt_cap": "¥100B",
-      "price": 1128.0,
-      "unit_cost": 112800,
-      "rsi": 71.0,
+      "pbr": "0.93",
+      "mkt_cap": "¥96B",
+      "price": 1087.0,
+      "unit_cost": 108700,
+      "rsi": 62.5,
       "signal": "WAIT",
-      "sma20": 1014.2,
-      "div_yield": 0.89,
+      "sma20": 1023.7,
+      "div_yield": 0.92,
       "div_per_share": 10.0,
       "div_records": [
         {
@@ -468,8 +468,8 @@
           "value": 1158.0
         },
         {
-          "time": "2026-05-11",
-          "value": 1128.0
+          "time": "2026-05-12",
+          "value": 1087.0
         }
       ],
       "tags": [
@@ -491,14 +491,14 @@
       "op_margin": "29.2%",
       "cf_growth": "N/A",
       "beta": "0.26",
-      "pbr": "0.63",
-      "mkt_cap": "¥52B",
-      "price": 2831.0,
-      "unit_cost": 283100,
-      "rsi": 37.0,
+      "pbr": "0.62",
+      "mkt_cap": "¥51B",
+      "price": 2783.0,
+      "unit_cost": 278300,
+      "rsi": 31.9,
       "signal": "WAIT",
-      "sma20": 2892.6,
-      "div_yield": 5.3,
+      "sma20": 2875.8,
+      "div_yield": 5.39,
       "div_per_share": 150.0,
       "div_records": [
         {
@@ -708,8 +708,8 @@
           "value": 2832.0
         },
         {
-          "time": "2026-05-11",
-          "value": 2831.0
+          "time": "2026-05-12",
+          "value": 2783.0
         }
       ],
       "tags": [
@@ -718,8 +718,8 @@
         "Deep Value",
         "Low Vol",
         "High Margin",
-        "Leisure Premium",
-        "High Profitability"
+        "Premium Leisure",
+        "High Efficiency"
       ]
     },
     {
@@ -733,12 +733,12 @@
       "beta": "0.4",
       "pbr": "0.85",
       "mkt_cap": "¥72B",
-      "price": 1324.0,
-      "unit_cost": 132400,
-      "rsi": 75.8,
+      "price": 1330.0,
+      "unit_cost": 133000,
+      "rsi": 76.4,
       "signal": "WAIT",
-      "sma20": 1221.0,
-      "div_yield": 2.79,
+      "sma20": 1227.3,
+      "div_yield": 2.78,
       "div_per_share": 37.0,
       "div_records": [
         {
@@ -944,8 +944,8 @@
           "value": 1278.0
         },
         {
-          "time": "2026-05-11",
-          "value": 1324.0
+          "time": "2026-05-12",
+          "value": 1330.0
         }
       ],
       "tags": [
@@ -953,7 +953,7 @@
         "Cash Rich",
         "Deep Value",
         "Low Vol",
-        "Precision Equipment",
+        "Precision Manufacturing",
         "Industrial Automation"
       ]
     },
@@ -966,14 +966,14 @@
       "op_margin": "7.5%",
       "cf_growth": "N/A",
       "beta": "0.01",
-      "pbr": "0.85",
-      "mkt_cap": "¥77B",
-      "price": 6680.0,
-      "unit_cost": 668000,
-      "rsi": 51.3,
+      "pbr": "0.86",
+      "mkt_cap": "¥78B",
+      "price": 6760.0,
+      "unit_cost": 676000,
+      "rsi": 54.4,
       "signal": "WAIT",
-      "sma20": 6701.5,
-      "div_yield": 3.14,
+      "sma20": 6708.0,
+      "div_yield": 3.11,
       "div_per_share": 210.0,
       "div_records": [
         {
@@ -1183,8 +1183,8 @@
           "value": 6780.0
         },
         {
-          "time": "2026-05-11",
-          "value": 6680.0
+          "time": "2026-05-12",
+          "value": 6760.0
         }
       ],
       "tags": [
@@ -1192,8 +1192,8 @@
         "Cash Rich",
         "Deep Value",
         "Low Vol",
-        "Supply Chain",
-        "Component Specialist"
+        "Parts Supplier",
+        "Manufacturing Excellence"
       ]
     },
     {
@@ -1207,12 +1207,12 @@
       "beta": "-0.19",
       "pbr": "0.99",
       "mkt_cap": "¥50B",
-      "price": 1178.0,
-      "unit_cost": 117800,
-      "rsi": 44.2,
+      "price": 1181.0,
+      "unit_cost": 118100,
+      "rsi": 46.0,
       "signal": "WAIT",
-      "sma20": 1193.0,
-      "div_yield": 4.24,
+      "sma20": 1191.3,
+      "div_yield": 4.23,
       "div_per_share": 50.0,
       "div_records": [
         {
@@ -1422,8 +1422,8 @@
           "value": 1176.0
         },
         {
-          "time": "2026-05-11",
-          "value": 1178.0
+          "time": "2026-05-12",
+          "value": 1181.0
         }
       ],
       "tags": [
@@ -1443,14 +1443,14 @@
       "op_margin": "2.0%",
       "cf_growth": "N/A",
       "beta": "0.17",
-      "pbr": "0.49",
-      "mkt_cap": "¥440B",
-      "price": 329.0,
-      "unit_cost": 32900,
-      "rsi": 53.4,
+      "pbr": "0.47",
+      "mkt_cap": "¥432B",
+      "price": 323.1,
+      "unit_cost": 32310,
+      "rsi": 50.3,
       "signal": "WAIT",
       "sma20": 317.9,
-      "div_yield": 3.04,
+      "div_yield": 3.1,
       "div_per_share": 10.0,
       "div_records": [
         {
@@ -1660,8 +1660,8 @@
           "value": 310.0
         },
         {
-          "time": "2026-05-11",
-          "value": 329.0
+          "time": "2026-05-12",
+          "value": 323.1
         }
       ],
       "tags": [
@@ -1670,7 +1670,7 @@
         "Deep Value",
         "Low Vol",
         "EV Transition",
-        "Cost Recovery"
+        "Emerging Markets"
       ]
     },
     {
@@ -1682,13 +1682,13 @@
       "op_margin": "3.9%",
       "cf_growth": "N/A",
       "beta": "0.32",
-      "pbr": "0.94",
-      "mkt_cap": "¥55B",
-      "price": 2022.0,
-      "unit_cost": 202200,
-      "rsi": 64.3,
+      "pbr": "0.89",
+      "mkt_cap": "¥52B",
+      "price": 1915.0,
+      "unit_cost": 191500,
+      "rsi": 52.1,
       "signal": "WAIT",
-      "sma20": 1909.8,
+      "sma20": 1919.2,
       "div_yield": null,
       "div_per_share": null,
       "div_records": [],
@@ -1890,8 +1890,8 @@
           "value": 2071.0
         },
         {
-          "time": "2026-05-11",
-          "value": 2022.0
+          "time": "2026-05-12",
+          "value": 1915.0
         }
       ],
       "tags": [
@@ -1900,7 +1900,7 @@
         "Deep Value",
         "Low Vol",
         "Travel Recovery",
-        "Domestic Focus"
+        "Japan Domestic"
       ]
     }
   ]
