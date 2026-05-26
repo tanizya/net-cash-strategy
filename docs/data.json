@@ -1,8 +1,8 @@
 {
-  "updated": "2026-05-25",
+  "updated": "2026-05-26",
   "ni225": {
-    "close": 65158.19140625,
-    "sma50": 57442.4915625,
+    "close": 64996.08984375,
+    "sma50": 57657.445546875,
     "uptrend": true
   },
   "stop_pct": 10.0,
@@ -18,12 +18,12 @@
       "beta": "0.24",
       "pbr": "0.69",
       "mkt_cap": "¥67B",
-      "price": 1177.0,
-      "unit_cost": 117700,
-      "rsi": 41.6,
+      "price": 1173.0,
+      "unit_cost": 117300,
+      "rsi": 41.0,
       "signal": "WAIT",
-      "sma20": 1252.3,
-      "div_yield": 3.4,
+      "sma20": 1239.0,
+      "div_yield": 3.41,
       "div_per_share": 40.0,
       "div_records": [
         {
@@ -229,16 +229,16 @@
           "value": 1175.0
         },
         {
-          "time": "2026-05-25",
-          "value": 1177.0
+          "time": "2026-05-26",
+          "value": 1173.0
         }
       ],
       "tags": [
         "Textiles",
         "Deep Value",
         "Low Vol",
-        "Brand Portfolio",
-        "Domestic Focus"
+        "Apparel Export",
+        "Margin Expansion"
       ]
     },
     {
@@ -250,14 +250,14 @@
       "op_margin": "19.8%",
       "cf_growth": "N/A",
       "beta": "0.36",
-      "pbr": "0.9",
-      "mkt_cap": "¥93B",
-      "price": 1058.0,
-      "unit_cost": 105800,
-      "rsi": 57.0,
+      "pbr": "0.87",
+      "mkt_cap": "¥91B",
+      "price": 1030.0,
+      "unit_cost": 103000,
+      "rsi": 52.0,
       "signal": "WAIT",
-      "sma20": 1050.6,
-      "div_yield": 0.95,
+      "sma20": 1051.0,
+      "div_yield": 0.97,
       "div_per_share": 10.0,
       "div_records": [
         {
@@ -467,8 +467,8 @@
           "value": 1023.0
         },
         {
-          "time": "2026-05-25",
-          "value": 1058.0
+          "time": "2026-05-26",
+          "value": 1030.0
         }
       ],
       "tags": [
@@ -477,8 +477,8 @@
         "Deep Value",
         "Low Vol",
         "Good Margin",
-        "Asset Manager",
-        "Fee Income"
+        "Property Management",
+        "Recurring Revenue"
       ]
     },
     {
@@ -490,14 +490,14 @@
       "op_margin": "29.2%",
       "cf_growth": "N/A",
       "beta": "0.22",
-      "pbr": "0.66",
-      "mkt_cap": "¥55B",
-      "price": 2993.0,
-      "unit_cost": 299300,
-      "rsi": 57.9,
+      "pbr": "0.65",
+      "mkt_cap": "¥56B",
+      "price": 3010.0,
+      "unit_cost": 301000,
+      "rsi": 59.3,
       "signal": "WAIT",
-      "sma20": 2868.2,
-      "div_yield": 5.01,
+      "sma20": 2876.1,
+      "div_yield": 4.98,
       "div_per_share": 150.0,
       "div_records": [
         {
@@ -707,8 +707,8 @@
           "value": 2989.0
         },
         {
-          "time": "2026-05-25",
-          "value": 2993.0
+          "time": "2026-05-26",
+          "value": 3010.0
         }
       ],
       "tags": [
@@ -717,8 +717,8 @@
         "Deep Value",
         "Low Vol",
         "High Margin",
-        "Leisure Exposure",
-        "Operational Efficiency"
+        "Premium Brands",
+        "Leisure Exposure"
       ]
     },
     {
@@ -730,14 +730,14 @@
       "op_margin": "5.9%",
       "cf_growth": "N/A",
       "beta": "0.4",
-      "pbr": "0.72",
+      "pbr": "0.71",
       "mkt_cap": "¥62B",
-      "price": 1144.0,
-      "unit_cost": 114400,
-      "rsi": 41.2,
+      "price": 1132.0,
+      "unit_cost": 113200,
+      "rsi": 39.7,
       "signal": "WAIT",
-      "sma20": 1223.0,
-      "div_yield": 3.41,
+      "sma20": 1219.5,
+      "div_yield": 3.45,
       "div_per_share": 39.0,
       "div_records": [
         {
@@ -943,8 +943,8 @@
           "value": 1131.0
         },
         {
-          "time": "2026-05-25",
-          "value": 1144.0
+          "time": "2026-05-26",
+          "value": 1132.0
         }
       ],
       "tags": [
@@ -952,8 +952,8 @@
         "Cash Rich",
         "Deep Value",
         "Low Vol",
-        "Niche Leader",
-        "Industrial Automation"
+        "Industrial Automation",
+        "Niche Leader"
       ]
     },
     {
@@ -965,14 +965,14 @@
       "op_margin": "7.5%",
       "cf_growth": "N/A",
       "beta": "0.01",
-      "pbr": "0.82",
-      "mkt_cap": "¥78B",
-      "price": 6720.0,
-      "unit_cost": 672000,
-      "rsi": 49.1,
+      "pbr": "0.81",
+      "mkt_cap": "¥77B",
+      "price": 6630.0,
+      "unit_cost": 663000,
+      "rsi": 45.9,
       "signal": "WAIT",
-      "sma20": 6796.0,
-      "div_yield": 3.57,
+      "sma20": 6786.0,
+      "div_yield": 3.62,
       "div_per_share": 240.0,
       "div_records": [
         {
@@ -1182,8 +1182,8 @@
           "value": 6890.0
         },
         {
-          "time": "2026-05-25",
-          "value": 6720.0
+          "time": "2026-05-26",
+          "value": 6630.0
         }
       ],
       "tags": [
@@ -1191,8 +1191,8 @@
         "Cash Rich",
         "Deep Value",
         "Low Vol",
-        "Auto Components",
-        "Manufacturing Efficiency"
+        "Supply Chain",
+        "Component Specialization"
       ]
     },
     {
@@ -1204,14 +1204,14 @@
       "op_margin": "4.9%",
       "cf_growth": "N/A",
       "beta": "-0.19",
-      "pbr": "0.96",
-      "mkt_cap": "¥50B",
-      "price": 1167.0,
-      "unit_cost": 116700,
-      "rsi": 41.0,
+      "pbr": "0.98",
+      "mkt_cap": "¥51B",
+      "price": 1189.0,
+      "unit_cost": 118900,
+      "rsi": 50.5,
       "signal": "WAIT",
-      "sma20": 1184.6,
-      "div_yield": 4.28,
+      "sma20": 1184.7,
+      "div_yield": 4.21,
       "div_per_share": 50.0,
       "div_records": [
         {
@@ -1421,8 +1421,8 @@
           "value": 1193.0
         },
         {
-          "time": "2026-05-25",
-          "value": 1167.0
+          "time": "2026-05-26",
+          "value": 1189.0
         }
       ],
       "tags": [
@@ -1430,7 +1430,7 @@
         "Cash Rich",
         "Deep Value",
         "Content Creator",
-        "Music Licensing"
+        "Digital Rights"
       ]
     },
     {
@@ -1442,14 +1442,14 @@
       "op_margin": "2.0%",
       "cf_growth": "N/A",
       "beta": "0.17",
-      "pbr": "0.58",
-      "mkt_cap": "¥536B",
-      "price": 400.2,
-      "unit_cost": 40020,
-      "rsi": 75.7,
+      "pbr": "0.59",
+      "mkt_cap": "¥539B",
+      "price": 402.5,
+      "unit_cost": 40250,
+      "rsi": 76.2,
       "signal": "WAIT",
-      "sma20": 332.1,
-      "div_yield": 2.5,
+      "sma20": 336.2,
+      "div_yield": 2.48,
       "div_per_share": 10.0,
       "div_records": [
         {
@@ -1659,8 +1659,8 @@
           "value": 367.7
         },
         {
-          "time": "2026-05-25",
-          "value": 400.2
+          "time": "2026-05-26",
+          "value": 402.5
         }
       ],
       "tags": [
@@ -1681,14 +1681,14 @@
       "op_margin": "3.9%",
       "cf_growth": "N/A",
       "beta": "0.32",
-      "pbr": "0.87",
-      "mkt_cap": "¥54B",
-      "price": 1967.0,
-      "unit_cost": 196700,
-      "rsi": 58.4,
+      "pbr": "0.88",
+      "mkt_cap": "¥55B",
+      "price": 2005.0,
+      "unit_cost": 200500,
+      "rsi": 62.3,
       "signal": "WAIT",
-      "sma20": 1956.5,
-      "div_yield": 0.51,
+      "sma20": 1961.9,
+      "div_yield": 0.5,
       "div_per_share": 10.0,
       "div_records": [
         {
@@ -1894,8 +1894,8 @@
           "value": 1917.0
         },
         {
-          "time": "2026-05-25",
-          "value": 1967.0
+          "time": "2026-05-26",
+          "value": 2005.0
         }
       ],
       "tags": [
@@ -1904,7 +1904,7 @@
         "Deep Value",
         "Low Vol",
         "Travel Recovery",
-        "Domestic Tourism"
+        "Leisure Exposure"
       ]
     }
   ]
