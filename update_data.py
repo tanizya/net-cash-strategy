@@ -8,60 +8,60 @@ import yfinance as yf
 import numpy as np
 
 STOCKS = {
-    "3608": {
-        "name": "ＴＳＩホールディングス",
-        "sector": "Textiles",
-        "net_debt": "-45B",
-        "op_margin": "1.2%",
-        "cf_growth": "N/A"
-    },
-    "8841": {
-        "name": "テーオーシー",
-        "sector": "Real Estate",
-        "net_debt": "-28B",
-        "op_margin": "19.8%",
-        "cf_growth": "N/A"
-    },
     "6419": {
         "name": "マースグループホールディングス",
         "sector": "Machinery",
         "net_debt": "-36B",
-        "op_margin": "29.2%",
-        "cf_growth": "N/A"
-    },
-    "6118": {
-        "name": "アイダエンジニアリング",
-        "sector": "Machinery",
-        "net_debt": "-33B",
-        "op_margin": "5.9%",
-        "cf_growth": "N/A"
-    },
-    "7292": {
-        "name": "村上開明堂",
-        "sector": "Auto/Transport",
-        "net_debt": "-47B",
-        "op_margin": "7.5%",
-        "cf_growth": "N/A"
-    },
-    "7860": {
-        "name": "エイベックス",
-        "sector": "IT/Telecom",
-        "net_debt": "-36B",
-        "op_margin": "4.9%",
+        "op_margin": "21.7%",
         "cf_growth": "N/A"
     },
     "7211": {
         "name": "三菱自動車工業",
         "sector": "Auto/Transport",
         "net_debt": "-138B",
-        "op_margin": "2.0%",
+        "op_margin": "4.8%",
         "cf_growth": "N/A"
     },
-    "9726": {
-        "name": "ＫＮＴ－ＣＴホールディングス",
-        "sector": "Services",
-        "net_debt": "-12B",
-        "op_margin": "3.9%",
+    "1879": {
+        "name": "新日本建設",
+        "sector": "Construction",
+        "net_debt": "-83B",
+        "op_margin": "18.5%",
+        "cf_growth": "N/A"
+    },
+    "3632": {
+        "name": "グリーホールディングス",
+        "sector": "IT/Telecom",
+        "net_debt": "-23B",
+        "op_margin": "7.3%",
+        "cf_growth": "N/A"
+    },
+    "6463": {
+        "name": "ＴＰＲ",
+        "sector": "Machinery",
+        "net_debt": "-29B",
+        "op_margin": "6.4%",
+        "cf_growth": "N/A"
+    },
+    "2664": {
+        "name": "カワチ薬品",
+        "sector": "Retail",
+        "net_debt": "-20B",
+        "op_margin": "3.1%",
+        "cf_growth": "N/A"
+    },
+    "6737": {
+        "name": "ＥＩＺＯ",
+        "sector": "Electronics",
+        "net_debt": "-15B",
+        "op_margin": "4.9%",
+        "cf_growth": "N/A"
+    },
+    "7261": {
+        "name": "マツダ",
+        "sector": "Auto/Transport",
+        "net_debt": "-278B",
+        "op_margin": "5.3%",
         "cf_growth": "N/A"
     }
 }
