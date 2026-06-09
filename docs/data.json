@@ -1,8 +1,8 @@
 {
-  "updated": "2026-06-08",
+  "updated": "2026-06-09",
   "ni225": {
-    "close": 64024.6015625,
-    "sma50": 59918.384765625,
+    "close": 65416.62890625,
+    "sma50": 60151.724921875,
     "uptrend": true
   },
   "stop_pct": 10.0,
@@ -18,12 +18,12 @@
       "beta": "0.23",
       "pbr": "0.63",
       "mkt_cap": "¥54B",
-      "price": 2935.0,
-      "unit_cost": 293500,
-      "rsi": 49.7,
+      "price": 2923.0,
+      "unit_cost": 292300,
+      "rsi": 48.2,
       "signal": "WAIT",
-      "sma20": 2935.6,
-      "div_yield": 5.11,
+      "sma20": 2942.6,
+      "div_yield": 5.13,
       "div_per_share": 150.0,
       "div_records": [
         {
@@ -233,8 +233,8 @@
           "value": 2924.0
         },
         {
-          "time": "2026-06-08",
-          "value": 2935.0
+          "time": "2026-06-09",
+          "value": 2923.0
         }
       ],
       "tags": [
@@ -243,7 +243,7 @@
         "Deep Value",
         "Low Vol",
         "High Margin",
-        "Leisure Exposure",
+        "Leisure Brands",
         "Margin Leader"
       ]
     },
@@ -256,14 +256,14 @@
       "op_margin": "4.8%",
       "cf_growth": "N/A",
       "beta": "0.2",
-      "pbr": "0.48",
-      "mkt_cap": "¥444B",
-      "price": 331.5,
-      "unit_cost": 33150,
-      "rsi": 42.3,
+      "pbr": "0.49",
+      "mkt_cap": "¥447B",
+      "price": 334.0,
+      "unit_cost": 33400,
+      "rsi": 43.6,
       "signal": "WAIT",
-      "sma20": 356.9,
-      "div_yield": 3.02,
+      "sma20": 357.4,
+      "div_yield": 2.99,
       "div_per_share": 10.0,
       "div_records": [
         {
@@ -473,8 +473,8 @@
           "value": 334.8
         },
         {
-          "time": "2026-06-08",
-          "value": 331.5
+          "time": "2026-06-09",
+          "value": 334.0
         }
       ],
       "tags": [
@@ -483,7 +483,7 @@
         "Deep Value",
         "Low Vol",
         "EV Transition",
-        "Emerging Markets"
+        "Kei Vehicles"
       ]
     },
     {
@@ -497,12 +497,12 @@
       "beta": "0.57",
       "pbr": "0.94",
       "mkt_cap": "¥126B",
-      "price": 2151.0,
-      "unit_cost": 215100,
-      "rsi": 47.8,
+      "price": 2160.0,
+      "unit_cost": 216000,
+      "rsi": 48.9,
       "signal": "WAIT",
-      "sma20": 2243.1,
-      "div_yield": 3.11,
+      "sma20": 2244.7,
+      "div_yield": 3.1,
       "div_per_share": 67.0,
       "div_records": [
         {
@@ -712,8 +712,8 @@
           "value": 2187.0
         },
         {
-          "time": "2026-06-08",
-          "value": 2151.0
+          "time": "2026-06-09",
+          "value": 2160.0
         }
       ],
       "tags": [
@@ -721,7 +721,7 @@
         "Cash Rich",
         "Deep Value",
         "Good Margin",
-        "Infrastructure Focus",
+        "Infrastructure Projects",
         "High Efficiency"
       ]
     },
@@ -734,14 +734,14 @@
       "op_margin": "7.3%",
       "cf_growth": "N/A",
       "beta": "0.02",
-      "pbr": "0.74",
-      "mkt_cap": "¥69B",
-      "price": 401.0,
-      "unit_cost": 40100,
-      "rsi": 50.0,
+      "pbr": "0.73",
+      "mkt_cap": "¥68B",
+      "price": 397.0,
+      "unit_cost": 39700,
+      "rsi": 47.9,
       "signal": "WAIT",
-      "sma20": 407.9,
-      "div_yield": 3.62,
+      "sma20": 409.6,
+      "div_yield": 3.65,
       "div_per_share": 14.5,
       "div_records": [
         {
@@ -947,8 +947,8 @@
           "value": 397.0
         },
         {
-          "time": "2026-06-08",
-          "value": 401.0
+          "time": "2026-06-09",
+          "value": 397.0
         }
       ],
       "tags": [
@@ -956,8 +956,8 @@
         "Cash Rich",
         "Deep Value",
         "Low Vol",
-        "Gaming IP",
-        "Mobile Focus"
+        "Mobile Gaming",
+        "Digital Content"
       ]
     },
     {
@@ -969,14 +969,14 @@
       "op_margin": "6.4%",
       "cf_growth": "N/A",
       "beta": "0.37",
-      "pbr": "0.52",
-      "mkt_cap": "¥91B",
-      "price": 1410.0,
-      "unit_cost": 141000,
-      "rsi": 62.3,
+      "pbr": "0.53",
+      "mkt_cap": "¥92B",
+      "price": 1422.0,
+      "unit_cost": 142200,
+      "rsi": 63.7,
       "signal": "WAIT",
-      "sma20": 1337.2,
-      "div_yield": 3.97,
+      "sma20": 1345.8,
+      "div_yield": 3.94,
       "div_per_share": 56.0,
       "div_records": [
         {
@@ -1186,8 +1186,8 @@
           "value": 1393.0
         },
         {
-          "time": "2026-06-08",
-          "value": 1410.0
+          "time": "2026-06-09",
+          "value": 1422.0
         }
       ],
       "tags": [
@@ -1195,8 +1195,8 @@
         "Cash Rich",
         "Deep Value",
         "Low Vol",
-        "Auto Supply",
-        "Industrial Cyclical"
+        "EV Supply",
+        "Asia Exposure"
       ]
     },
     {
@@ -1208,14 +1208,14 @@
       "op_margin": "3.1%",
       "cf_growth": "N/A",
       "beta": "0.18",
-      "pbr": "0.65",
+      "pbr": "0.64",
       "mkt_cap": "¥75B",
-      "price": 3355.0,
-      "unit_cost": 335500,
-      "rsi": 69.4,
+      "price": 3340.0,
+      "unit_cost": 334000,
+      "rsi": 67.3,
       "signal": "WAIT",
-      "sma20": 3183.8,
-      "div_yield": 2.98,
+      "sma20": 3197.8,
+      "div_yield": 2.99,
       "div_per_share": 100.0,
       "div_records": [
         {
@@ -1421,8 +1421,8 @@
           "value": 3310.0
         },
         {
-          "time": "2026-06-08",
-          "value": 3355.0
+          "time": "2026-06-09",
+          "value": 3340.0
         }
       ],
       "tags": [
@@ -1430,7 +1430,7 @@
         "Net Cash",
         "Deep Value",
         "Low Vol",
-        "Drugstore Network",
+        "Drug Store Chain",
         "Regional Expansion"
       ]
     },
@@ -1443,14 +1443,14 @@
       "op_margin": "4.9%",
       "cf_growth": "N/A",
       "beta": "0.25",
-      "pbr": "0.74",
+      "pbr": "0.75",
       "mkt_cap": "¥102B",
-      "price": 2578.0,
-      "unit_cost": 257800,
-      "rsi": 63.4,
+      "price": 2590.0,
+      "unit_cost": 259000,
+      "rsi": 64.3,
       "signal": "WAIT",
-      "sma20": 2522.0,
-      "div_yield": 4.27,
+      "sma20": 2536.4,
+      "div_yield": 4.25,
       "div_per_share": 110.0,
       "div_records": [
         {
@@ -1660,8 +1660,8 @@
           "value": 2637.0
         },
         {
-          "time": "2026-06-08",
-          "value": 2578.0
+          "time": "2026-06-09",
+          "value": 2590.0
         }
       ],
       "tags": [
@@ -1669,8 +1669,9 @@
         "Net Cash",
         "Deep Value",
         "Low Vol",
-        "Niche Displays",
-        "B2B Focus"
+        "Niche Leader",
+        "B2B Focus",
+        "Margin Recovery"
       ]
     },
     {
@@ -1682,14 +1683,14 @@
       "op_margin": "5.3%",
       "cf_growth": "N/A",
       "beta": "0.53",
-      "pbr": "0.37",
-      "mkt_cap": "¥702B",
-      "price": 1112.5,
-      "unit_cost": 111250,
-      "rsi": 54.7,
+      "pbr": "0.38",
+      "mkt_cap": "¥721B",
+      "price": 1143.0,
+      "unit_cost": 114300,
+      "rsi": 60.7,
       "signal": "WAIT",
-      "sma20": 1096.1,
-      "div_yield": 4.94,
+      "sma20": 1101.5,
+      "div_yield": 4.81,
       "div_per_share": 55.0,
       "div_records": [
         {
@@ -1899,16 +1900,16 @@
           "value": 1125.0
         },
         {
-          "time": "2026-06-08",
-          "value": 1112.5
+          "time": "2026-06-09",
+          "value": 1143.0
         }
       ],
       "tags": [
         "Auto/Transport",
         "Cash Rich",
         "Deep Value",
-        "EV Transition",
-        "Operational Efficiency"
+        "Efficiency Focus",
+        "Rotary Engine"
       ]
     }
   ]
