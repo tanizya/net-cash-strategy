@@ -15,25 +15,18 @@ STOCKS = {
         "op_margin": "21.7%",
         "cf_growth": "N/A"
     },
-    "7211": {
-        "name": "三菱自動車工業",
+    "4095": {
+        "name": "日本パーカライジング",
+        "sector": "Chemicals",
+        "net_debt": "-77B",
+        "op_margin": "10.2%",
+        "cf_growth": "N/A"
+    },
+    "7292": {
+        "name": "村上開明堂",
         "sector": "Auto/Transport",
-        "net_debt": "-138B",
-        "op_margin": "4.8%",
-        "cf_growth": "N/A"
-    },
-    "1879": {
-        "name": "新日本建設",
-        "sector": "Construction",
-        "net_debt": "-83B",
-        "op_margin": "18.5%",
-        "cf_growth": "N/A"
-    },
-    "3632": {
-        "name": "グリーホールディングス",
-        "sector": "IT/Telecom",
-        "net_debt": "-23B",
-        "op_margin": "7.3%",
+        "net_debt": "-47B",
+        "op_margin": "6.8%",
         "cf_growth": "N/A"
     },
     "6463": {
@@ -43,25 +36,32 @@ STOCKS = {
         "op_margin": "6.4%",
         "cf_growth": "N/A"
     },
+    "4628": {
+        "name": "エスケー化研",
+        "sector": "Chemicals",
+        "net_debt": "-106B",
+        "op_margin": "9.9%",
+        "cf_growth": "N/A"
+    },
+    "4212": {
+        "name": "積水樹脂",
+        "sector": "Chemicals",
+        "net_debt": "-2B",
+        "op_margin": "10.3%",
+        "cf_growth": "N/A"
+    },
+    "7860": {
+        "name": "エイベックス",
+        "sector": "IT/Telecom",
+        "net_debt": "-36B",
+        "op_margin": "2.5%",
+        "cf_growth": "N/A"
+    },
     "2664": {
         "name": "カワチ薬品",
         "sector": "Retail",
         "net_debt": "-20B",
         "op_margin": "3.1%",
-        "cf_growth": "N/A"
-    },
-    "6737": {
-        "name": "ＥＩＺＯ",
-        "sector": "Electronics",
-        "net_debt": "-15B",
-        "op_margin": "4.9%",
-        "cf_growth": "N/A"
-    },
-    "7261": {
-        "name": "マツダ",
-        "sector": "Auto/Transport",
-        "net_debt": "-278B",
-        "op_margin": "5.3%",
         "cf_growth": "N/A"
     }
 }
