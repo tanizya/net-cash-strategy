@@ -1,8 +1,8 @@
 {
-  "updated": "2026-08-03",
+  "updated": "2026-08-04",
   "ni225": {
-    "close": 63754.8984375,
-    "sma50": 67130.888828125,
+    "close": 63957.53125,
+    "sma50": 67134.941484375,
     "uptrend": false
   },
   "stop_pct": 7.0,
@@ -15,15 +15,15 @@
       "net_cash_positive": true,
       "op_margin": "21.7%",
       "cf_growth": "N/A",
-      "beta": "—",
-      "pbr": "0.67",
-      "mkt_cap": "¥56B",
-      "price": 3125.0,
-      "unit_cost": 312500,
-      "rsi": 53.0,
+      "beta": "0.24",
+      "pbr": "0.64",
+      "mkt_cap": "¥55B",
+      "price": 3065.0,
+      "unit_cost": 306500,
+      "rsi": 45.5,
       "signal": "WAIT",
-      "sma20": 3130.5,
-      "div_yield": 4.8,
+      "sma20": 3129.2,
+      "div_yield": 4.89,
       "div_per_share": 150.0,
       "div_records": [
         {
@@ -233,14 +233,15 @@
           "value": 3225.0
         },
         {
-          "time": "2026-08-03",
-          "value": 3125.0
+          "time": "2026-08-04",
+          "value": 3065.0
         }
       ],
       "tags": [
         "Machinery",
         "Cash Rich",
         "Deep Value",
+        "Low Vol",
         "High Margin",
         "Leisure Exposure",
         "Margin Expansion"
@@ -255,13 +256,13 @@
       "op_margin": "10.2%",
       "cf_growth": "N/A",
       "beta": "0.41",
-      "pbr": "0.9",
+      "pbr": "0.89",
       "mkt_cap": "¥176B",
-      "price": 1669.0,
-      "unit_cost": 166900,
-      "rsi": 49.8,
+      "price": 1664.0,
+      "unit_cost": 166400,
+      "rsi": 48.6,
       "signal": "WAIT",
-      "sma20": 1668.8,
+      "sma20": 1666.8,
       "div_yield": 3.0,
       "div_per_share": 50.0,
       "div_records": [
@@ -472,8 +473,8 @@
           "value": 1660.0
         },
         {
-          "time": "2026-08-03",
-          "value": 1669.0
+          "time": "2026-08-04",
+          "value": 1664.0
         }
       ],
       "tags": [
@@ -481,8 +482,8 @@
         "Cash Rich",
         "Deep Value",
         "Low Vol",
-        "Industrial Coatings",
-        "Niche Specialization"
+        "Surface Treatment",
+        "Industrial Durability"
       ]
     },
     {
@@ -494,14 +495,14 @@
       "op_margin": "6.8%",
       "cf_growth": "N/A",
       "beta": "0.01",
-      "pbr": "0.8",
-      "mkt_cap": "¥76B",
-      "price": 6530.0,
-      "unit_cost": 653000,
-      "rsi": 42.8,
+      "pbr": "0.79",
+      "mkt_cap": "¥75B",
+      "price": 6500.0,
+      "unit_cost": 650000,
+      "rsi": 41.7,
       "signal": "WAIT",
-      "sma20": 6706.0,
-      "div_yield": 3.68,
+      "sma20": 6697.0,
+      "div_yield": 3.69,
       "div_per_share": 240.0,
       "div_records": [
         {
@@ -711,8 +712,8 @@
           "value": 6780.0
         },
         {
-          "time": "2026-08-03",
-          "value": 6530.0
+          "time": "2026-08-04",
+          "value": 6500.0
         }
       ],
       "tags": [
@@ -721,7 +722,7 @@
         "Deep Value",
         "Low Vol",
         "Supply Chain",
-        "OEM Supplier"
+        "Component Specialist"
       ]
     },
     {
@@ -733,14 +734,14 @@
       "op_margin": "6.4%",
       "cf_growth": "N/A",
       "beta": "0.37",
-      "pbr": "0.56",
-      "mkt_cap": "¥97B",
-      "price": 1509.0,
-      "unit_cost": 150900,
-      "rsi": 66.9,
+      "pbr": "0.55",
+      "mkt_cap": "¥96B",
+      "price": 1493.0,
+      "unit_cost": 149300,
+      "rsi": 62.4,
       "signal": "WAIT",
-      "sma20": 1430.4,
-      "div_yield": 3.71,
+      "sma20": 1434.2,
+      "div_yield": 3.75,
       "div_per_share": 56.0,
       "div_records": [
         {
@@ -950,8 +951,8 @@
           "value": 1502.0
         },
         {
-          "time": "2026-08-03",
-          "value": 1509.0
+          "time": "2026-08-04",
+          "value": 1493.0
         }
       ],
       "tags": [
@@ -959,8 +960,8 @@
         "Cash Rich",
         "Deep Value",
         "Low Vol",
-        "Auto Supply",
-        "Margin Expansion"
+        "EV Supply",
+        "Component Specialist"
       ]
     },
     {
@@ -974,11 +975,11 @@
       "beta": "0.13",
       "pbr": "0.67",
       "mkt_cap": "¥117B",
-      "price": 8670.0,
-      "unit_cost": 867000,
-      "rsi": 24.6,
+      "price": 8680.0,
+      "unit_cost": 868000,
+      "rsi": 25.6,
       "signal": "WAIT",
-      "sma20": 8942.5,
+      "sma20": 8918.0,
       "div_yield": 2.65,
       "div_per_share": 230.0,
       "div_records": [
@@ -1185,8 +1186,8 @@
           "value": 8800.0
         },
         {
-          "time": "2026-08-03",
-          "value": 8670.0
+          "time": "2026-08-04",
+          "value": 8680.0
         }
       ],
       "tags": [
@@ -1194,8 +1195,8 @@
         "Cash Rich",
         "Deep Value",
         "Low Vol",
-        "Specialty Coatings",
-        "Industrial Focus"
+        "Specialty Focus",
+        "Margin Expansion"
       ]
     },
     {
@@ -1207,14 +1208,14 @@
       "op_margin": "10.3%",
       "cf_growth": "N/A",
       "beta": "0.4",
-      "pbr": "0.87",
+      "pbr": "0.88",
       "mkt_cap": "¥88B",
-      "price": 2920.0,
-      "unit_cost": 292000,
-      "rsi": 71.8,
+      "price": 2943.0,
+      "unit_cost": 294300,
+      "rsi": 72.8,
       "signal": "WAIT",
-      "sma20": 2696.6,
-      "div_yield": 2.47,
+      "sma20": 2710.0,
+      "div_yield": 2.45,
       "div_per_share": 72.0,
       "div_records": [
         {
@@ -1424,16 +1425,16 @@
           "value": 2783.0
         },
         {
-          "time": "2026-08-03",
-          "value": 2920.0
+          "time": "2026-08-04",
+          "value": 2943.0
         }
       ],
       "tags": [
         "Chemicals",
         "Deep Value",
         "Low Vol",
-        "Construction Materials",
-        "Margin Expansion"
+        "Infrastructure Resilience",
+        "Material Innovation"
       ]
     },
     {
@@ -1444,15 +1445,15 @@
       "net_cash_positive": true,
       "op_margin": "2.5%",
       "cf_growth": "N/A",
-      "beta": "-0.18",
-      "pbr": "1.06",
-      "mkt_cap": "¥55B",
-      "price": 1284.0,
-      "unit_cost": 128400,
-      "rsi": 54.8,
+      "beta": "-0.17",
+      "pbr": "1.04",
+      "mkt_cap": "¥54B",
+      "price": 1260.0,
+      "unit_cost": 126000,
+      "rsi": 48.3,
       "signal": "WAIT",
-      "sma20": 1277.8,
-      "div_yield": 3.89,
+      "sma20": 1279.9,
+      "div_yield": 3.97,
       "div_per_share": 50.0,
       "div_records": [
         {
@@ -1662,16 +1663,16 @@
           "value": 1346.0
         },
         {
-          "time": "2026-08-03",
-          "value": 1284.0
+          "time": "2026-08-04",
+          "value": 1260.0
         }
       ],
       "tags": [
         "IT/Telecom",
         "Cash Rich",
         "Value",
-        "Content IP",
-        "Digital Streaming"
+        "Content Creator",
+        "Streaming Revenue"
       ]
     },
     {
@@ -1683,14 +1684,14 @@
       "op_margin": "3.1%",
       "cf_growth": "N/A",
       "beta": "0.17",
-      "pbr": "0.64",
-      "mkt_cap": "¥73B",
-      "price": 3290.0,
-      "unit_cost": 329000,
-      "rsi": 41.8,
+      "pbr": "0.68",
+      "mkt_cap": "¥78B",
+      "price": 3485.0,
+      "unit_cost": 348500,
+      "rsi": 57.1,
       "signal": "WAIT",
-      "sma20": 3382.5,
-      "div_yield": 3.04,
+      "sma20": 3388.8,
+      "div_yield": 2.87,
       "div_per_share": 100.0,
       "div_records": [
         {
@@ -1896,8 +1897,8 @@
           "value": 3415.0
         },
         {
-          "time": "2026-08-03",
-          "value": 3290.0
+          "time": "2026-08-04",
+          "value": 3485.0
         }
       ],
       "tags": [
