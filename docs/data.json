@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-10",
+  "updated": "2026-08-11",
   "ni225": {
     "close": 66970.21875,
     "sma50": 67177.725703125,
@@ -243,8 +243,8 @@
         "Deep Value",
         "Low Vol",
         "High Margin",
-        "Leisure Operator",
-        "High Profitability"
+        "Leisure Exposure",
+        "Margin Leader"
       ]
     },
     {
@@ -255,7 +255,7 @@
       "net_cash_positive": true,
       "op_margin": "10.2%",
       "cf_growth": "N/A",
-      "beta": "—",
+      "beta": "0.41",
       "pbr": "0.93",
       "mkt_cap": "¥183B",
       "price": 1733.0,
@@ -481,6 +481,7 @@
         "Chemicals",
         "Cash Rich",
         "Deep Value",
+        "Low Vol",
         "Surface Treatment",
         "Industrial Niche"
       ]
@@ -493,7 +494,7 @@
       "net_cash_positive": true,
       "op_margin": "6.8%",
       "cf_growth": "N/A",
-      "beta": "—",
+      "beta": "0.01",
       "pbr": "0.79",
       "mkt_cap": "¥76B",
       "price": 6530.0,
@@ -719,8 +720,9 @@
         "Auto/Transport",
         "Cash Rich",
         "Deep Value",
+        "Low Vol",
         "Supply Chain",
-        "Electrification Exposure"
+        "Component Specialization"
       ]
     },
     {
@@ -958,7 +960,7 @@
         "Cash Rich",
         "Deep Value",
         "Low Vol",
-        "EV Supply Chain",
+        "EV Supply",
         "Component Leader"
       ]
     },
@@ -970,7 +972,7 @@
       "net_cash_positive": true,
       "op_margin": "9.9%",
       "cf_growth": "N/A",
-      "beta": "—",
+      "beta": "0.13",
       "pbr": "0.7",
       "mkt_cap": "¥123B",
       "price": 9140.0,
@@ -1192,8 +1194,9 @@
         "Chemicals",
         "Cash Rich",
         "Deep Value",
-        "Niche Leader",
-        "Margin Expansion"
+        "Low Vol",
+        "Specialty Coatings",
+        "Industrial Niche"
       ]
     },
     {
@@ -1430,8 +1433,7 @@
         "Chemicals",
         "Deep Value",
         "Low Vol",
-        "Construction Exposure",
-        "Material Science",
+        "Infrastructure Play",
         "Margin Expansion"
       ]
     },
@@ -1443,7 +1445,7 @@
       "net_cash_positive": true,
       "op_margin": "2.5%",
       "cf_growth": "N/A",
-      "beta": "—",
+      "beta": "-0.17",
       "pbr": "1.04",
       "mkt_cap": "¥53B",
       "price": 1250.0,
@@ -1669,8 +1671,8 @@
         "IT/Telecom",
         "Cash Rich",
         "Value",
-        "Content Creator",
-        "Music Streaming"
+        "Content Creation",
+        "Digital Entertainment"
       ]
     },
     {
@@ -1904,7 +1906,7 @@
         "Net Cash",
         "Deep Value",
         "Low Vol",
-        "Healthcare Access",
+        "Drugstore Chain",
         "Regional Expansion"
       ]
     }
