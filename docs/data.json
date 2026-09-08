@@ -1,8 +1,8 @@
 {
-  "updated": "2026-09-07",
+  "updated": "2026-09-08",
   "ni225": {
-    "close": 66399.84375,
-    "sma50": 66514.938046875,
+    "close": 65269.328125,
+    "sma50": 66433.106953125,
     "uptrend": false
   },
   "stop_pct": 7.0,
@@ -18,12 +18,12 @@
       "beta": "0.24",
       "pbr": "0.67",
       "mkt_cap": "¥55B",
-      "price": 3190.0,
-      "unit_cost": 319000,
-      "rsi": 54.4,
+      "price": 3175.0,
+      "unit_cost": 317500,
+      "rsi": 51.3,
       "signal": "WAIT",
-      "sma20": 3182.5,
-      "div_yield": 4.7,
+      "sma20": 3183.5,
+      "div_yield": 4.72,
       "div_per_share": 150.0,
       "div_records": [
         {
@@ -233,8 +233,8 @@
           "value": 3200.0
         },
         {
-          "time": "2026-09-07",
-          "value": 3190.0
+          "time": "2026-09-08",
+          "value": 3175.0
         }
       ],
       "tags": [
@@ -256,14 +256,14 @@
       "op_margin": "10.2%",
       "cf_growth": "N/A",
       "beta": "0.41",
-      "pbr": "0.91",
-      "mkt_cap": "¥184B",
-      "price": 1749.0,
-      "unit_cost": 174900,
-      "rsi": 55.0,
+      "pbr": "0.9",
+      "mkt_cap": "¥183B",
+      "price": 1738.0,
+      "unit_cost": 173800,
+      "rsi": 52.0,
       "signal": "WAIT",
-      "sma20": 1740.5,
-      "div_yield": 2.86,
+      "sma20": 1740.8,
+      "div_yield": 2.88,
       "div_per_share": 50.0,
       "div_records": [
         {
@@ -473,8 +473,8 @@
           "value": 1770.0
         },
         {
-          "time": "2026-09-07",
-          "value": 1749.0
+          "time": "2026-09-08",
+          "value": 1738.0
         }
       ],
       "tags": [
@@ -495,14 +495,14 @@
       "op_margin": "6.8%",
       "cf_growth": "N/A",
       "beta": "0.01",
-      "pbr": "0.84",
-      "mkt_cap": "¥80B",
-      "price": 6890.0,
-      "unit_cost": 689000,
-      "rsi": 58.5,
+      "pbr": "0.83",
+      "mkt_cap": "¥79B",
+      "price": 6850.0,
+      "unit_cost": 685000,
+      "rsi": 55.7,
       "signal": "WAIT",
-      "sma20": 6746.5,
-      "div_yield": 3.48,
+      "sma20": 6762.5,
+      "div_yield": 3.5,
       "div_per_share": 240.0,
       "div_records": [
         {
@@ -712,8 +712,8 @@
           "value": 6860.0
         },
         {
-          "time": "2026-09-07",
-          "value": 6890.0
+          "time": "2026-09-08",
+          "value": 6850.0
         }
       ],
       "tags": [
@@ -721,8 +721,8 @@
         "Cash Rich",
         "Deep Value",
         "Low Vol",
-        "Parts Supplier",
-        "Niche Specialization"
+        "Supply Chain",
+        "Component Specialist"
       ]
     },
     {
@@ -734,14 +734,14 @@
       "op_margin": "6.4%",
       "cf_growth": "N/A",
       "beta": "0.38",
-      "pbr": "0.59",
-      "mkt_cap": "¥103B",
-      "price": 1619.0,
-      "unit_cost": 161900,
-      "rsi": 63.9,
+      "pbr": "0.55",
+      "mkt_cap": "¥97B",
+      "price": 1521.0,
+      "unit_cost": 152100,
+      "rsi": 44.4,
       "signal": "WAIT",
-      "sma20": 1571.5,
-      "div_yield": 3.46,
+      "sma20": 1572.5,
+      "div_yield": 3.68,
       "div_per_share": 56.0,
       "div_records": [
         {
@@ -951,8 +951,8 @@
           "value": 1633.0
         },
         {
-          "time": "2026-09-07",
-          "value": 1619.0
+          "time": "2026-09-08",
+          "value": 1521.0
         }
       ],
       "tags": [
@@ -960,8 +960,8 @@
         "Cash Rich",
         "Deep Value",
         "Low Vol",
-        "Auto Supply",
-        "Industrial Cyclical"
+        "EV Exposure",
+        "Supply Chain"
       ]
     },
     {
@@ -979,7 +979,7 @@
       "unit_cost": 970000,
       "rsi": 69.0,
       "signal": "WAIT",
-      "sma20": 9200.0,
+      "sma20": 9228.0,
       "div_yield": 2.37,
       "div_per_share": 230.0,
       "div_records": [
@@ -1186,7 +1186,7 @@
           "value": 9810.0
         },
         {
-          "time": "2026-09-07",
+          "time": "2026-09-08",
           "value": 9700.0
         }
       ],
@@ -1195,8 +1195,8 @@
         "Cash Rich",
         "Deep Value",
         "Low Vol",
-        "Specialty Focus",
-        "Margin Expansion"
+        "Specialty Materials",
+        "Niche Leader"
       ]
     },
     {
@@ -1208,14 +1208,14 @@
       "op_margin": "10.3%",
       "cf_growth": "N/A",
       "beta": "0.4",
-      "pbr": "0.88",
+      "pbr": "0.87",
       "mkt_cap": "¥88B",
-      "price": 2943.0,
-      "unit_cost": 294300,
-      "rsi": 59.7,
+      "price": 2919.0,
+      "unit_cost": 291900,
+      "rsi": 56.6,
       "signal": "WAIT",
-      "sma20": 2876.9,
-      "div_yield": 2.45,
+      "sma20": 2879.7,
+      "div_yield": 2.47,
       "div_per_share": 72.0,
       "div_records": [
         {
@@ -1425,15 +1425,16 @@
           "value": 2958.0
         },
         {
-          "time": "2026-09-07",
-          "value": 2943.0
+          "time": "2026-09-08",
+          "value": 2919.0
         }
       ],
       "tags": [
         "Chemicals",
         "Deep Value",
         "Low Vol",
-        "Construction Materials",
+        "Housing Recovery",
+        "Material Innovation",
         "Margin Expansion"
       ]
     },
@@ -1448,12 +1449,12 @@
       "beta": "-0.17",
       "pbr": "1.04",
       "mkt_cap": "¥53B",
-      "price": 1246.0,
-      "unit_cost": 124600,
-      "rsi": 41.9,
+      "price": 1249.0,
+      "unit_cost": 124900,
+      "rsi": 43.0,
       "signal": "WAIT",
-      "sma20": 1268.2,
-      "div_yield": 4.01,
+      "sma20": 1268.1,
+      "div_yield": 4.0,
       "div_per_share": 50.0,
       "div_records": [
         {
@@ -1663,8 +1664,8 @@
           "value": 1281.0
         },
         {
-          "time": "2026-09-07",
-          "value": 1246.0
+          "time": "2026-09-08",
+          "value": 1249.0
         }
       ],
       "tags": [
@@ -1672,7 +1673,7 @@
         "Cash Rich",
         "Value",
         "Content Creator",
-        "IP Monetization"
+        "Music IP"
       ]
     },
     {
@@ -1686,12 +1687,12 @@
       "beta": "0.18",
       "pbr": "0.74",
       "mkt_cap": "¥85B",
-      "price": 3805.0,
-      "unit_cost": 380500,
-      "rsi": 62.9,
+      "price": 3820.0,
+      "unit_cost": 382000,
+      "rsi": 63.8,
       "signal": "WAIT",
-      "sma20": 3730.0,
-      "div_yield": 2.63,
+      "sma20": 3741.2,
+      "div_yield": 2.62,
       "div_per_share": 100.0,
       "div_records": [
         {
@@ -1897,8 +1898,8 @@
           "value": 3630.0
         },
         {
-          "time": "2026-09-07",
-          "value": 3805.0
+          "time": "2026-09-08",
+          "value": 3820.0
         }
       ],
       "tags": [
