@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-18",
+  "updated": "2026-09-21",
   "ni225": {
     "close": 65018.94921875,
     "sma50": 65656.788046875,
@@ -243,8 +243,8 @@
         "Deep Value",
         "Low Vol",
         "High Margin",
-        "Leisure Export",
-        "Margin Leader"
+        "Leisure Leader",
+        "Margin Strength"
       ]
     },
     {
@@ -483,7 +483,7 @@
         "Deep Value",
         "Low Vol",
         "Surface Treatment",
-        "Industrial Coatings"
+        "Industrial Niche"
       ]
     },
     {
@@ -722,7 +722,7 @@
         "Deep Value",
         "Low Vol",
         "Supply Chain",
-        "Component Specialty"
+        "Margins Expansion"
       ]
     },
     {
@@ -960,8 +960,8 @@
         "Cash Rich",
         "Deep Value",
         "Low Vol",
-        "EV Supply Chain",
-        "Asia Expansion"
+        "EV Exposure",
+        "Supply Chain"
       ]
     },
     {
@@ -1195,7 +1195,7 @@
         "Cash Rich",
         "Deep Value",
         "Low Vol",
-        "Specialty Niche",
+        "Specialty Focus",
         "Margin Expansion"
       ]
     },
@@ -1672,7 +1672,7 @@
         "Cash Rich",
         "Value",
         "Content Creator",
-        "IP Monetization"
+        "Digital Rights"
       ]
     },
     {
@@ -1910,8 +1910,8 @@
         "Net Cash",
         "Deep Value",
         "Low Vol",
-        "Pharmacy Network",
-        "Regional Expansion"
+        "Regional Expansion",
+        "Healthcare Access"
       ]
     }
   ]
